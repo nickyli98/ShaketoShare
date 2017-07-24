@@ -67,44 +67,65 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_margin="10dp">
+            android:layout_weight="1">
             <Switch
                 android:id="@+id/switch1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Switch" />
+                android:text="Organic"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="15dp"
+                tools:ignore="HardcodedText" />
 
             <EditText
                 android:id="@+id/dateFrom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="date" />
+                android:inputType="date"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="15dp"
+                android:hint="Date From"
+                tools:ignore="HardcodedText" />
 
             <EditText
                 android:id="@+id/dateTo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="date" />
+                android:inputType="date"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="15dp"
+                android:hint="Date To"
+                tools:ignore="HardcodedText" />
 
             <EditText
                 android:id="@+id/weight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="number" />
+                android:inputType="number"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="15dp"
+                android:hint="Weight tons"
+                tools:ignore="HardcodedText" />
 
             <EditText
                 android:id="@+id/pickUpAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPostalAddress" />
+                android:inputType="textPostalAddress"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="15dp"
+                android:hint="Address"
+                tools:ignore="HardcodedText" />
         </LinearLayout>
-
-
     </LinearLayout>
 
 
