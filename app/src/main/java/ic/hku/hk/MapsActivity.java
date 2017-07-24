@@ -3,6 +3,7 @@ package ic.hku.hk;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Camera;
 import android.location.Location;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -107,6 +108,14 @@ public class MapsActivity extends AppCompatActivity
         // Position the map's camera in Hong Kong.
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(22.3964, 114.1095), 10.0f));
         initalizeGooglePlayServices();
+
+        mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+            @Override
+            public boolean onMyLocationButtonClick() {
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(17.5f));
+                return false;
+            }
+        });
     }
 
     private void initalizeGooglePlayServices() {
@@ -173,7 +182,7 @@ public class MapsActivity extends AppCompatActivity
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(1000);
         mLocationRequest.setFastestInterval(1000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED){
