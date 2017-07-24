@@ -90,7 +90,6 @@ public class MapsActivity extends AppCompatActivity
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.setLatLngBoundsForCameraTarget(HONGKONG);
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
@@ -114,8 +113,9 @@ public class MapsActivity extends AppCompatActivity
                 return false;
             }
         });
-
+        mMap.setLatLngBoundsForCameraTarget(HONGKONG);
         mMap.setMinZoomPreference(10.0f);
+        mMap.setMaxZoomPreference(25.0f);
     }
 
     private void initializeGooglePlayServices() {
