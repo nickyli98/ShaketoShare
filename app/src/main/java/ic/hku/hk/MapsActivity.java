@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -23,6 +25,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 public class MapsActivity extends AppCompatActivity
@@ -36,6 +39,7 @@ public class MapsActivity extends AppCompatActivity
     private boolean mLocationPermissionGranted;
     private Location mLastKnownLocation;
     private FusedLocationProviderClient mFusedLocationClient;
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,32 @@ public class MapsActivity extends AppCompatActivity
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        button = (Button) findViewById(R.id.shitbutton);
+        button.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                getDeviceLocation();
+                Log.d("lat", Double.toString(mLastKnownLocation.getLatitude()));
+                Log.d("lon", Double.toString(mLastKnownLocation.getLongitude()));
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        } else {
+            getDeviceLocation();
+        }
     }
 
     private void getDeviceLocation() {
@@ -59,8 +89,16 @@ public class MapsActivity extends AppCompatActivity
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
         if (mLocationPermissionGranted) {
-            Task<Location> lastLocation = mFusedLocationClient.getLastLocation();
-            mLastKnownLocation = lastLocation.getResult();
+            mFusedLocationClient.getLastLocation().addOnCompleteListener(this, new OnCompleteListener<Location>() {
+                @Override
+                public void onComplete(@NonNull Task<Location> task) {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        mLastKnownLocation = task.getResult();
+                    } else {
+                        Log.w(TAG, "getLastLocation:exception", task.getException());
+                    }
+                }
+            });
         }
     }
 
@@ -75,6 +113,7 @@ public class MapsActivity extends AppCompatActivity
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     mLocationPermissionGranted = true;
+                    getDeviceLocation();
                 }
             }
         }
@@ -110,9 +149,6 @@ public class MapsActivity extends AppCompatActivity
         // Position the map's camera in Hong Kong.
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(22.3964, 114.1095), 10.0f));
         getDeviceLocation();
-        double latitude = mLastKnownLocation.getLatitude();
-        double longitude = mLastKnownLocation.getLongitude();
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15.0f));
     }
 
     private void updateLocationUI() {
