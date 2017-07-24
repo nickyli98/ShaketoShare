@@ -3,7 +3,6 @@ package ic.hku.hk;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.graphics.Camera;
 import android.location.Location;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -16,7 +15,6 @@ import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -26,9 +24,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 
 public class MapsActivity extends AppCompatActivity
         implements OnMapReadyCallback,
@@ -42,7 +37,7 @@ public class MapsActivity extends AppCompatActivity
     private boolean mLocationPermissionGranted;
     private Location mLastKnownLocation;
     private GoogleApiClient mGoogleApiClient;
-    private LocationRequest mLocationRequest;
+    private boolean firstTime = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,8 +102,7 @@ public class MapsActivity extends AppCompatActivity
         }
         // Position the map's camera in Hong Kong.
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(22.3964, 114.1095), 10.0f));
-        initalizeGooglePlayServices();
-
+        initializeGooglePlayServices();
         mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
             public boolean onMyLocationButtonClick() {
@@ -118,7 +112,7 @@ public class MapsActivity extends AppCompatActivity
         });
     }
 
-    private void initalizeGooglePlayServices() {
+    private void initializeGooglePlayServices() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this,
                     Manifest.permission.ACCESS_FINE_LOCATION)
@@ -179,9 +173,9 @@ public class MapsActivity extends AppCompatActivity
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(1000);
-        mLocationRequest.setFastestInterval(1000);
+        LocationRequest mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(5000);
+        mLocationRequest.setFastestInterval(2500);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
@@ -205,7 +199,12 @@ public class MapsActivity extends AppCompatActivity
     @Override
     public void onLocationChanged(Location location) {
         mLastKnownLocation = location;
-        LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,17.5f));
+        if(firstTime){
+            //TODO hacky fix
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom
+                    (new LatLng(mLastKnownLocation.getLatitude(),
+                            mLastKnownLocation.getLongitude()), 17.5f));
+            firstTime = false;
+        }
     }
 }
