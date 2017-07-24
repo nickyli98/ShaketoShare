@@ -23,6 +23,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 
 public class MapsActivity extends AppCompatActivity
@@ -38,6 +39,8 @@ public class MapsActivity extends AppCompatActivity
     private Location mLastKnownLocation;
     private GoogleApiClient mGoogleApiClient;
     private boolean firstTime = true;
+    private LatLngBounds HONGKONG = new LatLngBounds(
+            new LatLng(22.17, 113.82), new LatLng(22.54, 114.38));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +90,7 @@ public class MapsActivity extends AppCompatActivity
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setLatLngBoundsForCameraTarget(HONGKONG);
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
@@ -110,6 +114,8 @@ public class MapsActivity extends AppCompatActivity
                 return false;
             }
         });
+
+        mMap.setMinZoomPreference(10.0f);
     }
 
     private void initializeGooglePlayServices() {
