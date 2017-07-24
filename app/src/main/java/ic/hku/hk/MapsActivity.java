@@ -1,8 +1,13 @@
 package ic.hku.hk;
 
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.location.Location;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -56,7 +61,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.e(TAG, "Can't find style. Error: ", e);
         }
         // Position the map's camera in Hong Kong.
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(22.3964, 114.1095)));
-
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(22.3964, 114.1095), 10.0f));
     }
 }
