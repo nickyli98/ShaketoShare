@@ -107,6 +107,7 @@ public class MapsActivity extends AppCompatActivity
         // Position the map's camera in Hong Kong.
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(22.3964, 114.1095), 10.0f));
         initalizeGooglePlayServices();
+        //S
 
     }
 
