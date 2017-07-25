@@ -7,24 +7,31 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
-import android.os.VibrationEffect;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TabHost;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Vibrator;
 
@@ -42,10 +49,13 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class MapsActivity extends AppCompatActivity
@@ -163,6 +173,41 @@ public class MapsActivity extends AppCompatActivity
             }
         });
 
+        pickUpAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(MapsActivity.this);
+                View mView = getLayoutInflater().inflate(R.layout.dialog_address_selection, null);
+                mBuilder.setView(mView);
+                final AlertDialog dialog = mBuilder.create();
+                dialog.show();
+                final TextView currentAddress = (TextView) dialog.findViewById(R.id.selectCurrentAddress);
+                final TextView selectFromMap = (TextView) dialog.findViewById(R.id.selectFromMap);
+                final TextView enterManually = (TextView) dialog.findViewById(R.id.enterAddress);
+
+                currentAddress.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
+
+                selectFromMap.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
+
+                selectFromMap.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
+            }
+        });
+
         layout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
@@ -208,6 +253,57 @@ public class MapsActivity extends AppCompatActivity
                 handleShakeEvent(count);
             }
         });
+    }
+/*
+    private void setAddress(Location address, final TextView addressView) throws IOException {
+        Geocoder geocoder = new Geocoder(MapsActivity.this);
+        List<Address> addresses = geocoder.getFromLocation(address.getLatitude(), address.getLongitude(), 5);
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MapsActivity.this);
+        View mView = getLayoutInflater().inflate(R.layout.dialog_select_closest_address, null);
+        mBuilder.setView(mView);
+        final AlertDialog dialog = mBuilder.create();
+        final LinearLayout.LayoutParams marginParams = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        int px24 = dpToPx(24);
+        marginParams.setMargins(px24, 0, px24, px24);
+        dialog.show();
+        int counter = 1;
+        for(Address a : addresses){
+            System.out.println(counter + " ");
+            final TextView view = (TextView) dialog.findViewById(getResources()
+                    .getIdentifier("address" + counter, "id", getPackageName()));
+            if(view == null){
+                continue;
+            }
+            int addressLines = a.getMaxAddressLineIndex();
+            String s = "";
+            for(int i = 0; i < addressLines; i++){
+                s += a.getAddressLine(i);
+            }
+            if(s.equals("")){
+                continue;
+            }
+            view.setText(s);
+            view.setLayoutParams(marginParams);
+            counter++;
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addressView.setText(view.getText());
+                    addressView.setLayoutParams(marginParams);
+                }
+            });
+        }
+    }*/
+
+    private int dpToPx(float dp){
+        Resources r = MapsActivity.this.getResources();
+        return (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dp,
+                r.getDisplayMetrics()
+        );
     }
 
     private void handleShakeEvent(int count) {
