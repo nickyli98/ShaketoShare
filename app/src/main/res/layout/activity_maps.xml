@@ -33,21 +33,21 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="68dp"
+            android:layout_height="match_parent"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/minimise"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
+                android:layout_weight="1"
                 android:gravity="center_vertical|end"
+                android:text="V"
                 android:textAlignment="center"
                 android:textSize="14sp"
-                tools:ignore="HardcodedText"
                 android:visibility="invisible"
-                android:text="V" />
+                tools:ignore="HardcodedText" />
 
             <Button
                 android:id="@+id/share"
@@ -62,89 +62,189 @@
 
         </LinearLayout>
 
-        <GridLayout
-            android:id="@+id/grid"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
+        <TabHost
+            android:id="@+id/tabHost"
             android:background="#FFFFFF"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:columnCount="2"
-            android:rowCount="3" >
-            <Switch
-                android:id="@+id/organic"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill_horizontal"
-                android:layout_columnWeight="1"
-                android:layout_columnSpan="1"
-                android:text="Organic"
-                android:textSize="8pt"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="17dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="15dp"
-                tools:ignore="HardcodedText" />
+            android:layout_width="match_parent"
+            android:layout_height="275dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp">
+                    <LinearLayout
+                        android:id="@+id/supplyTab"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/weight"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill_horizontal"
-                android:layout_columnWeight="1"
-                android:layout_columnSpan="1"
-                android:ems="10"
-                android:inputType="number"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginBottom="15dp"
-                android:hint="Weight tons"
-                tools:ignore="HardcodedText" />
+                        <GridLayout
+                            android:id="@+id/grid"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:background="#FFFFFF"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:columnCount="2"
+                            android:rowCount="3" >
+                            <Switch
+                                android:id="@+id/supplyOrganic"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="fill_horizontal"
+                                android:layout_columnWeight="1"
+                                android:layout_columnSpan="1"
+                                android:text="Organic"
+                                android:textSize="8pt"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginStart="17dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginBottom="15dp"
+                                tools:ignore="HardcodedText" />
 
-            <EditText
-                android:id="@+id/dateFrom"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill_horizontal"
-                android:layout_columnWeight="1"
-                android:focusable="false"
-                android:cursorVisible="false"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="15dp"
-                android:hint="Date From"
-                tools:ignore="HardcodedText" />
+                            <EditText
+                                android:id="@+id/supplyWeight"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="fill_horizontal"
+                                android:layout_columnWeight="1"
+                                android:layout_columnSpan="1"
+                                android:ems="10"
+                                android:inputType="number"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="15dp"
+                                android:layout_marginBottom="15dp"
+                                android:hint="Weight tons"
+                                tools:ignore="HardcodedText" />
 
-            <EditText
-                android:id="@+id/dateTo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill_horizontal"
-                android:layout_columnWeight="1"
-                android:focusable="false"
-                android:cursorVisible="false"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginBottom="15dp"
-                android:hint="Date To"
-                tools:ignore="HardcodedText" />
+                            <EditText
+                                android:id="@+id/supplyDateFrom"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="fill_horizontal"
+                                android:layout_columnWeight="1"
+                                android:focusable="false"
+                                android:cursorVisible="false"
+                                android:layout_marginStart="15dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginBottom="15dp"
+                                android:hint="Date From"
+                                tools:ignore="HardcodedText" />
 
-            <EditText
-                android:id="@+id/pickUpAddress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill"
-                android:layout_columnWeight="1"
-                android:layout_columnSpan="2"
-                android:ems="10"
-                android:inputType="textPostalAddress"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="30dp"
-                android:hint="Address"
-                tools:ignore="HardcodedText" />
-        </GridLayout>
+                            <EditText
+                                android:id="@+id/supplyDateTo"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="fill_horizontal"
+                                android:layout_columnWeight="1"
+                                android:focusable="false"
+                                android:cursorVisible="false"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="15dp"
+                                android:layout_marginBottom="15dp"
+                                android:hint="Date To"
+                                tools:ignore="HardcodedText" />
+
+                            <EditText
+                                android:id="@+id/pickUpAddress"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="fill"
+                                android:layout_columnWeight="1"
+                                android:layout_columnSpan="2"
+                                android:inputType="textPostalAddress"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginRight="15dp"
+                                android:hint="Address"
+                                tools:ignore="HardcodedText" />
+                        </GridLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/demandTab"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <GridLayout
+                            android:id="@+id/demandGrid"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:background="#FFFFFF"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:columnCount="2"
+                            android:rowCount="3" >
+                            <Switch
+                                android:id="@+id/demandOrganic"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="fill_horizontal"
+                                android:layout_columnWeight="1"
+                                android:layout_columnSpan="1"
+                                android:text="Organic"
+                                android:textSize="8pt"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginStart="17dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginBottom="15dp"
+                                tools:ignore="HardcodedText" />
+
+                            <EditText
+                                android:id="@+id/demandWeight"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="fill_horizontal"
+                                android:layout_columnWeight="1"
+                                android:layout_columnSpan="1"
+                                android:ems="10"
+                                android:inputType="number"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="15dp"
+                                android:layout_marginBottom="15dp"
+                                android:hint="Weight tons"
+                                tools:ignore="HardcodedText" />
+
+                            <EditText
+                                android:id="@+id/demandDateFrom"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="fill_horizontal"
+                                android:layout_columnWeight="1"
+                                android:focusable="false"
+                                android:cursorVisible="false"
+                                android:layout_marginStart="15dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginBottom="15dp"
+                                android:hint="Date From"
+                                tools:ignore="HardcodedText" />
+
+                            <EditText
+                                android:id="@+id/demandDateTo"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="fill_horizontal"
+                                android:layout_columnWeight="1"
+                                android:focusable="false"
+                                android:cursorVisible="false"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="15dp"
+                                android:layout_marginBottom="15dp"
+                                android:hint="Date To"
+                                tools:ignore="HardcodedText" />
+                        </GridLayout>
+                    </LinearLayout>
+                </FrameLayout>
+            </LinearLayout>
+        </TabHost>
 
     </LinearLayout>
 

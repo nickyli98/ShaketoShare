@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TabHost;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -77,14 +78,29 @@ public class MapsActivity extends AppCompatActivity
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        final Switch organic = (Switch) findViewById(R.id.organic);
-        final EditText weight = (EditText) findViewById(R.id.weight);
-        final EditText dateFrom = (EditText) findViewById(R.id.dateFrom);
-        final EditText dateTo = (EditText) findViewById(R.id.dateTo);
+        final Switch organic = (Switch) findViewById(R.id.supplyOrganic);
+        final EditText weight = (EditText) findViewById(R.id.supplyWeight);
+        final EditText dateFrom = (EditText) findViewById(R.id.supplyDateFrom);
+        final EditText dateTo = (EditText) findViewById(R.id.supplyDateTo);
         final EditText pickUpAddress = (EditText) findViewById(R.id.pickUpAddress);
         final Button shareButton = (Button) findViewById(R.id.share);
         final Button minimiseButton = (Button) findViewById(R.id.minimise);
         final SlidingUpPanelLayout layout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+        final TabHost host = (TabHost) findViewById(R.id.tabHost);
+        host.setup();
+
+        //Supply tab
+        TabHost.TabSpec spec = host.newTabSpec("Supply Tab");
+        spec.setContent(R.id.supplyTab);
+        spec.setIndicator("Supply");
+        host.addTab(spec);
+
+        //Demand tab
+        spec = host.newTabSpec("Demand Tab");
+        spec.setContent(R.id.demandTab);
+        spec.setIndicator("Demand");
+        host.addTab(spec);
+
 
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
