@@ -2,6 +2,7 @@ package ic.hku.hk;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.location.Location;
@@ -12,8 +13,10 @@ import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -31,7 +34,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -70,6 +75,26 @@ public class MapsActivity extends AppCompatActivity
         final EditText dateTo = (EditText) findViewById(R.id.dateTo);
         final EditText pickUpAddress = (EditText) findViewById(R.id.pickUpAddress);
         final Button shareButton = (Button) findViewById(R.id.share);
+        final Button minimiseButton = (Button) findViewById(R.id.minimise);
+        final SlidingUpPanelLayout layout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (layout.getPanelState()) {
+                    case COLLAPSED:
+                        layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                        minimiseButton.setVisibility(View.VISIBLE);
+                        break;
+                    case EXPANDED:
+                        if (shareCheck(weight, dateFrom, dateTo)) {
+                            share();
+                            layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                            minimiseButton.setVisibility(View.INVISIBLE);
+                        }
+                }
+            }
+        });
 
         dateFrom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +109,67 @@ public class MapsActivity extends AppCompatActivity
                 dateSet(dateTo);
             }
         });
+
+        minimiseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                minimiseButton.setVisibility(View.INVISIBLE);
+                layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+            }
+        });
+
+        layout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+
+            }
+
+            @Override
+            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
+                if (previousState.equals(SlidingUpPanelLayout.PanelState.DRAGGING)) {
+                    if (newState.equals(SlidingUpPanelLayout.PanelState.COLLAPSED)) {
+                        minimiseButton.setVisibility(View.INVISIBLE);
+                        hideKeyboard();
+                    } else if (newState.equals(SlidingUpPanelLayout.PanelState.EXPANDED)) {
+                        minimiseButton.setVisibility(View.VISIBLE);
+                    }
+                } else if (newState.equals(SlidingUpPanelLayout.PanelState.DRAGGING)) {
+                    if (previousState.equals(SlidingUpPanelLayout.PanelState.COLLAPSED)) {
+                        minimiseButton.setVisibility(View.VISIBLE);
+                    } else if (previousState.equals(SlidingUpPanelLayout.PanelState.EXPANDED)) {
+                        minimiseButton.setVisibility(View.INVISIBLE);
+                        hideKeyboard();
+                    }
+                }
+            }
+        });
+
+        layout.setFadeOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+            }
+        });
+    }
+
+    private void hideKeyboard() {
+        View view = getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+
+    }
+
+    private void share() {
+        //TODO: write what would happen when share
     }
 
     private void dateSet(final EditText dateSet) {
@@ -109,7 +195,41 @@ public class MapsActivity extends AppCompatActivity
                 calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
-    private boolean shareCheck(double weight, Date dateFrom,
+    private boolean shareCheck(EditText weight, EditText dateFrom, EditText dateTo) {
+        boolean emptyFields = false;
+        if(TextUtils.isEmpty(weight.getText().toString())) {
+            weight.setError("Weight needed");
+            emptyFields = true;
+        }
+        if(TextUtils.isEmpty(dateFrom.getText().toString())) {
+            dateFrom.setError("Date needed");
+            emptyFields = true;
+        }
+        if(TextUtils.isEmpty(dateTo.getText().toString())) {
+            dateTo.setError("Date needed");
+            emptyFields = true;
+        }
+        if (emptyFields) {
+            return false;
+        }
+
+        double weightValue = Double.parseDouble(weight.getText().toString());
+        Date dateFromValue = null;
+        try {
+            dateFromValue = sdf.parse(dateFrom.getText().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Date dateToValue = null;
+        try {
+            dateToValue = sdf.parse(dateFrom.getText().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return shareCheckHelper(weightValue, dateFromValue, dateToValue);
+    }
+
+    private boolean shareCheckHelper(double weight, Date dateFrom,
                                Date dateTo){
         //TODO fix, shouldnt work unless date set sets to 23:59:59
         return weight > 0 && dateTo.after(dateFrom) && dateFrom.after(Calendar.getInstance().getTime());
