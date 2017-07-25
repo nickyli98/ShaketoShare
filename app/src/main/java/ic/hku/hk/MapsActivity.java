@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -222,15 +223,15 @@ public class MapsActivity extends AppCompatActivity
     private boolean shareCheck(EditText weight, EditText dateFrom, EditText dateTo) {
         boolean emptyFields = false;
         if(TextUtils.isEmpty(weight.getText().toString())) {
-            weight.setError("Weight needed");
+            Toast.makeText(MapsActivity.this, "Weight needed", Toast.LENGTH_LONG).show();
             emptyFields = true;
         }
         if(TextUtils.isEmpty(dateFrom.getText().toString())) {
-            dateFrom.setError("Date needed");
+            Toast.makeText(MapsActivity.this, "Date From needed", Toast.LENGTH_LONG).show();
             emptyFields = true;
         }
         if(TextUtils.isEmpty(dateTo.getText().toString())) {
-            dateTo.setError("Date needed");
+            Toast.makeText(MapsActivity.this, "Date To needed", Toast.LENGTH_LONG).show();
             emptyFields = true;
         }
         if (emptyFields) {
