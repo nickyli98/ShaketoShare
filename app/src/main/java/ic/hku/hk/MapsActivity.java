@@ -113,6 +113,7 @@ public class MapsActivity extends AppCompatActivity
                 return false;
             }
         });
+        //Locks the camera to Hong Kong
         mMap.setLatLngBoundsForCameraTarget(HONGKONG);
         mMap.setMinZoomPreference(10.0f);
         mMap.setMaxZoomPreference(25.0f);
