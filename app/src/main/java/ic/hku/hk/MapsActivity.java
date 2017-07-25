@@ -1,6 +1,7 @@
 package ic.hku.hk;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.location.Location;
@@ -12,7 +13,9 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Switch;
 
@@ -29,6 +32,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class MapsActivity extends AppCompatActivity
         implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -44,6 +52,8 @@ public class MapsActivity extends AppCompatActivity
     private boolean firstTime = true;
     private LatLngBounds HONGKONG = new LatLngBounds(
             new LatLng(22.17, 113.82), new LatLng(22.54, 114.38));
+    private final String dateFormat = "YYYY/MM/DD"; //In which you need put here
+    private final SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.TRADITIONAL_CHINESE);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +70,49 @@ public class MapsActivity extends AppCompatActivity
         final EditText dateTo = (EditText) findViewById(R.id.dateTo);
         final EditText pickUpAddress = (EditText) findViewById(R.id.pickUpAddress);
         final Button shareButton = (Button) findViewById(R.id.share);
+
+        dateFrom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dateSet(dateFrom);
+            }
+        });
+
+        dateTo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dateSet(dateTo);
+            }
+        });
+    }
+
+    private void dateSet(final EditText dateSet) {
+        final Calendar calendar = Calendar.getInstance();
+        DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, monthOfYear);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel();
+            }
+
+            private void updateLabel() {
+                dateSet.setText(sdf.format(calendar.getTime()));
+            }
+        };
+        new DatePickerDialog(dateSet.getContext(), date, calendar
+                .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
+
+    private boolean shareCheck(double weight, Date dateFrom,
+                               Date dateTo){
+        //TODO fix, shouldnt work unless date set sets to 23:59:59
+        return weight > 0 && dateTo.after(dateFrom) && dateFrom.after(Calendar.getInstance().getTime());
     }
 
     @Override
