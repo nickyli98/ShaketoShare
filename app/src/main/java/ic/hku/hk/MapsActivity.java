@@ -81,14 +81,17 @@ public class MapsActivity extends AppCompatActivity
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        final Switch organic = (Switch) findViewById(R.id.supplyOrganic);
-        final EditText weight = (EditText) findViewById(R.id.supplyWeight);
-        final EditText dateFrom = (EditText) findViewById(R.id.supplyDateFrom);
-        final EditText dateTo = (EditText) findViewById(R.id.supplyDateTo);
+        final Switch supplyOrganic = (Switch) findViewById(R.id.supplyOrganic);
+        final EditText supplyWeight = (EditText) findViewById(R.id.supplyWeight);
+        final EditText supplyDateFrom = (EditText) findViewById(R.id.supplyDateFrom);
+        final EditText supplyDateTo = (EditText) findViewById(R.id.supplyDateTo);
         final EditText pickUpAddress = (EditText) findViewById(R.id.pickUpAddress);
+        final Switch demandOrganic = (Switch) findViewById(R.id.demandOrganic);
+        final EditText demandWeight = (EditText) findViewById(R.id.demandWeight);
+        final EditText demandDateFrom = (EditText) findViewById(R.id.demandDateFrom);
+        final EditText demandDateTo = (EditText) findViewById(R.id.demandDateTo);
         final Button shareButton = (Button) findViewById(R.id.share);
         final Button minimiseButton = (Button) findViewById(R.id.minimise);
-        final SlidingUpPanelLayout layout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         final TabHost host = (TabHost) findViewById(R.id.tabHost);
         host.setup();
 
@@ -115,7 +118,7 @@ public class MapsActivity extends AppCompatActivity
                         minimiseButton.setVisibility(View.VISIBLE);
                         break;
                     case EXPANDED:
-                        if (shareCheck(weight, dateFrom, dateTo)) {
+                        if (shareCheck(supplyWeight, supplyDateFrom, supplyDateTo)) {
                             share();
                             layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                             minimiseButton.setVisibility(View.INVISIBLE);
@@ -124,17 +127,31 @@ public class MapsActivity extends AppCompatActivity
             }
         });
 
-        dateFrom.setOnClickListener(new View.OnClickListener() {
+        supplyDateFrom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dateSet(dateFrom);
+                dateSet(supplyDateFrom);
             }
         });
 
-        dateTo.setOnClickListener(new View.OnClickListener() {
+        supplyDateTo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dateSet(dateTo);
+                dateSet(supplyDateTo);
+            }
+        });
+
+        demandDateFrom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dateSet(demandDateFrom);
+            }
+        });
+
+        demandDateTo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dateSet(demandDateTo);
             }
         });
 
