@@ -18,11 +18,14 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TabHost;
 import android.widget.Toast;
@@ -66,6 +69,18 @@ public class MapsActivity extends AppCompatActivity
     private final String dateFormat = "yyyy/MM/dd"; //In which you need put here
     private final SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.TRADITIONAL_CHINESE);
     private SlidingUpPanelLayout layout;
+    private TabHost host;
+    private Button shareButton;
+    private Button minimiseButton;
+    private Switch supplyOrganic;
+    private EditText supplyWeight;
+    private EditText supplyDateFrom;
+    private EditText supplyDateTo;
+    private EditText pickUpAddress;
+    private Switch demandOrganic;
+    private EditText demandWeight;
+    private EditText demandDateFrom;
+    private EditText demandDateTo;
 
     // The following are used for the shake detection
     private SensorManager mSensorManager;
@@ -81,18 +96,18 @@ public class MapsActivity extends AppCompatActivity
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        final Switch supplyOrganic = (Switch) findViewById(R.id.supplyOrganic);
-        final EditText supplyWeight = (EditText) findViewById(R.id.supplyWeight);
-        final EditText supplyDateFrom = (EditText) findViewById(R.id.supplyDateFrom);
-        final EditText supplyDateTo = (EditText) findViewById(R.id.supplyDateTo);
-        final EditText pickUpAddress = (EditText) findViewById(R.id.pickUpAddress);
-        final Switch demandOrganic = (Switch) findViewById(R.id.demandOrganic);
-        final EditText demandWeight = (EditText) findViewById(R.id.demandWeight);
-        final EditText demandDateFrom = (EditText) findViewById(R.id.demandDateFrom);
-        final EditText demandDateTo = (EditText) findViewById(R.id.demandDateTo);
-        final Button shareButton = (Button) findViewById(R.id.share);
-        final Button minimiseButton = (Button) findViewById(R.id.minimise);
-        final TabHost host = (TabHost) findViewById(R.id.tabHost);
+        supplyOrganic = (Switch) findViewById(R.id.supplyOrganic);
+        supplyWeight = (EditText) findViewById(R.id.supplyWeight);
+        supplyDateFrom = (EditText) findViewById(R.id.supplyDateFrom);
+        supplyDateTo = (EditText) findViewById(R.id.supplyDateTo);
+        pickUpAddress = (EditText) findViewById(R.id.pickUpAddress);
+        demandOrganic = (Switch) findViewById(R.id.demandOrganic);
+        demandWeight = (EditText) findViewById(R.id.demandWeight);
+        demandDateFrom = (EditText) findViewById(R.id.demandDateFrom);
+        demandDateTo = (EditText) findViewById(R.id.demandDateTo);
+        shareButton = (Button) findViewById(R.id.share);
+        minimiseButton = (Button) findViewById(R.id.minimise);
+        host = (TabHost) findViewById(R.id.tabHost);
         host.setup();
 
         //Supply tab
@@ -112,18 +127,7 @@ public class MapsActivity extends AppCompatActivity
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch (layout.getPanelState()) {
-                    case COLLAPSED:
-                        layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-                        minimiseButton.setVisibility(View.VISIBLE);
-                        break;
-                    case EXPANDED:
-                        if (shareCheck(supplyWeight, supplyDateFrom, supplyDateTo)) {
-                            share();
-                            layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-                            minimiseButton.setVisibility(View.INVISIBLE);
-                        }
-                }
+                share();
             }
         });
 
@@ -210,8 +214,38 @@ public class MapsActivity extends AppCompatActivity
         });
     }
 
+    private void share() {
+        switch (layout.getPanelState()) {
+            case COLLAPSED:
+                layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                minimiseButton.setVisibility(View.VISIBLE);
+                break;
+            case EXPANDED:
+                boolean shareCheckPassed = false;
+                switch (host.getCurrentTab()) {
+                    case 0: //supply
+                        shareCheckPassed = shareCheck(supplyWeight, supplyDateFrom, supplyDateTo);
+                        break;
+                    case 1: //demand
+                        shareCheckPassed = shareCheck(demandWeight, demandDateFrom, demandDateTo);
+                        break;
+                }
+                if (shareCheckPassed) {
+                    shareRequest();
+                    layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                    minimiseButton.setVisibility(View.INVISIBLE);
+                }
+            case ANCHORED:
+                break;
+            case HIDDEN:
+                break;
+            case DRAGGING:
+                break;
+        }
+    }
+
     private void handleShakeEvent(int count) {
-        layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+        share();
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         v.vibrate(500);
     }
@@ -224,16 +258,26 @@ public class MapsActivity extends AppCompatActivity
         }
     }
 
-
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-
-
+        switch (layout.getPanelState()) {
+            case COLLAPSED:
+                finish();
+                break;
+            case EXPANDED:
+                layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                break;
+        }
     }
 
-    private void share() {
-        //TODO: write what would happen when share
+    private void shareRequest() {
+        //clean the fields
+        clearForm((ViewGroup) findViewById(R.id.demandGrid));
+        clearForm((ViewGroup) findViewById(R.id.grid));
+
+        //TODO SHARE
+
+        Toast.makeText(MapsActivity.this, "Shared!", Toast.LENGTH_LONG).show();
     }
 
     private void dateSet(final EditText dateSet) {
@@ -286,7 +330,7 @@ public class MapsActivity extends AppCompatActivity
         }
         Date dateToValue = null;
         try {
-            dateToValue = sdf.parse(dateFrom.getText().toString());
+            dateToValue = sdf.parse(dateTo.getText().toString());
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -466,6 +510,19 @@ public class MapsActivity extends AppCompatActivity
                     (new LatLng(mLastKnownLocation.getLatitude(),
                             mLastKnownLocation.getLongitude()), 17.5f));
             firstTime = false;
+        }
+    }
+
+    private void clearForm(ViewGroup group)
+    {
+        for (int i = 0, count = group.getChildCount(); i < count; ++i) {
+            View view = group.getChildAt(i);
+            if (view instanceof EditText) {
+                ((EditText)view).setText("");
+            }
+
+            if(view instanceof ViewGroup && (((ViewGroup)view).getChildCount() > 0))
+                clearForm((ViewGroup)view);
         }
     }
 
