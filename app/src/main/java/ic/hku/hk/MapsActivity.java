@@ -9,6 +9,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Build;
+import android.os.VibrationEffect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -25,6 +26,7 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TabHost;
 import android.widget.Toast;
+import android.os.Vibrator;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -63,6 +65,7 @@ public class MapsActivity extends AppCompatActivity
             new LatLng(22.17, 113.82), new LatLng(22.54, 114.38));
     private final String dateFormat = "yyyy/MM/dd"; //In which you need put here
     private final SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.TRADITIONAL_CHINESE);
+    private SlidingUpPanelLayout layout;
 
     // The following are used for the shake detection
     private SensorManager mSensorManager;
@@ -101,6 +104,7 @@ public class MapsActivity extends AppCompatActivity
         spec.setIndicator("Demand");
         host.addTab(spec);
 
+        layout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
 
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -190,7 +194,9 @@ public class MapsActivity extends AppCompatActivity
     }
 
     private void handleShakeEvent(int count) {
-
+        layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        v.vibrate(500);
     }
 
     private void hideKeyboard() {
