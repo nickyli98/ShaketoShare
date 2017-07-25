@@ -59,7 +59,7 @@ public class MapsActivity extends AppCompatActivity
     private boolean firstTime = true;
     private LatLngBounds HONGKONG = new LatLngBounds(
             new LatLng(22.17, 113.82), new LatLng(22.54, 114.38));
-    private final String dateFormat = "YYYY/MM/DD"; //In which you need put here
+    private final String dateFormat = "yyyy/MM/dd"; //In which you need put here
     private final SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.TRADITIONAL_CHINESE);
 
     // The following are used for the shake detection
