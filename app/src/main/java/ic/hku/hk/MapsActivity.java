@@ -12,6 +12,9 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Switch;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -50,6 +53,13 @@ public class MapsActivity extends AppCompatActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        final Switch organic = (Switch) findViewById(R.id.organic);
+        final EditText weight = (EditText) findViewById(R.id.weight);
+        final EditText dateFrom = (EditText) findViewById(R.id.dateFrom);
+        final EditText dateTo = (EditText) findViewById(R.id.dateTo);
+        final EditText pickUpAddress = (EditText) findViewById(R.id.pickUpAddress);
+        final Button shareButton = (Button) findViewById(R.id.share);
     }
 
     @Override
