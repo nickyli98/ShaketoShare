@@ -18,34 +18,29 @@
         android:id="@+id/address1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="10pt"
         android:clickable="true" />
 
     <TextView
         android:id="@+id/address2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="10pt"
         android:clickable="true" />
 
     <TextView
         android:id="@+id/address3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="10pt"
         android:clickable="true" />
 
     <TextView
         android:id="@+id/address4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="10pt"
         android:clickable="true" />
 
     <TextView
         android:id="@+id/address5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="10pt"
         android:clickable="true" />
 </LinearLayout>

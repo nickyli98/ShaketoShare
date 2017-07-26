@@ -7,6 +7,8 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.support.annotation.IdRes;
@@ -20,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,9 +39,14 @@ import android.os.Vibrator;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.PlaceLikelihood;
+import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -92,6 +100,8 @@ public class MapsActivity extends AppCompatActivity
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private ShakeDetector mShakeDetector;
+    private String[] likelyPlaceNames;
+    private String[] likelyAddresses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,7 +198,7 @@ public class MapsActivity extends AppCompatActivity
                 currentAddress.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        showCurrentPlace(pickUpAddress);
                     }
                 });
 
@@ -254,6 +264,7 @@ public class MapsActivity extends AppCompatActivity
             }
         });
     }
+
 /*
     private void setAddress(Location address, final TextView addressView) throws IOException {
         Geocoder geocoder = new Geocoder(MapsActivity.this);
@@ -468,6 +479,65 @@ public class MapsActivity extends AppCompatActivity
         updateLocationUI();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return true;
+    }
+
+    private void showCurrentPlace(final TextView addressView) {
+        if (mMap == null) {
+            return;
+        }
+        if (mLocationPermissionGranted) {
+            // Get the likely places - that is, the businesses and other points of interest that
+            // are the best match for the device's current location.
+            @SuppressWarnings("MissingPermission")
+            PendingResult<PlaceLikelihoodBuffer> result = Places.PlaceDetectionApi
+                    .getCurrentPlace(mGoogleApiClient, null);
+            final int mMaxEntries = 5;
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(MapsActivity.this);
+            View mView = getLayoutInflater().inflate(R.layout.dialog_select_closest_address, null);
+            mBuilder.setView(mView);
+            final AlertDialog dialog = mBuilder.create();
+            final LinearLayout.LayoutParams marginParams = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+            int px24 = dpToPx(24);
+            marginParams.setMargins(px24, 0, px24, px24);
+            dialog.show();
+            result.setResultCallback(new ResultCallback<PlaceLikelihoodBuffer>() {
+                @Override
+                public void onResult(@NonNull PlaceLikelihoodBuffer likelyPlaces) {
+                    int i = 0;
+                    for (PlaceLikelihood placeLikelihood : likelyPlaces) {
+                        // Build a list of likely places to show the user. Max 5.
+                        final TextView view = (TextView) dialog.findViewById(getResources()
+                                .getIdentifier("address" + (i + 1), "id", getPackageName()));
+                        if(view == null){
+                            continue;
+                        }
+                        view.setText(placeLikelihood.getPlace().getAddress());
+                        view.setLayoutParams(marginParams);
+                        view.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                addressView.setText(view.getText());
+                            }
+                        });
+                        i++;
+                        if(i >= mMaxEntries){
+                            break;
+                        }
+                    }
+                    // Release the place likelihood buffer, to avoid memory leaks.
+                    likelyPlaces.release();
+                    // Show a dialog offering the user the list of likely places, and add a
+                    // marker at the selected place.
+                }
+            });
+        }
+    }
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -516,6 +586,7 @@ public class MapsActivity extends AppCompatActivity
                     == PackageManager.PERMISSION_GRANTED) {
                 //Location Permission already granted
                 buildGoogleApiClient();
+                mLocationPermissionGranted = true;
                 mMap.setMyLocationEnabled(true);
             } else {
                 //Request Location Permission
