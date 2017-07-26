@@ -199,6 +199,7 @@ public class MapsActivity extends AppCompatActivity
                     @Override
                     public void onClick(View view) {
                         showCurrentPlace(pickUpAddress);
+                        dialog.cancel();
                     }
                 });
 
@@ -522,6 +523,7 @@ public class MapsActivity extends AppCompatActivity
                             @Override
                             public void onClick(View v) {
                                 addressView.setText(view.getText());
+                                dialog.cancel();
                             }
                         });
                         i++;
