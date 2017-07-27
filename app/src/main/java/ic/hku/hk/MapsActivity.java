@@ -346,8 +346,8 @@ public class MapsActivity extends AppCompatActivity
 
     private void shareRequest() {
         //clean the fields
-        clearForm((ViewGroup) findViewById(R.id.demandGrid));
-        clearForm((ViewGroup) findViewById(R.id.grid));
+        clearForm((ViewGroup) findViewById(R.id.demandTab));
+        clearForm((ViewGroup) findViewById(R.id.supplyTab));
 
         //TODO SHARE
 
