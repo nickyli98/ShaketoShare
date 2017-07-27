@@ -7,11 +7,8 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
-import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -23,10 +20,12 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -41,12 +40,18 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.AutocompleteFilter;
+import com.google.android.gms.location.places.AutocompletePrediction;
+import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceLikelihood;
 import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
 import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -56,14 +61,13 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
+
+import static com.google.android.gms.location.places.AutocompleteFilter.TYPE_FILTER_ADDRESS;
 
 public class MapsActivity extends AppCompatActivity
         implements OnMapReadyCallback,
@@ -71,12 +75,14 @@ public class MapsActivity extends AppCompatActivity
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
+    private static final String ISO3166_ALPHA2_COUNTRYCODE = "HK";
     private GoogleMap mMap;
     private static final String TAG = MapsActivity.class.getSimpleName();
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean mLocationPermissionGranted;
     private Location mLastKnownLocation;
     private GoogleApiClient mGoogleApiClient;
+    private PlacesAPIAutocompleteAdapter adapter;
     private boolean firstTime = true;
     private LatLngBounds HONGKONG = new LatLngBounds(
             new LatLng(22.17, 113.82), new LatLng(22.54, 114.38));
@@ -100,8 +106,6 @@ public class MapsActivity extends AppCompatActivity
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private ShakeDetector mShakeDetector;
-    private String[] likelyPlaceNames;
-    private String[] likelyAddresses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,9 +196,11 @@ public class MapsActivity extends AppCompatActivity
                 final AlertDialog dialog = mBuilder.create();
                 dialog.show();
                 final TextView currentAddress = (TextView) dialog.findViewById(R.id.selectCurrentAddress);
-                final TextView selectFromMap = (TextView) dialog.findViewById(R.id.selectFromMap);
-                final TextView enterManually = (TextView) dialog.findViewById(R.id.enterAddress);
-
+                final AutoCompleteTextView enterManually
+                        = (AutoCompleteTextView) dialog.findViewById(R.id.enterManually);
+                if(currentAddress ==null || enterManually == null){
+                    return;
+                }
                 currentAddress.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -202,20 +208,17 @@ public class MapsActivity extends AppCompatActivity
                         dialog.cancel();
                     }
                 });
+                enterManually.setAdapter(adapter);
+                enterManually.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-                selectFromMap.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
-
+                    public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
+                        pickUpAddress.setText(adapter.getItem(pos).getFullText(null));
+                        dialog.cancel();
                     }
                 });
 
-                selectFromMap.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
 
-                    }
-                });
             }
         });
 
@@ -266,48 +269,15 @@ public class MapsActivity extends AppCompatActivity
         });
     }
 
-/*
-    private void setAddress(Location address, final TextView addressView) throws IOException {
-        Geocoder geocoder = new Geocoder(MapsActivity.this);
-        List<Address> addresses = geocoder.getFromLocation(address.getLatitude(), address.getLongitude(), 5);
-        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MapsActivity.this);
-        View mView = getLayoutInflater().inflate(R.layout.dialog_select_closest_address, null);
-        mBuilder.setView(mView);
-        final AlertDialog dialog = mBuilder.create();
-        final LinearLayout.LayoutParams marginParams = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
-        );
-        int px24 = dpToPx(24);
-        marginParams.setMargins(px24, 0, px24, px24);
-        dialog.show();
-        int counter = 1;
-        for(Address a : addresses){
-            System.out.println(counter + " ");
-            final TextView view = (TextView) dialog.findViewById(getResources()
-                    .getIdentifier("address" + counter, "id", getPackageName()));
-            if(view == null){
-                continue;
-            }
-            int addressLines = a.getMaxAddressLineIndex();
-            String s = "";
-            for(int i = 0; i < addressLines; i++){
-                s += a.getAddressLine(i);
-            }
-            if(s.equals("")){
-                continue;
-            }
-            view.setText(s);
-            view.setLayoutParams(marginParams);
-            counter++;
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    addressView.setText(view.getText());
-                    addressView.setLayoutParams(marginParams);
-                }
-            });
+    @Override
+    protected void onStop() {
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            adapter.setClient(null);
+            mGoogleApiClient.disconnect();
         }
-    }*/
+        super.onStop();
+    }
+
 
     private int dpToPx(float dp){
         Resources r = MapsActivity.this.getResources();
@@ -480,11 +450,6 @@ public class MapsActivity extends AppCompatActivity
         updateLocationUI();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return true;
-    }
-
     private void showCurrentPlace(final TextView addressView) {
         if (mMap == null) {
             return;
@@ -654,6 +619,13 @@ public class MapsActivity extends AppCompatActivity
                 == PackageManager.PERMISSION_GRANTED){
             LocationServices.FusedLocationApi.requestLocationUpdates
                     (mGoogleApiClient, mLocationRequest, this);
+        }
+        if (adapter != null){
+            adapter.setClient(mGoogleApiClient);
+        } else {
+            AutocompleteFilter.Builder filterBuilder = new AutocompleteFilter.Builder();
+            filterBuilder.setCountry(ISO3166_ALPHA2_COUNTRYCODE);
+            adapter = new PlacesAPIAutocompleteAdapter(MapsActivity.this, mGoogleApiClient, HONGKONG, filterBuilder.build());
         }
     }
 
