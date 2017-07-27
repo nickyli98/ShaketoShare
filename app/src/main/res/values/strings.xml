@@ -93,4 +93,11 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+    <string name="organicSwitchName">Organic</string>
+    <string name="weight_tonnes">weightInputHint</string>
+    <string name="date_from">dateFromHint</string>
+    <string name="date_to">dateToHint</string>
+    <string name="address">addressHint</string>
+    <string name="select_current_address">selectCurrentAddressText</string>
+    <string name="enter_address">enterAddressHint</string>
 </resources>
