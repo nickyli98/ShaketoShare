@@ -100,4 +100,5 @@
     <string name="address_hint">Address</string>
     <string name="select_current_address_prompt">Select current address</string>
     <string name="enter_address_hint">Enter address</string>
+    <string name="refreshButton">Refresh</string>
 </resources>

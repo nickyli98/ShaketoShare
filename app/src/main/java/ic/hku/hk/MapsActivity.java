@@ -198,27 +198,23 @@ public class MapsActivity extends AppCompatActivity
                 final TextView currentAddress = (TextView) dialog.findViewById(R.id.selectCurrentAddress);
                 final AutoCompleteTextView enterManually
                         = (AutoCompleteTextView) dialog.findViewById(R.id.enterManually);
-                if(currentAddress ==null || enterManually == null){
-                    return;
+                if(currentAddress != null && enterManually != null){
+                    currentAddress.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            showCurrentPlace(pickUpAddress);
+                            dialog.cancel();
+                        }
+                    });
+                    enterManually.setAdapter(adapter);
+                    enterManually.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
+                            pickUpAddress.setText(adapter.getItem(pos).getFullText(null));
+                            dialog.cancel();
+                        }
+                    });
                 }
-                currentAddress.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        showCurrentPlace(pickUpAddress);
-                        dialog.cancel();
-                    }
-                });
-                enterManually.setAdapter(adapter);
-                enterManually.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
-                        pickUpAddress.setText(adapter.getItem(pos).getFullText(null));
-                        dialog.cancel();
-                    }
-                });
-
-
             }
         });
 
@@ -421,7 +417,7 @@ public class MapsActivity extends AppCompatActivity
     public void onPause() {
         super.onPause();
         //stop location updates when Activity is no longer active
-        if (mGoogleApiClient != null) {
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         }
         mSensorManager.unregisterListener(mShakeDetector);
@@ -462,9 +458,17 @@ public class MapsActivity extends AppCompatActivity
                     .getCurrentPlace(mGoogleApiClient, null);
             final int mMaxEntries = 5;
             AlertDialog.Builder mBuilder = new AlertDialog.Builder(MapsActivity.this);
-            View mView = getLayoutInflater().inflate(R.layout.dialog_select_closest_address, null);
+            final View mView = getLayoutInflater().inflate(R.layout.dialog_select_closest_address, null);
             mBuilder.setView(mView);
             final AlertDialog dialog = mBuilder.create();
+            final Button refresh = (Button) mView.findViewById(R.id.refresh);
+            refresh.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.cancel();
+                    showCurrentPlace(addressView);
+                }
+            });
             final LinearLayout.LayoutParams marginParams = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
             );
@@ -498,6 +502,12 @@ public class MapsActivity extends AppCompatActivity
                     }
                     // Release the place likelihood buffer, to avoid memory leaks.
                     likelyPlaces.release();
+                    if(i == 0){
+                        //No likely places
+                        dialog.cancel();
+                        Toast.makeText(MapsActivity.this, "No nearby addresses found" +
+                                "\nPlease check your connection", Toast.LENGTH_SHORT).show();
+                    }
                     // Show a dialog offering the user the list of likely places, and add a
                     // marker at the selected place.
                 }
