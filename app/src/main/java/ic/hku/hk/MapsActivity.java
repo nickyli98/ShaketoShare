@@ -235,6 +235,12 @@ public class MapsActivity extends AppCompatActivity
         demandWeight = (EditText) findViewById(R.id.demandWeight);
         demandDateFrom = (EditText) findViewById(R.id.demandDateFrom);
         demandDateTo = (EditText) findViewById(R.id.demandDateTo);
+
+        //Sets date default to current date
+        demandDateFrom.setText(sdf.format(Calendar.getInstance().getTime()));
+        demandDateTo.setText(sdf.format(Calendar.getInstance().getTime()));
+        supplyDateFrom.setText(sdf.format(Calendar.getInstance().getTime()));
+        supplyDateTo.setText(sdf.format(Calendar.getInstance().getTime()));
     }
 
     @Override

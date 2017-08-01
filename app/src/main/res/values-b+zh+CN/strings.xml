@@ -8,6 +8,7 @@
     <string name="date_connector">-</string>
     <string name="address_hint">地址</string>
     <string name="select_current_address_prompt">选择现在的地址</string>
+    <string name="select_from_map_prompt">在地图上选择地址</string>
     <string name="enter_address_hint">输入地址</string>
     <string name="refreshButton">更新</string>
 </resources>
