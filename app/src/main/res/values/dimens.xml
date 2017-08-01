@@ -8,4 +8,5 @@
     <dimen name="switchMargin">-4dp</dimen>
     <dimen name="marginVerticalFull">12dp</dimen>
     <dimen name="marginVerticalHalf">6dp</dimen>
+    <dimen name="date_margin">70dp</dimen>
 </resources>

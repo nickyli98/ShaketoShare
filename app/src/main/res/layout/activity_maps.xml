@@ -129,37 +129,75 @@
                             android:padding="5dp"
                             android:background="@color/textSelectOff" />
 
-                        <EditText
-                            android:id="@+id/supplyDateFrom"
+                        <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="fill_horizontal"
                             android:layout_columnWeight="1"
-                            android:focusable="false"
-                            android:cursorVisible="false"
+                            android:layout_gravity="fill_horizontal"
+                            android:orientation="horizontal"
                             android:layout_marginTop="@dimen/marginVerticalHalf"
                             android:layout_marginStart="@dimen/marginHorizontalFull"
                             android:layout_marginEnd="@dimen/marginHorizontalHalf"
-                            android:layout_marginBottom="@dimen/marginVerticalHalf"
-                            android:inputType="date"
-                            android:padding="5dp"
-                            android:background="@color/textSelectOff"/>
+                            android:layout_marginBottom="@dimen/marginVerticalHalf">
 
-                        <EditText
-                            android:id="@+id/supplyDateTo"
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="8pt"
+                                android:text="@string/date_from"
+                                android:padding="5dp"/>
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"/>
+
+                            <EditText
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/supplyDateFrom"
+                                android:focusable="false"
+                                android:cursorVisible="false"
+                                android:inputType="date"
+                                android:background="@color/textSelectOff"
+                                android:padding="5dp"/>
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="fill_horizontal"
                             android:layout_columnWeight="1"
-                            android:focusable="false"
-                            android:cursorVisible="false"
+                            android:layout_gravity="fill_horizontal"
+                            android:orientation="horizontal"
                             android:layout_marginTop="@dimen/marginVerticalHalf"
                             android:layout_marginStart="@dimen/marginHorizontalHalf"
                             android:layout_marginEnd="@dimen/marginHorizontalFull"
-                            android:layout_marginBottom="@dimen/marginVerticalHalf"
-                            android:inputType="date"
-                            android:padding="5dp"
-                            android:background="@color/textSelectOff"/>
+                            android:layout_marginBottom="@dimen/marginVerticalHalf">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="8pt"
+                                android:text="@string/date_to"
+                                android:padding="5dp"/>
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"/>
+
+                            <EditText
+                                android:id="@+id/supplyDateTo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_columnWeight="1"
+                                android:focusable="false"
+                                android:cursorVisible="false"
+                                android:inputType="date"
+                                android:layout_gravity="end"
+                                android:background="@color/textSelectOff"
+                                android:padding="5dp"/>
+                        </LinearLayout>
 
                         <EditText
                             android:id="@+id/pickUpAddress"
@@ -219,37 +257,75 @@
                             android:padding="5dp"
                             android:background="@color/textSelectOff"/>
 
-                        <EditText
-                            android:id="@+id/demandDateFrom"
+                        <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="fill_horizontal"
                             android:layout_columnWeight="1"
-                            android:focusable="false"
-                            android:cursorVisible="false"
+                            android:layout_gravity="fill_horizontal"
+                            android:orientation="horizontal"
                             android:layout_marginTop="@dimen/marginVerticalHalf"
                             android:layout_marginStart="@dimen/marginHorizontalFull"
                             android:layout_marginEnd="@dimen/marginHorizontalHalf"
-                            android:layout_marginBottom="@dimen/marginVerticalHalf"
-                            android:inputType="date"
-                            android:padding="5dp"
-                            android:background="@color/textSelectOff"/>
+                            android:layout_marginBottom="@dimen/marginVerticalHalf">
 
-                        <EditText
-                            android:id="@+id/demandDateTo"
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="8pt"
+                                android:text="@string/date_from"
+                                android:padding="5dp"/>
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"/>
+
+                            <EditText
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/demandDateFrom"
+                                android:focusable="false"
+                                android:cursorVisible="false"
+                                android:inputType="date"
+                                android:background="@color/textSelectOff"
+                                android:padding="5dp"/>
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="fill_horizontal"
                             android:layout_columnWeight="1"
-                            android:focusable="false"
-                            android:cursorVisible="false"
+                            android:layout_gravity="fill_horizontal"
+                            android:orientation="horizontal"
                             android:layout_marginTop="@dimen/marginVerticalHalf"
                             android:layout_marginStart="@dimen/marginHorizontalHalf"
                             android:layout_marginEnd="@dimen/marginHorizontalFull"
-                            android:layout_marginBottom="@dimen/marginVerticalHalf"
-                            android:inputType="date"
-                            android:padding="5dp"
-                            android:background="@color/textSelectOff"/>
+                            android:layout_marginBottom="@dimen/marginVerticalHalf">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="8pt"
+                                android:text="@string/date_to"
+                                android:padding="5dp"/>
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"/>
+
+                            <EditText
+                                android:id="@+id/demandDateTo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_columnWeight="1"
+                                android:focusable="false"
+                                android:cursorVisible="false"
+                                android:inputType="date"
+                                android:layout_gravity="end"
+                                android:background="@color/textSelectOff"
+                                android:padding="5dp"/>
+                        </LinearLayout>
 
                         <EditText
                             android:layout_width="0dp"

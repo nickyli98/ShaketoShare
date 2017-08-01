@@ -5,7 +5,8 @@
     <string name="action_settings" translatable="false">Settings</string>
     <string name="organicSwitchName">Organic</string>
     <string name="weight_hint">Weight tonnes</string>
-    <string name="date_connector">-</string>
+    <string name="date_from">From</string>
+    <string name="date_to">To</string>
     <string name="address_hint">Address</string>
     <string name="select_current_address_prompt">Select current address</string>
     <string name="select_from_map_prompt">Select from map</string>
