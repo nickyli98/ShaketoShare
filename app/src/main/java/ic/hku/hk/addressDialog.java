@@ -6,8 +6,10 @@ import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -78,6 +80,16 @@ public class addressDialog {
                 public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
                     pickUpAddress.setText(adapter.getItem(pos).getFullText(null));
                     dialog.cancel();
+                }
+            });
+            enterManually.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                    if(i == EditorInfo.IME_ACTION_DONE) {
+                        pickUpAddress.setText(enterManually.getText());
+                        dialog.cancel();
+                    }
+                    return true;
                 }
             });
         }
