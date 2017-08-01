@@ -65,7 +65,7 @@ public class addressDialog {
             selectFromMap.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(showCurrentPlaceCheck){
+                    if(mMap != null){
                         selectFromMap(pickUpAddress, dialog, mMap, layout, geocoder
                                 , centreMap, selectFromMapDone, addressPreview);
                         dialog.cancel();
@@ -162,15 +162,23 @@ public class addressDialog {
         centreMap.setVisibility(View.VISIBLE);
         selectFromMapDone.setVisibility(View.VISIBLE);
         addressPreview.setVisibility(View.VISIBLE);
+
+        final LatLng centre = mMap.getCameraPosition().target;
+        addressPreview.setText(getAddress(centre.latitude, centre.longitude, geocoder));
+
         mMap.setOnCameraMoveStartedListener(new GoogleMap.OnCameraMoveStartedListener() {
             @Override
             public void onCameraMoveStarted(int i) {
-                final LatLng centre = mMap.getCameraPosition().target;
                 addressPreview.setText("");
+            }
+        });
+        mMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
+            @Override
+            public void onCameraIdle() {
+                final LatLng centre = mMap.getCameraPosition().target;
                 addressPreview.setText(getAddress(centre.latitude, centre.longitude, geocoder));
             }
         });
-
         layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         selectFromMapDone.setOnClickListener(new View.OnClickListener() {
             @Override
