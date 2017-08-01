@@ -144,7 +144,7 @@ public class MapsActivity extends AppCompatActivity
                 mGoogleApiClient.connect();
                 if(!mGoogleApiClient.isConnected()){
                     Toast.makeText(MapsActivity.this
-                            , "Failed to connect to Google API Servers\nPlease check your connection"
+                            , "Failed to connect to Google API Servers\nPlease check your connection."
                             , Toast.LENGTH_SHORT).show();
                     return;
                 }
