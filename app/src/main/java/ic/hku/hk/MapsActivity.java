@@ -277,9 +277,12 @@ public class MapsActivity extends AppCompatActivity
     }
 
     private void handleShakeEvent(int count) {
-        share();
-        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        v.vibrate(500);
+        if (layout.getPanelState().equals(SlidingUpPanelLayout.PanelState.COLLAPSED)) {
+            layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+            minimiseButton.setVisibility(View.VISIBLE);
+            Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            v.vibrate(500);
+        }
     }
 
     private void hideKeyboard() {
