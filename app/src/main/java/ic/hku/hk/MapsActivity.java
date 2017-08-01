@@ -18,13 +18,10 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -40,18 +37,13 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.AutocompleteFilter;
-import com.google.android.gms.location.places.AutocompletePrediction;
-import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceLikelihood;
 import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
 import com.google.android.gms.location.places.Places;
-import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
-import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -67,7 +59,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import static com.google.android.gms.location.places.AutocompleteFilter.TYPE_FILTER_ADDRESS;
+import static ic.hku.hk.AndroidUtils.dpToPx;
 
 public class MapsActivity extends AppCompatActivity
         implements OnMapReadyCallback,
@@ -109,160 +101,166 @@ public class MapsActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_maps);
+            // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map);
+            mapFragment.getMapAsync(this);
 
-        supplyOrganic = (Switch) findViewById(R.id.supplyOrganic);
-        supplyWeight = (EditText) findViewById(R.id.supplyWeight);
-        supplyDateFrom = (EditText) findViewById(R.id.supplyDateFrom);
-        supplyDateTo = (EditText) findViewById(R.id.supplyDateTo);
-        pickUpAddress = (EditText) findViewById(R.id.pickUpAddress);
-        demandOrganic = (Switch) findViewById(R.id.demandOrganic);
-        demandWeight = (EditText) findViewById(R.id.demandWeight);
-        demandDateFrom = (EditText) findViewById(R.id.demandDateFrom);
-        demandDateTo = (EditText) findViewById(R.id.demandDateTo);
-        shareButton = (Button) findViewById(R.id.share);
-        minimiseButton = (Button) findViewById(R.id.minimise);
-        host = (TabHost) findViewById(R.id.tabHost);
-        host.setup();
+            supplyOrganic = (Switch) findViewById(R.id.supplyOrganic);
+            supplyWeight = (EditText) findViewById(R.id.supplyWeight);
+            supplyDateFrom = (EditText) findViewById(R.id.supplyDateFrom);
+            supplyDateTo = (EditText) findViewById(R.id.supplyDateTo);
+            pickUpAddress = (EditText) findViewById(R.id.pickUpAddress);
+            demandOrganic = (Switch) findViewById(R.id.demandOrganic);
+            demandWeight = (EditText) findViewById(R.id.demandWeight);
+            demandDateFrom = (EditText) findViewById(R.id.demandDateFrom);
+            demandDateTo = (EditText) findViewById(R.id.demandDateTo);
+            shareButton = (Button) findViewById(R.id.share);
+            minimiseButton = (Button) findViewById(R.id.minimise);
+            host = (TabHost) findViewById(R.id.tabHost);
+            host.setup();
 
-        //Supply tab
-        TabHost.TabSpec spec = host.newTabSpec("Supply Tab");
-        spec.setContent(R.id.supplyTab);
-        spec.setIndicator("Supply");
-        host.addTab(spec);
+            //Supply tab
+            TabHost.TabSpec spec = host.newTabSpec("Supply Tab");
+            spec.setContent(R.id.supplyTab);
+            spec.setIndicator("Supply");
+            host.addTab(spec);
 
-        //Demand tab
-        spec = host.newTabSpec("Demand Tab");
-        spec.setContent(R.id.demandTab);
-        spec.setIndicator("Demand");
-        host.addTab(spec);
+            //Demand tab
+            spec = host.newTabSpec("Demand Tab");
+            spec.setContent(R.id.demandTab);
+            spec.setIndicator("Demand");
+            host.addTab(spec);
 
-        layout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+            layout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
 
-        shareButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                share();
-            }
-        });
-
-        supplyDateFrom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dateSet(supplyDateFrom);
-            }
-        });
-
-        supplyDateTo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dateSet(supplyDateTo);
-            }
-        });
-
-        demandDateFrom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dateSet(demandDateFrom);
-            }
-        });
-
-        demandDateTo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dateSet(demandDateTo);
-            }
-        });
-
-        minimiseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                minimiseButton.setVisibility(View.INVISIBLE);
-                layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-            }
-        });
-
-        pickUpAddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(MapsActivity.this);
-                View mView = getLayoutInflater().inflate(R.layout.dialog_address_selection, null);
-                mBuilder.setView(mView);
-                final AlertDialog dialog = mBuilder.create();
-                dialog.show();
-                final TextView currentAddress = (TextView) dialog.findViewById(R.id.selectCurrentAddress);
-                final AutoCompleteTextView enterManually
-                        = (AutoCompleteTextView) dialog.findViewById(R.id.enterManually);
-                if(currentAddress != null && enterManually != null){
-                    currentAddress.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            showCurrentPlace(pickUpAddress);
-                            dialog.cancel();
-                        }
-                    });
-                    enterManually.setAdapter(adapter);
-                    enterManually.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
-                            pickUpAddress.setText(adapter.getItem(pos).getFullText(null));
-                            dialog.cancel();
-                        }
-                    });
+            shareButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    share();
                 }
-            }
-        });
+            });
 
-        layout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
-            @Override
-            public void onPanelSlide(View panel, float slideOffset) {
+            supplyDateFrom.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dateSet(supplyDateFrom);
+                }
+            });
 
-            }
+            supplyDateTo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dateSet(supplyDateTo);
+                }
+            });
 
-            @Override
-            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
-                if (previousState.equals(SlidingUpPanelLayout.PanelState.DRAGGING)) {
-                    if (newState.equals(SlidingUpPanelLayout.PanelState.COLLAPSED)) {
-                        minimiseButton.setVisibility(View.INVISIBLE);
-                        hideKeyboard();
-                    } else if (newState.equals(SlidingUpPanelLayout.PanelState.EXPANDED)) {
-                        minimiseButton.setVisibility(View.VISIBLE);
+            demandDateFrom.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dateSet(demandDateFrom);
+                }
+            });
+
+            demandDateTo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dateSet(demandDateTo);
+                }
+            });
+
+            minimiseButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    minimiseButton.setVisibility(View.INVISIBLE);
+                    layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                }
+            });
+
+            pickUpAddress.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mGoogleApiClient.connect();
+                    if(!mGoogleApiClient.isConnected()){
+                        Toast.makeText(MapsActivity.this, "Failed to connect to Google API Servers\nPlease check your connection", Toast.LENGTH_SHORT).show();
+                        return;
                     }
-                } else if (newState.equals(SlidingUpPanelLayout.PanelState.DRAGGING)) {
-                    if (previousState.equals(SlidingUpPanelLayout.PanelState.COLLAPSED)) {
-                        minimiseButton.setVisibility(View.VISIBLE);
-                    } else if (previousState.equals(SlidingUpPanelLayout.PanelState.EXPANDED)) {
-                        minimiseButton.setVisibility(View.INVISIBLE);
-                        hideKeyboard();
+                    AlertDialog.Builder mBuilder = new AlertDialog.Builder(MapsActivity.this);
+                    View mView = getLayoutInflater().inflate(R.layout.dialog_address_selection, null);
+                    mBuilder.setView(mView);
+                    final AlertDialog dialog = mBuilder.create();
+                    dialog.show();
+                    final TextView currentAddress = (TextView) dialog.findViewById(R.id.selectCurrentAddress);
+                    final AutoCompleteTextView enterManually
+                            = (AutoCompleteTextView) dialog.findViewById(R.id.enterManually);
+                    if(currentAddress != null && enterManually != null){
+                        currentAddress.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                showCurrentPlace(pickUpAddress);
+                                dialog.cancel();
+                            }
+                        });
+                        enterManually.setAdapter(adapter);
+                        enterManually.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
+                                pickUpAddress.setText(adapter.getItem(pos).getFullText(null));
+                                dialog.cancel();
+                            }
+                        });
+                    };
+                }
+            });
+
+            layout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+
+                @Override
+                public void onPanelSlide(View panel, float slideOffset) {
+                    return;
+                }
+
+                @Override
+                public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
+                    if (previousState.equals(SlidingUpPanelLayout.PanelState.DRAGGING)) {
+                        if (newState.equals(SlidingUpPanelLayout.PanelState.COLLAPSED)) {
+                            minimiseButton.setVisibility(View.INVISIBLE);
+                            hideKeyboard();
+                        } else if (newState.equals(SlidingUpPanelLayout.PanelState.EXPANDED)) {
+                            minimiseButton.setVisibility(View.VISIBLE);
+                        }
+                    } else if (newState.equals(SlidingUpPanelLayout.PanelState.DRAGGING)) {
+                        if (previousState.equals(SlidingUpPanelLayout.PanelState.COLLAPSED)) {
+                            minimiseButton.setVisibility(View.VISIBLE);
+                        } else if (previousState.equals(SlidingUpPanelLayout.PanelState.EXPANDED)) {
+                            minimiseButton.setVisibility(View.INVISIBLE);
+                            hideKeyboard();
+                        }
                     }
                 }
-            }
-        });
+            });
 
-        layout.setFadeOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-            }
-        });
+            layout.setFadeOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                }
+            });
 
-        // ShakeDetector initialization
-        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mAccelerometer = mSensorManager
-                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mShakeDetector = new ShakeDetector();
-        mShakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
+            // ShakeDetector initialization
+            mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+            mAccelerometer = mSensorManager
+                    .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+            mShakeDetector = new ShakeDetector();
+            mShakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
 
-            @Override
-            public void onShake(int count) {
-                handleShakeEvent(count);
-            }
-        });
+                @Override
+                public void onShake(int count) {
+                    handleShakeEvent(count);
+                }
+            });
     }
 
     @Override
@@ -272,16 +270,6 @@ public class MapsActivity extends AppCompatActivity
             mGoogleApiClient.disconnect();
         }
         super.onStop();
-    }
-
-
-    private int dpToPx(float dp){
-        Resources r = MapsActivity.this.getResources();
-        return (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                dp,
-                r.getDisplayMetrics()
-        );
     }
 
     private void share() {
@@ -472,7 +460,7 @@ public class MapsActivity extends AppCompatActivity
             final LinearLayout.LayoutParams marginParams = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
             );
-            int px24 = dpToPx(24);
+            int px24 = dpToPx(24, MapsActivity.this);
             marginParams.setMargins(px24, 0, px24, px24);
             dialog.show();
             result.setResultCallback(new ResultCallback<PlaceLikelihoodBuffer>() {
