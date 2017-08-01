@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -21,8 +22,10 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TabHost;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Vibrator;
 
@@ -43,6 +46,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import static ic.hku.hk.AndroidUtils.*;
 import static ic.hku.hk.Constants.*;
@@ -63,6 +67,10 @@ public class MapsActivity extends AppCompatActivity
     private boolean firstTime = true;
 
     //Android UI Elements
+    private ImageView centreMap;
+    private Button selectFromMapDone;
+    private TextView addressPreview;
+    private Geocoder geocoder;
     private SlidingUpPanelLayout layout;
     private TabHost host;
     private Button shareButton;
@@ -149,7 +157,9 @@ public class MapsActivity extends AppCompatActivity
                     return;
                 }
                 pickUpAddressDialog(MapsActivity.this, mGoogleApiClient
-                        , pickUpAddress, adapter, showCurrentPlaceCheck(), mMap);
+                        , pickUpAddress, adapter, showCurrentPlaceCheck()
+                        , mMap, layout, geocoder, centreMap, selectFromMapDone
+                        , addressPreview);
             }
         });
 
@@ -208,6 +218,12 @@ public class MapsActivity extends AppCompatActivity
     }
 
     private void initializeAndroidUI() {
+
+        //Select from map
+        centreMap = (ImageView) findViewById(R.id.centreMap);
+        selectFromMapDone = (Button) findViewById(R.id.selectFromMapDone);
+        addressPreview = (TextView) findViewById(R.id.addressPreview);
+        geocoder = new Geocoder(MapsActivity.this, Locale.getDefault());
 
         //Tab
         shareButton = (Button) findViewById(R.id.share);

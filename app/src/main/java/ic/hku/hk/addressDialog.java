@@ -1,5 +1,8 @@
 package ic.hku.hk;
 
+import android.location.Address;
+import android.location.Geocoder;
+import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,8 +26,13 @@ import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.w3c.dom.Text;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 import static ic.hku.hk.AndroidUtils.dpToPx;
 
@@ -31,7 +40,9 @@ public class addressDialog {
 
     static <T extends AppCompatActivity> void pickUpAddressDialog(final T context
             , final GoogleApiClient apiClient, final EditText pickUpAddress
-            , final PlacesAPIAutocompleteAdapter adapter, final boolean showCurrentPlaceCheck, final GoogleMap mMap){
+            , final PlacesAPIAutocompleteAdapter adapter, final boolean showCurrentPlaceCheck
+            , final GoogleMap mMap, final SlidingUpPanelLayout layout, final Geocoder geocoder
+            , final ImageView centreMap, final Button selectFromMapDone, final TextView addressPreview){
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(context);
         View mView = context.getLayoutInflater().inflate(R.layout.dialog_address_selection, null);
         mBuilder.setView(mView);
@@ -54,8 +65,9 @@ public class addressDialog {
             selectFromMap.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(showCurrentPlaceCheck){
-                        selectFromMap(pickUpAddress, dialog, mMap);
+                    if(mMap != null){
+                        selectFromMap(pickUpAddress, dialog, mMap, layout, geocoder
+                                , centreMap, selectFromMapDone, addressPreview);
                         dialog.cancel();
                     }
                 }
@@ -69,7 +81,6 @@ public class addressDialog {
                 }
             });
         }
-        ;
     }
 
     private static <T extends AppCompatActivity> void showCurrentPlace(final EditText pickUpAddress
@@ -84,7 +95,7 @@ public class addressDialog {
         final View mView = context.getLayoutInflater().inflate(R.layout.dialog_select_closest_address, null);
         mBuilder.setView(mView);
         final AlertDialog dialog = mBuilder.create();
-        final Button refresh = (Button) mView.findViewById(R.id.refresh);
+        final Button refresh = mView.findViewById(R.id.refresh);
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -136,11 +147,61 @@ public class addressDialog {
         });
     }
 
-    private static void selectFromMap(final TextView addressView, AlertDialog dialog, GoogleMap mMap) {
-        LatLng centre = mMap.getCameraPosition().target;
+    /*
+     Code for selecting the location from the map. Makes the marker for the centre visible and
+     then selects the location based on where the camera is centred. Then uses the Android Geocoder
+     to reverse geocode the address from these coordinates.
+     */
+    private static void selectFromMap(final TextView addressView
+            , final AlertDialog dialog, final GoogleMap mMap, final SlidingUpPanelLayout layout
+            , final Geocoder geocoder, final ImageView centreMap, final Button selectFromMapDone
+            , final TextView addressPreview) {
 
+        dialog.cancel();
 
+        centreMap.setVisibility(View.VISIBLE);
+        selectFromMapDone.setVisibility(View.VISIBLE);
+        addressPreview.setVisibility(View.VISIBLE);
+
+        final LatLng centre = mMap.getCameraPosition().target;
+        addressPreview.setText(getAddress(centre.latitude, centre.longitude, geocoder));
+
+        mMap.setOnCameraMoveStartedListener(new GoogleMap.OnCameraMoveStartedListener() {
+            @Override
+            public void onCameraMoveStarted(int i) {
+                addressPreview.setText("");
+            }
+        });
+        mMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
+            @Override
+            public void onCameraIdle() {
+                final LatLng centre = mMap.getCameraPosition().target;
+                addressPreview.setText(getAddress(centre.latitude, centre.longitude, geocoder));
+            }
+        });
+        layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        selectFromMapDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final LatLng centre = mMap.getCameraPosition().target;
+                selectFromMapDone.setVisibility(View.INVISIBLE);
+                centreMap.setVisibility(View.INVISIBLE);
+                layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                addressView.setText(getAddress(centre.latitude, centre.longitude, geocoder));
+            }
+        });
     }
 
+    private static String getAddress(double latitude, double longitude, Geocoder geocoder) {
+        try {
+            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+            String address = addresses.get(0).getAddressLine(0);
+            System.out.println("NEW ADDRESS: " + address);
+            return address;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }
