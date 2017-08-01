@@ -144,7 +144,7 @@ public class MapsActivity extends AppCompatActivity
                 mGoogleApiClient.connect();
                 if(!mGoogleApiClient.isConnected()){
                     Toast.makeText(MapsActivity.this
-                            , "Failed to connect to Google API Servers\nPlease check your connection."
+                            , R.string.FailedToConnectToast
                             , Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -312,7 +312,7 @@ public class MapsActivity extends AppCompatActivity
 
         //TODO SHARE
 
-        Toast.makeText(MapsActivity.this, "Shared!", Toast.LENGTH_LONG).show();
+        Toast.makeText(MapsActivity.this, R.string.SharedToast, Toast.LENGTH_LONG).show();
     }
 
     private boolean shareCheck(EditText weight, EditText dateFrom, EditText dateTo) {

@@ -128,8 +128,7 @@ public class addressDialog {
                 if(i == 0){
                     //No likely places
                     dialog.cancel();
-                    Toast.makeText(context, "No nearby addresses found" +
-                            "\nPlease check your connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, R.string.NoAddressesFoundToast, Toast.LENGTH_SHORT).show();
                 }
                 // Show a dialog offering the user the list of likely places, and add a
                 // marker at the selected place.

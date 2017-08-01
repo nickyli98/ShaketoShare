@@ -11,4 +11,7 @@
     <string name="select_from_map_prompt">在地圖上選擇地址</string>
     <string name="enter_address_hint">輸入地址</string>
     <string name="refreshButton">更新</string>
+    <string name="SharedToast">Shared!</string>
+    <string name="FailedToConnectToast">连接失败\n请重新连接网路</string>
+    <string name="NoAddressesFoundToast">地址搜寻失败\n请重新连接网路</string>
 </resources>

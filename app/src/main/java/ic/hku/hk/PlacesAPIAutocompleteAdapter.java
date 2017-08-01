@@ -87,7 +87,7 @@ public class PlacesAPIAutocompleteAdapter
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults results = new FilterResults();
                 if(client == null || !client.isConnected()){
-                    Toast.makeText(getContext(), "Failed to connect to Google API",
+                    Toast.makeText(getContext(), R.string.FailedToConnectToast,
                             Toast.LENGTH_SHORT).show();
                     return null;
                 }
@@ -136,8 +136,7 @@ public class PlacesAPIAutocompleteAdapter
                 results.await(60, TimeUnit.SECONDS);
         final Status status = autocompletePredictions.getStatus();
         if(!status.isSuccess()){
-            Toast.makeText(getContext(), "Error contacting API: "
-                    + status.toString(), Toast.LENGTH_SHORT).show();;
+            Toast.makeText(getContext(), R.string.FailedToConnectToast, Toast.LENGTH_SHORT).show();;
             autocompletePredictions.release();
             return null;
         }

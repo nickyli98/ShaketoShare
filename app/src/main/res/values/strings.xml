@@ -11,4 +11,7 @@
     <string name="select_from_map_prompt">Select from map</string>
     <string name="enter_address_hint">Enter address</string>
     <string name="refreshButton">Refresh</string>
+    <string name="SharedToast">Shared!</string>
+    <string name="FailedToConnectToast">Failed to connect to Google API Servers\nPlease check your connection.</string>
+    <string name="NoAddressesFoundToast">No nearby addresses found\nPlease check your connection</string>
 </resources>
