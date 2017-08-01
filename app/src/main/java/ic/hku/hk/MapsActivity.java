@@ -368,6 +368,9 @@ public class MapsActivity extends AppCompatActivity
     public void onResume() {
         super.onResume();
         mSensorManager.registerListener(mShakeDetector, mAccelerometer,	SensorManager.SENSOR_DELAY_UI);
+        if(mGoogleApiClient != null){
+            mGoogleApiClient.connect();
+        }
     }
 
     @Override
