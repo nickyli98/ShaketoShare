@@ -19,7 +19,7 @@ import java.util.Calendar;
 
 import static ic.hku.hk.Constants.*;
 
-public class AndroidUtils {
+class AndroidUtils {
 
     static int dpToPx(float dp, Activity activity){
         Resources r = activity.getResources();
@@ -32,14 +32,13 @@ public class AndroidUtils {
 
     static synchronized <T extends AppCompatActivity & GoogleApiClient.ConnectionCallbacks
             & GoogleApiClient.OnConnectionFailedListener & LocationListener> GoogleApiClient buildGoogleApiClient(T context) {
-        GoogleApiClient client = new GoogleApiClient.Builder(context)
+        return new GoogleApiClient.Builder(context)
                 .addConnectionCallbacks(context)
                 .addOnConnectionFailedListener(context)
                 .addApi(LocationServices.API)
                 .addApi(Places.GEO_DATA_API)
                 .addApi(Places.PLACE_DETECTION_API)
                 .build();
-        return client;
     }
 
     static void clearForm(ViewGroup group) {
@@ -58,15 +57,18 @@ public class AndroidUtils {
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
             @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
-                // TODO Auto-generated method stub
+            public void onDateSet(DatePicker view, int year, int month,
+                                  int day) {
                 calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, monthOfYear);
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, day);
+                //Sets time to end of day for compare to work
+                calendar.set(Calendar.HOUR, 23);
+                calendar.set(Calendar.MINUTE, 59);
+                calendar.set(Calendar.SECOND, 59);
+                calendar.set(Calendar.MILLISECOND, 999);
                 updateLabel();
             }
-
             private void updateLabel() {
                 dateSet.setText(sdf.format(calendar.getTime()));
             }
