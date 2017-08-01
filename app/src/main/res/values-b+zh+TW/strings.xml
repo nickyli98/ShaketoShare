@@ -3,11 +3,11 @@
     <string name="title_activity_maps" translatable="false">Map</string>
     <string name="title_activity_share" translatable="false">ShareActivity</string>
     <string name="action_settings" translatable="false">Settings</string>
-    <string name="organicSwitchName">Organic</string>
-    <string name="weight_hint">Weight tonnes</string>
+    <string name="organicSwitchName">自然</string>
+    <string name="weight_hint">重量 頓</string>
     <string name="date_connector">-</string>
-    <string name="address_hint">Address</string>
-    <string name="select_current_address_prompt">Select current address</string>
-    <string name="enter_address_hint">AvailableEnter address</string>
-    <string name="refreshButton">Refresh</string>
+    <string name="address_hint">地址</string>
+    <string name="select_current_address_prompt">選擇現在的地址</string>
+    <string name="enter_address_hint">輸入地址</string>
+    <string name="refreshButton">更新</string>
 </resources>
