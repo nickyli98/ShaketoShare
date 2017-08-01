@@ -20,6 +20,10 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.places.PlaceLikelihood;
 import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
 import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+
+import org.w3c.dom.Text;
 
 import static ic.hku.hk.AndroidUtils.dpToPx;
 
@@ -27,21 +31,31 @@ public class addressDialog {
 
     static <T extends AppCompatActivity> void pickUpAddressDialog(final T context
             , final GoogleApiClient apiClient, final EditText pickUpAddress
-            , final PlacesAPIAutocompleteAdapter adapter, final boolean showCurrentPlaceCheck){
+            , final PlacesAPIAutocompleteAdapter adapter, final boolean showCurrentPlaceCheck, final GoogleMap mMap){
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(context);
         View mView = context.getLayoutInflater().inflate(R.layout.dialog_address_selection, null);
         mBuilder.setView(mView);
         final AlertDialog dialog = mBuilder.create();
         dialog.show();
         final TextView currentAddress = (TextView) dialog.findViewById(R.id.selectCurrentAddress);
+        final TextView selectFromMap = (TextView) dialog.findViewById(R.id.selectFromMap);
         final AutoCompleteTextView enterManually
                 = (AutoCompleteTextView) dialog.findViewById(R.id.enterManually);
-        if(currentAddress != null && enterManually != null){
+        if(currentAddress != null && selectFromMap != null && enterManually != null){
             currentAddress.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if(showCurrentPlaceCheck){
                         showCurrentPlace(pickUpAddress, apiClient, context);
+                        dialog.cancel();
+                    }
+                }
+            });
+            selectFromMap.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(showCurrentPlaceCheck){
+                        selectFromMap(pickUpAddress, dialog, mMap);
                         dialog.cancel();
                     }
                 }
@@ -121,6 +135,12 @@ public class addressDialog {
                 // marker at the selected place.
             }
         });
+    }
+
+    private static void selectFromMap(final TextView addressView, AlertDialog dialog, GoogleMap mMap) {
+        LatLng centre = mMap.getCameraPosition().target;
+
+
     }
 
 

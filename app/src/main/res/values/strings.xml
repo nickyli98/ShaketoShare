@@ -99,6 +99,7 @@
     <string name="date_to_hint">Date to</string>
     <string name="address_hint">Address</string>
     <string name="select_current_address_prompt">Select current address</string>
+    <string name="select_from_map_prompt">Select from map</string>
     <string name="enter_address_hint">Enter address</string>
     <string name="refreshButton">Refresh</string>
 </resources>

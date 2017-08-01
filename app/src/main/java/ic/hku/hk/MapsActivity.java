@@ -149,7 +149,7 @@ public class MapsActivity extends AppCompatActivity
                     return;
                 }
                 pickUpAddressDialog(MapsActivity.this, mGoogleApiClient
-                        , pickUpAddress, adapter, showCurrentPlaceCheck());
+                        , pickUpAddress, adapter, showCurrentPlaceCheck(), mMap);
             }
         });
 
