@@ -75,15 +75,11 @@ public class MapsActivity extends AppCompatActivity
     private TabHost host;
     private Button shareButton;
     private Button minimiseButton;
-    private Switch supplyOrganic;
-    private EditText supplyWeight;
-    private EditText supplyDateFrom;
-    private EditText supplyDateTo;
+    private Switch organicSwitch;
+    private EditText weightEditText;
+    private EditText dateFromEditText;
+    private EditText dateToEditText;
     private EditText pickUpAddress;
-    private Switch demandOrganic;
-    private EditText demandWeight;
-    private EditText demandDateFrom;
-    private EditText demandDateTo;
 
     // The following are used for the shake detection
     private SensorManager mSensorManager;
@@ -110,31 +106,17 @@ public class MapsActivity extends AppCompatActivity
             }
         });
 
-        supplyDateFrom.setOnClickListener(new View.OnClickListener() {
+        dateFromEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dateSet(supplyDateFrom);
+                dateSet(dateFromEditText);
             }
         });
 
-        supplyDateTo.setOnClickListener(new View.OnClickListener() {
+        dateToEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dateSet(supplyDateTo);
-            }
-        });
-
-        demandDateFrom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dateSet(demandDateFrom);
-            }
-        });
-
-        demandDateTo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dateSet(demandDateTo);
+                dateSet(dateToEditText);
             }
         });
 
@@ -166,9 +148,7 @@ public class MapsActivity extends AppCompatActivity
         layout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
 
             @Override
-            public void onPanelSlide(View panel, float slideOffset) {
-                return;
-            }
+            public void onPanelSlide(View panel, float slideOffset) {}
 
             @Override
             public void onPanelStateChanged(View panel
@@ -225,38 +205,20 @@ public class MapsActivity extends AppCompatActivity
         addressPreview = (TextView) findViewById(R.id.addressPreview);
         geocoder = new Geocoder(MapsActivity.this, Locale.getDefault());
 
-        //Tab
+        //Swipe up menu buttons
         shareButton = (Button) findViewById(R.id.share);
         minimiseButton = (Button) findViewById(R.id.minimise);
-        host = (TabHost) findViewById(R.id.tabHost);
-        host.setup();
 
-        //Supply tab
-        TabHost.TabSpec spec = host.newTabSpec("Supply Tab");
-        spec.setContent(R.id.supplyTab);
-        spec.setIndicator("Supply");
-        host.addTab(spec);
-        supplyOrganic = (Switch) findViewById(R.id.supplyOrganic);
-        supplyWeight = (EditText) findViewById(R.id.supplyWeight);
-        supplyDateFrom = (EditText) findViewById(R.id.supplyDateFrom);
-        supplyDateTo = (EditText) findViewById(R.id.supplyDateTo);
+        //Form elements
+        organicSwitch = (Switch) findViewById(R.id.organic);
+        weightEditText = (EditText) findViewById(R.id.weight);
+        dateFromEditText = (EditText) findViewById(R.id.dateFrom);
+        dateToEditText = (EditText) findViewById(R.id.dateTo);
         pickUpAddress = (EditText) findViewById(R.id.pickUpAddress);
 
-        //Demand tab
-        spec = host.newTabSpec("Demand Tab");
-        spec.setContent(R.id.demandTab);
-        spec.setIndicator("Demand");
-        host.addTab(spec);
-        demandOrganic = (Switch) findViewById(R.id.demandOrganic);
-        demandWeight = (EditText) findViewById(R.id.demandWeight);
-        demandDateFrom = (EditText) findViewById(R.id.demandDateFrom);
-        demandDateTo = (EditText) findViewById(R.id.demandDateTo);
-
         //Sets date default to current date
-        demandDateFrom.setText(sdf.format(Calendar.getInstance().getTime()));
-        demandDateTo.setText(sdf.format(Calendar.getInstance().getTime()));
-        supplyDateFrom.setText(sdf.format(Calendar.getInstance().getTime()));
-        supplyDateTo.setText(sdf.format(Calendar.getInstance().getTime()));
+        dateFromEditText.setText(sdf.format(Calendar.getInstance().getTime()));
+        dateToEditText.setText(sdf.format(Calendar.getInstance().getTime()));
     }
 
     @Override
@@ -269,6 +231,7 @@ public class MapsActivity extends AppCompatActivity
     }
 
     private void share() {
+        /*
         switch (layout.getPanelState()) {
             case COLLAPSED:
                 layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
@@ -289,7 +252,7 @@ public class MapsActivity extends AppCompatActivity
                     layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                     minimiseButton.setVisibility(View.INVISIBLE);
                 }
-        }
+        }*/
     }
 
     private void handleShakeEvent(int count) {
@@ -322,9 +285,7 @@ public class MapsActivity extends AppCompatActivity
     }
 
     private void shareRequest() {
-        //clean the fields
-        clearForm((ViewGroup) findViewById(R.id.demandTab));
-        clearForm((ViewGroup) findViewById(R.id.supplyTab));
+        //TODO: clear the fields
 
         //TODO SHARE
 

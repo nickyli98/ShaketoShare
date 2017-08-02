@@ -18,4 +18,5 @@
     <string name="NoAddressesFoundToast">No nearby addresses found\nPlease check your connection</string>
     <string name="select_from_map_done">Done</string>
     <string name="marks_centre_of_map">Marks centre of map</string>
+    <string name="dateConnector">to</string>
 </resources>

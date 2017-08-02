@@ -14,4 +14,5 @@
     <string name="SharedToast">Shared!</string>
     <string name="FailedToConnectToast">连接失败\n请重新连接网路</string>
     <string name="NoAddressesFoundToast">地址搜寻失败\n请重新连接网路</string>
+    <string name="dateConnector">to</string>
 </resources>

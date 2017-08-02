@@ -46,7 +46,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/textSelectOn"
+                android:background="@color/inputText"
                 android:visibility="invisible"
                 android:layout_marginStart="10dp"
                 android:maxLines="1"
@@ -82,6 +82,7 @@
             android:orientation="horizontal">
 
             <!--REPLACE WITH ICON-->
+            <!--Add SWITCH for supply/demand-->
             <Button
                 android:id="@+id/minimise"
                 android:layout_width="0dp"
@@ -107,315 +108,111 @@
 
         </LinearLayout>
 
-        <TabHost
-            android:id="@+id/tabHost"
-            android:background="#FFFFFF"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                <TabWidget
-                    android:id="@android:id/tabs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-                <FrameLayout
-                    android:id="@android:id/tabcontent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/marginVerticalFull"
+                android:layout_marginStart="@dimen/marginHorizontalFull"
+                android:layout_marginEnd="@dimen/marginHorizontalFull"
+                android:layout_marginBottom="@dimen/marginVerticalHalf" >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_marginEnd="@dimen/marginHorizontalHalf">
+                    <EditText
+                        android:id="@+id/weight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:hint="@string/weight_hint"
+                        android:padding="@dimen/text_box_padding"
+                        android:background="@color/inputText"
+                        android:inputType="number"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end"
+                        android:text="@string/tonnes"
+                        android:textSize="@dimen/input_text_size"
+                        android:padding="@dimen/text_box_padding"/>
+                </LinearLayout>
+                <Switch
+                    android:id="@+id/organic"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_weight="1"
+                    android:text="@string/organicSwitchName"
+                    android:layout_marginStart="@dimen/marginHorizontalHalf"
+                    android:checked="true"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/marginVerticalHalf"
+                android:layout_marginStart="@dimen/marginHorizontalFull"
+                android:layout_marginEnd="@dimen/marginHorizontalFull"
+                android:layout_marginBottom="@dimen/marginVerticalHalf" >
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:id="@+id/dateFrom"
+                    android:focusable="false"
+                    android:cursorVisible="false"
+                    android:inputType="date"
+                    android:background="@color/inputText"
+                    android:padding="@dimen/text_box_padding"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/dateConnector"
+                    android:textSize="@dimen/input_text_size"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/text_box_padding"/>
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:id="@+id/dateTo"
+                    android:focusable="false"
+                    android:cursorVisible="false"
+                    android:inputType="date"
+                    android:background="@color/inputText"
+                    android:padding="@dimen/text_box_padding"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/marginVerticalHalf"
+                android:layout_marginStart="@dimen/marginHorizontalFull"
+                android:layout_marginEnd="@dimen/marginHorizontalFull"
+                android:layout_marginBottom="@dimen/marginVerticalFull"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/pickUpAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp">
-                    <GridLayout
-                        android:id="@+id/supplyTab"
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:background="#FFFFFF"
-                        android:layout_height="match_parent"
-                        android:columnCount="2"
-                        android:rowCount="3" >
-                        <Switch
-                            android:id="@+id/supplyOrganic"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="fill_horizontal"
-                            android:layout_columnWeight="1"
-                            android:layout_columnSpan="1"
-                            android:text="@string/organicSwitchName"
-                            android:textSize="8pt"
-                            android:layout_marginTop="@dimen/marginVerticalFull"
-                            android:layout_marginStart="@dimen/marginHorizontalFull"
-                            android:layout_marginEnd="@dimen/switchMargin"
-                            android:layout_marginBottom="@dimen/marginVerticalHalf" />
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_columnWeight="1"
-                            android:layout_gravity="fill_horizontal"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="@dimen/marginVerticalFull"
-                            android:layout_marginStart="@dimen/marginHorizontalHalf"
-                            android:layout_marginEnd="@dimen/marginHorizontalFull"
-                            android:layout_marginBottom="@dimen/marginVerticalHalf">
-
-                            <EditText
-                                android:id="@+id/supplyWeight"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ems="5"
-                                android:inputType="number"
-                                android:hint="@string/weight_hint"
-                                android:imeOptions="actionDone"
-                                android:padding="5dp"
-                                android:background="@color/textSelectOff" />
-
-                            <View
-                                android:layout_width="0dp"
-                                android:layout_height="0dp"
-                                android:layout_weight="1"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="8pt"
-                                android:text="@string/tonnes"
-                                android:padding="5dp"/>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_columnWeight="1"
-                            android:layout_gravity="fill_horizontal"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="@dimen/marginVerticalHalf"
-                            android:layout_marginStart="@dimen/marginHorizontalFull"
-                            android:layout_marginEnd="@dimen/marginHorizontalHalf"
-                            android:layout_marginBottom="@dimen/marginVerticalHalf">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="8pt"
-                                android:text="@string/date_from"
-                                android:padding="5dp"/>
-
-                            <View
-                                android:layout_width="0dp"
-                                android:layout_height="0dp"
-                                android:layout_weight="1"/>
-
-                            <EditText
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/supplyDateFrom"
-                                android:focusable="false"
-                                android:cursorVisible="false"
-                                android:inputType="date"
-                                android:background="@color/textSelectOff"
-                                android:padding="5dp"/>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_columnWeight="1"
-                            android:layout_gravity="fill_horizontal"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="@dimen/marginVerticalHalf"
-                            android:layout_marginStart="@dimen/marginHorizontalHalf"
-                            android:layout_marginEnd="@dimen/marginHorizontalFull"
-                            android:layout_marginBottom="@dimen/marginVerticalHalf">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="8pt"
-                                android:text="@string/date_to"
-                                android:padding="5dp"/>
-
-                            <View
-                                android:layout_width="0dp"
-                                android:layout_height="0dp"
-                                android:layout_weight="1"/>
-
-                            <EditText
-                                android:id="@+id/supplyDateTo"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_columnWeight="1"
-                                android:focusable="false"
-                                android:cursorVisible="false"
-                                android:inputType="date"
-                                android:layout_gravity="end"
-                                android:background="@color/textSelectOff"
-                                android:padding="5dp"/>
-                        </LinearLayout>
-
-                        <EditText
-                            android:id="@+id/pickUpAddress"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:textSize="8pt"
-                            android:layout_gravity="fill"
-                            android:layout_columnWeight="1"
-                            android:layout_columnSpan="2"
-                            android:focusable="false"
-                            android:cursorVisible="false"
-                            android:layout_marginTop="@dimen/marginVerticalHalf"
-                            android:layout_marginStart="@dimen/marginHorizontalFull"
-                            android:layout_marginEnd="@dimen/marginHorizontalFull"
-                            android:layout_marginBottom="@dimen/marginVerticalFull"
-                            android:hint="@string/address_hint"
-                            android:padding="5dp"
-                            android:background="@color/textSelectOff"/>
-                    </GridLayout>
-                    <GridLayout
-                        android:id="@+id/demandTab"
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:background="#FFFFFF"
-                        android:layout_height="match_parent"
-                        android:columnCount="2"
-                        android:rowCount="3" >
-                        <Switch
-                            android:id="@+id/demandOrganic"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="fill_horizontal"
-                            android:layout_columnWeight="1"
-                            android:layout_columnSpan="1"
-                            android:text="@string/organicSwitchName"
-                            android:textSize="8pt"
-                            android:layout_marginTop="@dimen/marginVerticalFull"
-                            android:layout_marginStart="@dimen/marginHorizontalFull"
-                            android:layout_marginEnd="@dimen/switchMargin"
-                            android:layout_marginBottom="@dimen/marginVerticalHalf" />
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_columnWeight="1"
-                            android:layout_gravity="fill_horizontal"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="@dimen/marginVerticalFull"
-                            android:layout_marginStart="@dimen/marginHorizontalHalf"
-                            android:layout_marginEnd="@dimen/marginHorizontalFull"
-                            android:layout_marginBottom="@dimen/marginVerticalHalf">
-
-                            <EditText
-                                android:id="@+id/demandWeight"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ems="5"
-                                android:inputType="number"
-                                android:hint="@string/weight_hint"
-                                android:imeOptions="actionDone"
-                                android:padding="5dp"
-                                android:background="@color/textSelectOff" />
-
-                            <View
-                                android:layout_width="0dp"
-                                android:layout_height="0dp"
-                                android:layout_weight="1"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="8pt"
-                                android:text="@string/tonnes"
-                                android:padding="5dp"/>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_columnWeight="1"
-                            android:layout_gravity="fill_horizontal"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="@dimen/marginVerticalHalf"
-                            android:layout_marginStart="@dimen/marginHorizontalFull"
-                            android:layout_marginEnd="@dimen/marginHorizontalHalf"
-                            android:layout_marginBottom="@dimen/marginVerticalHalf">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="8pt"
-                                android:text="@string/date_from"
-                                android:padding="5dp"/>
-
-                            <View
-                                android:layout_width="0dp"
-                                android:layout_height="0dp"
-                                android:layout_weight="1"/>
-
-                            <EditText
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/demandDateFrom"
-                                android:focusable="false"
-                                android:cursorVisible="false"
-                                android:inputType="date"
-                                android:background="@color/textSelectOff"
-                                android:padding="5dp"/>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_columnWeight="1"
-                            android:layout_gravity="fill_horizontal"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="@dimen/marginVerticalHalf"
-                            android:layout_marginStart="@dimen/marginHorizontalHalf"
-                            android:layout_marginEnd="@dimen/marginHorizontalFull"
-                            android:layout_marginBottom="@dimen/marginVerticalHalf">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="8pt"
-                                android:text="@string/date_to"
-                                android:padding="5dp"/>
-
-                            <View
-                                android:layout_width="0dp"
-                                android:layout_height="0dp"
-                                android:layout_weight="1"/>
-
-                            <EditText
-                                android:id="@+id/demandDateTo"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_columnWeight="1"
-                                android:focusable="false"
-                                android:cursorVisible="false"
-                                android:inputType="date"
-                                android:layout_gravity="end"
-                                android:background="@color/textSelectOff"
-                                android:padding="5dp"/>
-                        </LinearLayout>
-
-                        <EditText
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:textSize="8pt"
-                            android:layout_gravity="fill"
-                            android:layout_columnWeight="1"
-                            android:layout_columnSpan="2"
-                            android:padding="5dp"
-                            android:focusable="false"
-                            android:cursorVisible="false"
-                            android:clickable="false"
-                            android:layout_marginTop="@dimen/marginVerticalHalf"
-                            android:layout_marginStart="@dimen/marginHorizontalFull"
-                            android:layout_marginEnd="@dimen/marginHorizontalFull"
-                            android:layout_marginBottom="@dimen/marginVerticalFull"
-                            android:background="#FFFFFF"/>
-                    </GridLayout>
-                </FrameLayout>
+                    android:textSize="@dimen/input_text_size"
+                    android:layout_gravity="fill"
+                    android:focusable="false"
+                    android:cursorVisible="false"
+                    android:hint="@string/address_hint"
+                    android:padding="@dimen/text_box_padding"
+                    android:background="@color/inputText"/>
             </LinearLayout>
-        </TabHost>
+        </LinearLayout>
     </LinearLayout>
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>
