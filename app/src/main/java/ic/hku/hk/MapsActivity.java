@@ -72,8 +72,8 @@ public class MapsActivity extends AppCompatActivity
     private TextView addressPreview;
     private Geocoder geocoder;
     private SlidingUpPanelLayout layout;
-    private TabHost host;
     private Button shareButton;
+    private SegmentedGroup supplyDemandSwitch;
     private Button minimiseButton;
     private Switch organicSwitch;
     private EditText weightEditText;
@@ -85,6 +85,7 @@ public class MapsActivity extends AppCompatActivity
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private ShakeDetector mShakeDetector;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,6 +209,7 @@ public class MapsActivity extends AppCompatActivity
         //Swipe up menu buttons
         shareButton = (Button) findViewById(R.id.share);
         minimiseButton = (Button) findViewById(R.id.minimise);
+        supplyDemandSwitch = (SegmentedGroup) findViewById(R.id.supplyDemandSwitch);
 
         //Form elements
         organicSwitch = (Switch) findViewById(R.id.organic);

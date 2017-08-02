@@ -83,6 +83,30 @@
 
             <!--REPLACE WITH ICON-->
             <!--Add SWITCH for supply/demand-->
+            <ic.hku.hk.SegmentedGroup
+                xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/supplyDemandSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:orientation="horizontal"
+                segmentedgroup:sc_border_width="2dp"
+                segmentedgroup:sc_corner_radius="10dp">
+
+                <RadioButton
+                    android:id="@+id/supplyOn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/supplySwitch"
+                    style="@style/RadioButton" />
+
+                <RadioButton
+                    android:id="@+id/demandOn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/demandSwitch"
+                    style="@style/RadioButton" />
+            </ic.hku.hk.SegmentedGroup>
             <Button
                 android:id="@+id/minimise"
                 android:layout_width="0dp"

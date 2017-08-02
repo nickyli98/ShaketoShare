@@ -30,5 +30,6 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:11.0.2'
     compile 'com.google.android.gms:play-services-places:11.0.2'
     compile 'com.sothree.slidinguppanel:library:3.3.1'
+    compile 'info.hoang8f:android-segmented:1.0.6'
     testCompile 'junit:junit:4.12'
 }
