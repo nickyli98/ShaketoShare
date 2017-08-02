@@ -12,7 +12,11 @@
     <string name="enter_address_hint">輸入地址</string>
     <string name="refreshButton">更新</string>
     <string name="SharedToast">Shared!</string>
-    <string name="FailedToConnectToast">连接失败\n请重新连接网路</string>
-    <string name="NoAddressesFoundToast">地址搜寻失败\n请重新连接网路</string>
+    <string name="FailedToConnectToast">連接失敗\n請重新連接網絡</string>
+    <string name="NoAddressesFoundToast">地址搜尋失敗\n請重新連接網絡</string>
     <string name="dateConnector">to</string>
+    <string name="weight_needed">請輸入重量</string>
+    <string name="date_order_wrong">結束日期不能在開始日期前</string>
+    <string name="date_from_wrong">選擇日期不能在過去</string>
+    <string name="date_to_wrong">選擇日期不能在過去</string>
 </resources>

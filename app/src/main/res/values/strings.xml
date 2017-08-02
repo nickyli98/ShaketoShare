@@ -21,4 +21,8 @@
     <string name="dateConnector">to</string>
     <string name="supplySwitch">Supply</string>
     <string name="demandSwitch">Demand</string>
+    <string name="weight_needed">Please input a weight</string>
+    <string name="date_order_wrong">End of availability cannot be before it starts.</string>
+    <string name="date_from_wrong">Availability date cannot be in the past.</string>
+    <string name="date_to_wrong">Availability date cannot be in the past.</string>
 </resources>

@@ -15,4 +15,8 @@
     <string name="FailedToConnectToast">連接失敗\n請重新連接網路</string>
     <string name="NoAddressesFoundToast">地址搜尋失敗\n請重新連接網路</string>
     <string name="dateConnector">to</string>
+    <string name="weight_needed">请输入重量</string>
+    <string name="date_order_wrong">结束日期不能在开始日期前</string>
+    <string name="date_from_wrong">选择日期不能在过去</string>
+    <string name="date_to_wrong">选择日期不能在过去</string>
 </resources>

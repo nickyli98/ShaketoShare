@@ -4,6 +4,9 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.location.Geocoder;
@@ -15,8 +18,11 @@ import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -233,28 +239,19 @@ public class MapsActivity extends AppCompatActivity
     }
 
     private void share() {
-        /*
         switch (layout.getPanelState()) {
             case COLLAPSED:
                 layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
                 minimiseButton.setVisibility(View.VISIBLE);
                 break;
             case EXPANDED:
-                boolean shareCheckPassed = false;
-                switch (host.getCurrentTab()) {
-                    case 0: //supply
-                        shareCheckPassed = shareCheck(supplyWeight, supplyDateFrom, supplyDateTo);
-                        break;
-                    case 1: //demand
-                        shareCheckPassed = shareCheck(demandWeight, demandDateFrom, demandDateTo);
-                        break;
-                }
+                boolean shareCheckPassed = shareCheck(weightEditText, dateFromEditText,dateToEditText);
                 if (shareCheckPassed) {
                     shareRequest();
                     layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                     minimiseButton.setVisibility(View.INVISIBLE);
                 }
-        }*/
+        }
     }
 
     private void handleShakeEvent(int count) {
@@ -294,43 +291,93 @@ public class MapsActivity extends AppCompatActivity
         Toast.makeText(MapsActivity.this, R.string.SharedToast, Toast.LENGTH_LONG).show();
     }
 
-    private boolean shareCheck(EditText weight, EditText dateFrom, EditText dateTo) {
-        boolean emptyFields = false;
-        if(TextUtils.isEmpty(weight.getText().toString())) {
-            Toast.makeText(MapsActivity.this, "Weight needed", Toast.LENGTH_LONG).show();
-            emptyFields = true;
-        }
-        if(TextUtils.isEmpty(dateFrom.getText().toString())) {
-            Toast.makeText(MapsActivity.this, "Date From needed", Toast.LENGTH_LONG).show();
-            emptyFields = true;
-        }
-        if(TextUtils.isEmpty(dateTo.getText().toString())) {
-            Toast.makeText(MapsActivity.this, "Date To needed", Toast.LENGTH_LONG).show();
-            emptyFields = true;
-        }
-        if (emptyFields) {
-            return false;
-        }
+    private boolean shareCheck(final EditText weight, final EditText dateFrom, final EditText dateTo) {
+        weightEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //auto-generated method stub
+            }
 
-        double weightValue = Double.parseDouble(weight.getText().toString());
-        Date dateFromValue = null;
-        try {
-            dateFromValue = sdf.parse(dateFrom.getText().toString());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Date dateToValue = null;
-        try {
-            dateToValue = sdf.parse(dateTo.getText().toString());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return shareCheckHelper(weightValue, dateFromValue, dateToValue);
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                weightEditText.setBackgroundTintList(getResources().getColorStateList(R.color.inputText, MapsActivity.this.getTheme()));
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //auto-generated method stub
+            }
+        });
+        dateFromEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //auto-generated method stub
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                dateFromEditText.setBackgroundTintList(getResources().getColorStateList(R.color.inputText, MapsActivity.this.getTheme()));
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //auto-generated method stub
+            }
+        });
+        dateToEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //auto-generated method stub
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                dateToEditText.setBackgroundTintList(getResources().getColorStateList(R.color.inputText, MapsActivity.this.getTheme()));
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //auto-generated method stub
+            }
+        });
+        return shareCheckHelper(weight, dateFrom, dateTo);
     }
 
-    private boolean shareCheckHelper(double weight, Date dateFrom,
-                               Date dateTo){
-        return weight > 0 && dateTo.after(dateFrom) && dateFrom.after(Calendar.getInstance().getTime());
+    private boolean weightEmpty(final EditText weightEditText) {
+        if(TextUtils.isEmpty(weightEditText.getText().toString())) {
+            Toast.makeText(this, getResources().getString(R.string.weight_needed), Toast.LENGTH_SHORT).show();
+            weightEditText.setBackgroundTintList(getResources().getColorStateList(R.color.inputError, this.getTheme()));
+            return true;
+        }
+        return false;
+    }
+
+    private boolean dateOrderRight(EditText dateFromEditText, EditText dateToEditText) {
+        try {
+            Date dateFrom = sdf.parse(dateFromEditText.getText().toString());
+            Date dateTo = sdf.parse(dateToEditText.getText().toString());
+            if (dateTo.before(dateFrom)) {
+                Toast.makeText(this, getResources().getString(R.string.date_order_wrong), Toast.LENGTH_SHORT).show();
+                dateToEditText.setBackgroundTintList(getResources().getColorStateList(R.color.inputError));
+                return false;
+            }
+            if (dateFrom.before(Calendar.getInstance().getTime())) {
+                Toast.makeText(this, getResources().getString(R.string.date_from_wrong), Toast.LENGTH_SHORT).show();
+                dateFromEditText.setBackgroundTintList(getResources().getColorStateList(R.color.inputError));
+                return false;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    private boolean weightPositive(EditText weightEditText) {
+        return Double.parseDouble(String.valueOf(weightEditText.getText())) > 0;
+    }
+
+    private boolean shareCheckHelper(EditText weightEditText, EditText dateFromEditText, EditText dateToEditText){
+        return !weightEmpty(weightEditText) && weightPositive(weightEditText) && dateOrderRight(dateFromEditText, dateToEditText);
     }
 
     @Override
