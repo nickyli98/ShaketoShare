@@ -137,9 +137,10 @@
                         android:background="@color/inputText"
                         android:inputType="number"/>
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_gravity="end"
+                        android:layout_weight="1"
+                        android:textAlignment="textEnd"
                         android:text="@string/tonnes"
                         android:textSize="@dimen/input_text_size"
                         android:padding="@dimen/text_box_padding"/>
@@ -147,13 +148,20 @@
                 <Switch
                     android:id="@+id/organic"
                     android:layout_width="0dp"
+                    android:textSize="@dimen/input_text_size"
                     android:layout_height="match_parent"
                     android:layout_gravity="fill_horizontal"
                     android:layout_weight="1"
                     android:text="@string/organicSwitchName"
-                    android:layout_marginStart="@dimen/marginHorizontalHalf"
+                    android:layout_marginStart="@dimen/switchMargin"
                     android:checked="true"/>
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_width"
+                android:background="@color/lineColour"
+                android:layout_marginStart="@dimen/lineMargin"
+                android:layout_marginEnd="@dimen/lineMargin"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -166,7 +174,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="2"
                     android:id="@+id/dateFrom"
                     android:focusable="false"
                     android:cursorVisible="false"
@@ -174,18 +181,17 @@
                     android:background="@color/inputText"
                     android:padding="@dimen/text_box_padding"/>
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:text="@string/dateConnector"
                     android:textSize="@dimen/input_text_size"
                     android:layout_weight="1"
-                    android:layout_gravity="center"
+                    android:textAlignment="center"
                     android:padding="@dimen/text_box_padding"/>
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="2"
                     android:id="@+id/dateTo"
                     android:focusable="false"
                     android:cursorVisible="false"
@@ -193,6 +199,12 @@
                     android:background="@color/inputText"
                     android:padding="@dimen/text_box_padding"/>
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_width"
+                android:background="@color/lineColour"
+                android:layout_marginStart="@dimen/lineMargin"
+                android:layout_marginEnd="@dimen/lineMargin"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
