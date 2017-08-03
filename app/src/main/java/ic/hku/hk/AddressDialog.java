@@ -44,7 +44,7 @@ public class AddressDialog {
             , final GoogleApiClient apiClient, final EditText pickUpAddress
             , final PlacesAPIAutocompleteAdapter adapter, final boolean showCurrentPlaceCheck
             , final GoogleMap mMap, final SlidingUpPanelLayout layout, final Geocoder geocoder
-            , final ImageView centreMap, final Button selectFromMapDone, final TextView addressPreview){
+            , final ImageView centreMap, final Button selectFromMapDone, final TextView addressPreview, final LinearLayout dragview){
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(context);
         View mView = context.getLayoutInflater().inflate(R.layout.dialog_address_selection, null);
         mBuilder.setView(mView);
@@ -69,7 +69,7 @@ public class AddressDialog {
                 public void onClick(View view) {
                     if(mMap != null){
                         selectFromMap(pickUpAddress, dialog, mMap, layout, geocoder
-                                , centreMap, selectFromMapDone, addressPreview);
+                                , centreMap, selectFromMapDone, addressPreview, dragview);
                         dialog.cancel();
                     }
                 }
@@ -167,13 +167,14 @@ public class AddressDialog {
     private static void selectFromMap(final TextView addressView
             , final AlertDialog dialog, final GoogleMap mMap, final SlidingUpPanelLayout layout
             , final Geocoder geocoder, final ImageView centreMap, final Button selectFromMapDone
-            , final TextView addressPreview) {
+            , final TextView addressPreview, final LinearLayout dragview) {
 
         dialog.cancel();
 
         centreMap.setVisibility(View.VISIBLE);
         selectFromMapDone.setVisibility(View.VISIBLE);
         addressPreview.setVisibility(View.VISIBLE);
+        dragview.setVisibility(View.GONE);
 
         final LatLng centre = mMap.getCameraPosition().target;
         addressPreview.setText(getAddress(centre.latitude, centre.longitude, geocoder));
@@ -198,6 +199,8 @@ public class AddressDialog {
                 final LatLng centre = mMap.getCameraPosition().target;
                 selectFromMapDone.setVisibility(View.INVISIBLE);
                 centreMap.setVisibility(View.INVISIBLE);
+                addressPreview.setVisibility(View.INVISIBLE);
+                dragview.setVisibility(View.VISIBLE);
                 layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
                 addressView.setText(getAddress(centre.latitude, centre.longitude, geocoder));
             }

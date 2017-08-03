@@ -4,8 +4,10 @@
     <string name="title_activity_share" translatable="false">ShareActivity</string>
     <string name="action_settings" translatable="false">Settings</string>
     <string name="organicSwitchName">自然</string>
-    <string name="weight_hint">重量 顿</string>
-    <string name="date_connector">-</string>
+    <string name="weight_hint">重量</string>
+    <string name="date_from">从</string>
+    <string name="date_to">至</string>
+    <string name="tonnes">顿</string>
     <string name="address_hint">地址</string>
     <string name="select_current_address_prompt">选择现在的地址</string>
     <string name="select_from_map_prompt">在地图上选择地址</string>
@@ -14,9 +16,15 @@
     <string name="SharedToast">Shared!</string>
     <string name="FailedToConnectToast">連接失敗\n請重新連接網路</string>
     <string name="NoAddressesFoundToast">地址搜尋失敗\n請重新連接網路</string>
-    <string name="dateConnector">to</string>
+    <string name="dateConnector">至</string>
     <string name="weight_needed">请输入重量</string>
     <string name="date_order_wrong">结束日期不能在开始日期前</string>
     <string name="date_from_wrong">选择日期不能在过去</string>
     <string name="date_to_wrong">选择日期不能在过去</string>
+    <string name="select_from_map_done">完成</string>
+    <string name="supplySwitch">供应</string>
+    <string name="demandSwitch">需求</string>
+    <string name="share">分享</string>
+    <string name="address_needed">请输入地址</string>
+    <string name="please_select_the_closest_address">请选择最靠近的地址</string>
 </resources>
