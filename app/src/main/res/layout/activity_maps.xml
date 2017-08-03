@@ -162,9 +162,9 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/line_width"
-                android:layout_marginEnd="@dimen/lineMargin"
+                android:background="@color/lineColour"
                 android:layout_marginStart="@dimen/lineMargin"
-                android:background="@color/lineColour" />
+                android:layout_marginEnd="@dimen/lineMargin"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -180,6 +180,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_weight="2"
                     android:backgroundTint="@android:color/transparent"
                     android:cursorVisible="false"
                     android:focusable="false"
@@ -210,9 +211,9 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/line_width"
-                android:layout_marginEnd="@dimen/lineMargin"
+                android:background="@color/lineColour"
                 android:layout_marginStart="@dimen/lineMargin"
-                android:background="@color/lineColour" />
+                android:layout_marginEnd="@dimen/lineMargin"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -224,11 +225,13 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/weightBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="fill_horizontal"
-                    android:layout_marginEnd="@dimen/marginHorizontalHalf"
                     android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/marginHorizontalHalf"
+                    android:clickable="true"
                     android:orientation="horizontal">
 
                     <EditText
@@ -244,9 +247,9 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
                         android:padding="@dimen/text_box_padding"
                         android:text="@string/tonnes"
+                        android:layout_weight="1"
                         android:textAlignment="textEnd"
                         android:textSize="@dimen/input_text_size" />
                 </LinearLayout>
