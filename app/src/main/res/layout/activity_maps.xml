@@ -118,12 +118,14 @@
 
             <Button
                 android:id="@+id/share"
+                android:background="@drawable/share_button"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:gravity="center_vertical|end"
                 android:text="@string/share"
                 android:textAlignment="center"
+                android:textColor="@color/inputText"
                 android:textSize="@dimen/button_bar_text_size"/>
 
         </LinearLayout>
