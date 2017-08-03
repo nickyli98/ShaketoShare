@@ -38,7 +38,7 @@ import java.util.Locale;
 
 import static ic.hku.hk.AndroidUtils.dpToPx;
 
-public class addressDialog {
+public class AddressDialog {
 
     static <T extends AppCompatActivity> void pickUpAddressDialog(final T context
             , final GoogleApiClient apiClient, final EditText pickUpAddress

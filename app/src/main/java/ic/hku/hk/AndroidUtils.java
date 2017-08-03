@@ -62,11 +62,6 @@ class AndroidUtils {
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, month);
                 calendar.set(Calendar.DAY_OF_MONTH, day);
-                //Sets time to end of day for compare to work
-                calendar.set(Calendar.HOUR, 23);
-                calendar.set(Calendar.MINUTE, 59);
-                calendar.set(Calendar.SECOND, 59);
-                calendar.set(Calendar.MILLISECOND, 999);
                 updateLabel();
             }
             private void updateLabel() {

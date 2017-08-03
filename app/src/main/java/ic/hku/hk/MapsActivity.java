@@ -4,14 +4,12 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.PorterDuff;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
+import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -22,15 +20,12 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
-import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Vibrator;
@@ -56,7 +51,7 @@ import java.util.Locale;
 
 import static ic.hku.hk.AndroidUtils.*;
 import static ic.hku.hk.Constants.*;
-import static ic.hku.hk.addressDialog.pickUpAddressDialog;
+import static ic.hku.hk.AddressDialog.pickUpAddressDialog;
 
 public class MapsActivity extends AppCompatActivity
         implements OnMapReadyCallback,
@@ -91,7 +86,6 @@ public class MapsActivity extends AppCompatActivity
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private ShakeDetector mShakeDetector;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -356,12 +350,19 @@ public class MapsActivity extends AppCompatActivity
         try {
             Date dateFrom = sdf.parse(dateFromEditText.getText().toString());
             Date dateTo = sdf.parse(dateToEditText.getText().toString());
+            //Time is set for date comparison to work
+            dateFrom.setSeconds(58);
+            dateFrom.setMinutes(59);
+            dateFrom.setHours(23);
+            dateTo.setSeconds(59);
+            dateTo.setMinutes(59);
+            dateTo.setHours(23);
             if (dateTo.before(dateFrom)) {
                 Toast.makeText(this, getResources().getString(R.string.date_order_wrong), Toast.LENGTH_SHORT).show();
                 dateToEditText.setBackgroundTintList(getResources().getColorStateList(R.color.inputError));
                 return false;
             }
-            if (dateFrom.before(Calendar.getInstance().getTime())) {
+            if (!dateFrom.after(Calendar.getInstance().getTime())) {
                 Toast.makeText(this, getResources().getString(R.string.date_from_wrong), Toast.LENGTH_SHORT).show();
                 dateFromEditText.setBackgroundTintList(getResources().getColorStateList(R.color.inputError));
                 return false;
@@ -539,5 +540,4 @@ public class MapsActivity extends AppCompatActivity
             firstTime = false;
         }
     }
-
 }
