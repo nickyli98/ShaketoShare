@@ -7,12 +7,14 @@
     android:layout_height="500dp">
 
     <LinearLayout
+        android:id="@+id/editLL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/selectionMarginHalf"
         android:layout_marginLeft="@dimen/selectionMarginFull"
         android:layout_marginRight="@dimen/selectionMarginFull"
         android:layout_marginTop="@dimen/selectionMarginFull"
+        android:clickable="true"
         android:orientation="horizontal">
 
         <ImageView
@@ -27,13 +29,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:backgroundTint="@android:color/transparent"
             android:cursorVisible="false"
+            android:dropDownHeight="250dp"
             android:hint="@string/enter_address_hint"
             android:imeOptions="actionDone"
-            android:backgroundTint="@android:color/transparent"
             android:padding="@dimen/text_box_padding"
-            android:dropDownHeight="250dp"
             android:singleLine="true"
+            android:textColor="@color/textView"
+            android:textColorHint="@color/textView"
             android:textSize="10pt" />
     </LinearLayout>
 
@@ -45,12 +49,14 @@
         android:layout_marginEnd="@dimen/lineMargin"/>
 
     <LinearLayout
+        android:id="@+id/mapLL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/selectionMarginHalf"
         android:layout_marginLeft="@dimen/selectionMarginFull"
         android:layout_marginRight="@dimen/selectionMarginFull"
         android:layout_marginTop="@dimen/selectionMarginHalf"
+        android:clickable="true"
         android:orientation="horizontal">
 
         <ImageView
@@ -78,12 +84,14 @@
         android:layout_marginEnd="@dimen/lineMargin"/>
 
     <LinearLayout
+        android:id="@+id/locationLL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/selectionMarginFull"
         android:layout_marginLeft="@dimen/selectionMarginFull"
         android:layout_marginRight="@dimen/selectionMarginFull"
         android:layout_marginTop="@dimen/selectionMarginHalf"
+        android:clickable="true"
         android:orientation="horizontal">
 
         <ImageView

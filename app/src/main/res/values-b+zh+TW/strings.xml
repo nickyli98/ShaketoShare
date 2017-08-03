@@ -13,7 +13,7 @@
     <string name="select_from_map_prompt">在地圖上選擇地址</string>
     <string name="enter_address_hint">輸入地址</string>
     <string name="refreshButton">更新</string>
-    <string name="SharedToast">Shared!</string>
+    <string name="SharedToast">分享了!</string>
     <string name="FailedToConnectToast">連接失敗\n請重新連接網絡</string>
     <string name="NoAddressesFoundToast">地址搜尋失敗\n請重新連接網絡</string>
     <string name="dateConnector">至</string>
