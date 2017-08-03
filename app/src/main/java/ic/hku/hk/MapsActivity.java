@@ -90,6 +90,7 @@ public class MapsActivity extends AppCompatActivity
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private ShakeDetector mShakeDetector;
+    private LinearLayout weightLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,6 +140,15 @@ public class MapsActivity extends AppCompatActivity
                         , pickUpAddress, adapter, showCurrentPlaceCheck()
                         , mMap, layout, geocoder, centreMap, selectFromMapDone
                         , addressPreview, dragview);
+            }
+        });
+
+        weightLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                weightEditText.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm.showSoftInput(weightEditText, InputMethodManager.SHOW_IMPLICIT);
             }
         });
 
@@ -215,6 +225,7 @@ public class MapsActivity extends AppCompatActivity
         dateFromEditText = (EditText) findViewById(R.id.dateFrom);
         dateToEditText = (EditText) findViewById(R.id.dateTo);
         pickUpAddress = (EditText) findViewById(R.id.pickUpAddress);
+        weightLayout = (LinearLayout) findViewById(R.id.weightBox);
 
         //Sets date default to current date
         dateFromEditText.setText(sdf.format(Calendar.getInstance().getTime()));
