@@ -131,10 +131,11 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/insidePane"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="#FFFFFF">
+            android:background="#FFFFFF"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -161,9 +162,9 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/line_width"
-                android:background="@color/lineColour"
+                android:layout_marginEnd="@dimen/lineMargin"
                 android:layout_marginStart="@dimen/lineMargin"
-                android:layout_marginEnd="@dimen/lineMargin"/>
+                android:background="@color/lineColour" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -209,9 +210,9 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/line_width"
-                android:background="@color/lineColour"
+                android:layout_marginEnd="@dimen/lineMargin"
                 android:layout_marginStart="@dimen/lineMargin"
-                android:layout_marginEnd="@dimen/lineMargin"/>
+                android:background="@color/lineColour" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -226,8 +227,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="fill_horizontal"
-                    android:layout_weight="1"
                     android:layout_marginEnd="@dimen/marginHorizontalHalf"
+                    android:layout_weight="1"
                     android:orientation="horizontal">
 
                     <EditText
@@ -235,17 +236,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:backgroundTint="@color/inputText"
+                        android:cursorVisible="false"
                         android:hint="@string/weight_hint"
                         android:inputType="number"
-                        android:cursorVisible="false"
                         android:padding="@dimen/text_box_padding" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:padding="@dimen/text_box_padding"
                         android:text="@string/tonnes"
-                        android:layout_weight="1"
                         android:textAlignment="textEnd"
                         android:textSize="@dimen/input_text_size" />
                 </LinearLayout>

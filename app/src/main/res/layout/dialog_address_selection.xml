@@ -6,40 +6,45 @@
     android:layout_width="250dp"
     android:layout_height="500dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/editLL"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/selectionMarginHalf"
-        android:layout_marginLeft="@dimen/selectionMarginFull"
-        android:layout_marginRight="@dimen/selectionMarginFull"
-        android:layout_marginTop="@dimen/selectionMarginFull"
-        android:clickable="true"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:clickable="true">
 
-        <ImageView
-            android:id="@+id/editIcon"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/text_box_padding"
-            app:srcCompat="@android:drawable/ic_menu_edit" />
+            android:layout_marginBottom="@dimen/selectionMarginHalf"
+            android:layout_marginLeft="@dimen/selectionMarginFull"
+            android:layout_marginRight="@dimen/selectionMarginFull"
+            android:layout_marginTop="@dimen/selectionMarginFull"
+            android:orientation="horizontal">
 
-        <AutoCompleteTextView
-            android:id="@+id/enterManually"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@android:color/transparent"
-            android:cursorVisible="false"
-            android:dropDownHeight="250dp"
-            android:hint="@string/enter_address_hint"
-            android:imeOptions="actionDone"
-            android:padding="@dimen/text_box_padding"
-            android:singleLine="true"
-            android:textColor="@color/textView"
-            android:textColorHint="@color/textView"
-            android:textSize="10pt" />
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/editIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/text_box_padding"
+                app:srcCompat="@android:drawable/ic_menu_edit" />
+
+            <AutoCompleteTextView
+                android:id="@+id/enterManually"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@android:color/transparent"
+                android:cursorVisible="false"
+                android:dropDownHeight="250dp"
+                android:hint="@string/enter_address_hint"
+                android:imeOptions="actionDone"
+                android:padding="@dimen/text_box_padding"
+                android:singleLine="true"
+                android:textColor="@color/textView"
+                android:textColorHint="@color/textView"
+                android:textSize="10pt" />
+        </LinearLayout>
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
@@ -48,33 +53,38 @@
         android:layout_marginStart="@dimen/lineMargin"
         android:layout_marginEnd="@dimen/lineMargin"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/mapLL"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/selectionMarginHalf"
-        android:layout_marginLeft="@dimen/selectionMarginFull"
-        android:layout_marginRight="@dimen/selectionMarginFull"
-        android:layout_marginTop="@dimen/selectionMarginHalf"
-        android:clickable="true"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:clickable="true">
 
-        <ImageView
-            android:id="@+id/mapIcon"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/text_box_padding"
-            app:srcCompat="@android:drawable/ic_menu_mapmode" />
+            android:layout_marginBottom="@dimen/selectionMarginHalf"
+            android:layout_marginLeft="@dimen/selectionMarginFull"
+            android:layout_marginRight="@dimen/selectionMarginFull"
+            android:layout_marginTop="@dimen/selectionMarginHalf"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/selectFromMap"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="@dimen/text_box_padding"
-            android:text="@string/select_from_map_prompt"
-            android:textSize="10pt" />
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/mapIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/text_box_padding"
+                app:srcCompat="@android:drawable/ic_menu_mapmode" />
+
+            <TextView
+                android:id="@+id/selectFromMap"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/text_box_padding"
+                android:text="@string/select_from_map_prompt"
+                android:textSize="10pt" />
+        </LinearLayout>
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
@@ -83,32 +93,37 @@
         android:layout_marginStart="@dimen/lineMargin"
         android:layout_marginEnd="@dimen/lineMargin"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/locationLL"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/selectionMarginFull"
-        android:layout_marginLeft="@dimen/selectionMarginFull"
-        android:layout_marginRight="@dimen/selectionMarginFull"
-        android:layout_marginTop="@dimen/selectionMarginHalf"
-        android:clickable="true"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:clickable="true">
 
-        <ImageView
-            android:id="@+id/locationIcon"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/text_box_padding"
-            app:srcCompat="@android:drawable/ic_menu_mylocation" />
+            android:layout_marginBottom="@dimen/selectionMarginFull"
+            android:layout_marginLeft="@dimen/selectionMarginFull"
+            android:layout_marginRight="@dimen/selectionMarginFull"
+            android:layout_marginTop="@dimen/selectionMarginHalf"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/selectCurrentAddress"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="@dimen/text_box_padding"
-            android:text="@string/select_current_address_prompt"
-            android:textSize="10pt" />
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/locationIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/text_box_padding"
+                app:srcCompat="@android:drawable/ic_menu_mylocation" />
+
+            <TextView
+                android:id="@+id/selectCurrentAddress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/text_box_padding"
+                android:text="@string/select_current_address_prompt"
+                android:textSize="10pt" />
+        </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

@@ -9,7 +9,6 @@ import android.hardware.SensorManager;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
-import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -75,7 +74,8 @@ public class MapsActivity extends AppCompatActivity
     private TextView addressPreview;
     private Geocoder geocoder;
     private SlidingUpPanelLayout layout;
-    private LinearLayout dragview;
+    private LinearLayout buttonBar;
+    private LinearLayout insidePane;
     private Button shareButton;
     private SegmentedGroup supplyDemandSwitch;
     private RadioButton supplyOn;
@@ -138,7 +138,7 @@ public class MapsActivity extends AppCompatActivity
                 pickUpAddressDialog(MapsActivity.this, mGoogleApiClient
                         , pickUpAddress, adapter, showCurrentPlaceCheck()
                         , mMap, layout, geocoder, centreMap, selectFromMapDone
-                        , addressPreview, dragview);
+                        , addressPreview, buttonBar, insidePane);
             }
         });
 
@@ -183,7 +183,11 @@ public class MapsActivity extends AppCompatActivity
 
             @Override
             public void onShake(int count) {
-                handleShakeEvent(count);
+                if (buttonBar.getVisibility() == View.VISIBLE
+                        && insidePane.getVisibility() == View.VISIBLE
+                        && layout.getPanelState().equals(SlidingUpPanelLayout.PanelState.COLLAPSED)) {
+                    vibrate();
+                }
             }
         });
 
@@ -201,7 +205,8 @@ public class MapsActivity extends AppCompatActivity
         selectFromMapDone = (Button) findViewById(R.id.selectFromMapDone);
         addressPreview = (TextView) findViewById(R.id.addressPreview);
         geocoder = new Geocoder(MapsActivity.this, Locale.getDefault());
-        dragview = (LinearLayout) findViewById(R.id.dragView);
+        buttonBar = (LinearLayout) findViewById(R.id.buttonBar);
+        insidePane = (LinearLayout) findViewById(R.id.insidePane);
 
         //Swipe up menu buttons
         shareButton = (Button) findViewById(R.id.share);
@@ -245,13 +250,11 @@ public class MapsActivity extends AppCompatActivity
         }
     }
 
-    private void handleShakeEvent(int count) {
-        if (layout.getPanelState().equals(SlidingUpPanelLayout.PanelState.COLLAPSED)) {
-            layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-            supplyDemandSwitch.setVisibility(View.VISIBLE);
-            Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-            v.vibrate(500);
-        }
+    private void vibrate() {
+        layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+        supplyDemandSwitch.setVisibility(View.VISIBLE);
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        v.vibrate(500);
     }
 
     private void hideKeyboard() {

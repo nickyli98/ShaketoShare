@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,7 +47,8 @@ public class AddressDialog {
             , final GoogleApiClient apiClient, final EditText pickUpAddress
             , final PlacesAPIAutocompleteAdapter adapter, final boolean showCurrentPlaceCheck
             , final GoogleMap mMap, final SlidingUpPanelLayout layout, final Geocoder geocoder
-            , final ImageView centreMap, final Button selectFromMapDone, final TextView addressPreview, final LinearLayout dragview){
+            , final ImageView centreMap, final Button selectFromMapDone, final TextView addressPreview
+            , final LinearLayout buttonBar, final LinearLayout insidePane){
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(context);
         View mView = context.getLayoutInflater().inflate(R.layout.dialog_address_selection, null);
         mBuilder.setView(mView);
@@ -56,40 +58,18 @@ public class AddressDialog {
         final TextView selectFromMap = (TextView) dialog.findViewById(R.id.selectFromMap);
         final AutoCompleteTextView enterManually
                 = (AutoCompleteTextView) dialog.findViewById(R.id.enterManually);
-        if(currentAddress != null && selectFromMap != null && enterManually != null){
-            currentAddress.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(showCurrentPlaceCheck){
-                        showCurrentPlace(pickUpAddress, apiClient, context);
-                        dialog.cancel();
-                    }
-                }
-            });
-            selectFromMap.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(mMap != null){
-                        selectFromMap(pickUpAddress, dialog, mMap, layout, geocoder
-                                , centreMap, selectFromMapDone, addressPreview, dragview);
-                        dialog.cancel();
-                    }
-                }
-            });
+        final RelativeLayout editLL = (RelativeLayout) dialog.findViewById(R.id.editLL);
+        final RelativeLayout mapLL = (RelativeLayout) dialog.findViewById(R.id.mapLL);
+        final RelativeLayout locationLL = (RelativeLayout) dialog.findViewById(R.id.locationLL);
+        if(enterManually != null
+                && editLL != null && mapLL != null && locationLL != null){
             enterManually.setAdapter(adapter);
+            //for autocomplete suggestions
             enterManually.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
                     pickUpAddress.setText(adapter.getItem(pos).getFullText(null));
                     dialog.cancel();
-                }
-            });
-            enterManually.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View view, MotionEvent motionEvent) {
-                    enterManually.setCursorVisible(true);
-                    enterManually.setBackgroundTintList(context.getResources().getColorStateList(R.color.colorAccent, context.getTheme()));
-                    return false;
                 }
             });
             enterManually.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -98,6 +78,58 @@ public class AddressDialog {
                     if(i == EditorInfo.IME_ACTION_DONE) {
                         pickUpAddress.setText(enterManually.getText());
                         dialog.cancel();
+                    }
+                    return true;
+                }
+            });
+            View.OnTouchListener onTouchListenerEditLL = new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            editLL.setBackgroundColor(context.getResources().getColor(R.color.textSelectedGrey, context.getTheme()));
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            editLL.setBackgroundColor(context.getResources().getColor(R.color.inputText, context.getTheme()));
+                            enterManually.setCursorVisible(true);
+                            enterManually.setBackgroundTintList(context.getResources().getColorStateList(R.color.colorAccent, context.getTheme()));
+                    }
+                    return false;
+                }
+            };
+            editLL.setOnTouchListener(onTouchListenerEditLL);
+            enterManually.setOnTouchListener(onTouchListenerEditLL);
+            mapLL.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            mapLL.setBackgroundColor(context.getResources().getColor(R.color.textSelectedGrey, context.getTheme()));
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            mapLL.setBackgroundColor(context.getResources().getColor(R.color.inputText, context.getTheme()));
+                            if(mMap != null){
+                                selectFromMap(pickUpAddress, dialog, mMap, layout, geocoder
+                                        , centreMap, selectFromMapDone, addressPreview, buttonBar, insidePane);
+                                dialog.cancel();
+                            }
+                    }
+                    return true;
+                }
+            });
+            locationLL.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            locationLL.setBackgroundColor(context.getResources().getColor(R.color.textSelectedGrey, context.getTheme()));
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            locationLL.setBackgroundColor(context.getResources().getColor(R.color.inputText, context.getTheme()));
+                            if(showCurrentPlaceCheck){
+                                showCurrentPlace(pickUpAddress, apiClient, context);
+                                dialog.cancel();
+                            }
                     }
                     return true;
                 }
@@ -177,14 +209,16 @@ public class AddressDialog {
     private static void selectFromMap(final TextView addressView
             , final AlertDialog dialog, final GoogleMap mMap, final SlidingUpPanelLayout layout
             , final Geocoder geocoder, final ImageView centreMap, final Button selectFromMapDone
-            , final TextView addressPreview, final LinearLayout dragview) {
+            , final TextView addressPreview, final LinearLayout buttonBar, final LinearLayout insidePane) {
 
         dialog.cancel();
 
         centreMap.setVisibility(View.VISIBLE);
         selectFromMapDone.setVisibility(View.VISIBLE);
         addressPreview.setVisibility(View.VISIBLE);
-        dragview.setVisibility(View.GONE);
+        buttonBar.setVisibility(View.INVISIBLE);
+        insidePane.setVisibility(View.INVISIBLE);
+        layout.setTouchEnabled(false);
 
         final LatLng centre = mMap.getCameraPosition().target;
         addressPreview.setText(getAddress(centre.latitude, centre.longitude, geocoder));
@@ -210,11 +244,14 @@ public class AddressDialog {
                 selectFromMapDone.setVisibility(View.INVISIBLE);
                 centreMap.setVisibility(View.INVISIBLE);
                 addressPreview.setVisibility(View.INVISIBLE);
-                dragview.setVisibility(View.VISIBLE);
+                buttonBar.setVisibility(View.VISIBLE);
+                insidePane.setVisibility(View.VISIBLE);
+                layout.setTouchEnabled(true);
                 layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
                 addressView.setText(getAddress(centre.latitude, centre.longitude, geocoder));
             }
         });
+
     }
 
     private static String getAddress(double latitude, double longitude, Geocoder geocoder) {
