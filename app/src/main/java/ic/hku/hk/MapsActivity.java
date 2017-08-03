@@ -75,7 +75,6 @@ public class MapsActivity extends AppCompatActivity
     private SlidingUpPanelLayout layout;
     private Button shareButton;
     private SegmentedGroup supplyDemandSwitch;
-    private Button minimiseButton;
     private Switch organicSwitch;
     private EditText weightEditText;
     private EditText dateFromEditText;
@@ -121,14 +120,6 @@ public class MapsActivity extends AppCompatActivity
             }
         });
 
-        minimiseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                minimiseButton.setVisibility(View.INVISIBLE);
-                layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-            }
-        });
-
         pickUpAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -157,16 +148,16 @@ public class MapsActivity extends AppCompatActivity
                     , SlidingUpPanelLayout.PanelState newState) {
                 if (previousState.equals(SlidingUpPanelLayout.PanelState.DRAGGING)) {
                     if (newState.equals(SlidingUpPanelLayout.PanelState.COLLAPSED)) {
-                        minimiseButton.setVisibility(View.INVISIBLE);
+                        supplyDemandSwitch.setVisibility(View.INVISIBLE);
                         hideKeyboard();
                     } else if (newState.equals(SlidingUpPanelLayout.PanelState.EXPANDED)) {
-                        minimiseButton.setVisibility(View.VISIBLE);
+                        supplyDemandSwitch.setVisibility(View.VISIBLE);
                     }
                 } else if (newState.equals(SlidingUpPanelLayout.PanelState.DRAGGING)) {
                     if (previousState.equals(SlidingUpPanelLayout.PanelState.COLLAPSED)) {
-                        minimiseButton.setVisibility(View.VISIBLE);
+                        supplyDemandSwitch.setVisibility(View.VISIBLE);
                     } else if (previousState.equals(SlidingUpPanelLayout.PanelState.EXPANDED)) {
-                        minimiseButton.setVisibility(View.INVISIBLE);
+                        supplyDemandSwitch.setVisibility(View.INVISIBLE);
                         hideKeyboard();
                     }
                 }
@@ -208,7 +199,6 @@ public class MapsActivity extends AppCompatActivity
 
         //Swipe up menu buttons
         shareButton = (Button) findViewById(R.id.share);
-        minimiseButton = (Button) findViewById(R.id.minimise);
         supplyDemandSwitch = (SegmentedGroup) findViewById(R.id.supplyDemandSwitch);
 
         //Form elements
@@ -236,14 +226,14 @@ public class MapsActivity extends AppCompatActivity
         switch (layout.getPanelState()) {
             case COLLAPSED:
                 layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-                minimiseButton.setVisibility(View.VISIBLE);
+                supplyDemandSwitch.setVisibility(View.VISIBLE);
                 break;
             case EXPANDED:
                 boolean shareCheckPassed = shareCheck(weightEditText, dateFromEditText,dateToEditText);
                 if (shareCheckPassed) {
                     shareRequest();
                     layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-                    minimiseButton.setVisibility(View.INVISIBLE);
+                    supplyDemandSwitch.setVisibility(View.INVISIBLE);
                 }
         }
     }
@@ -251,7 +241,7 @@ public class MapsActivity extends AppCompatActivity
     private void handleShakeEvent(int count) {
         if (layout.getPanelState().equals(SlidingUpPanelLayout.PanelState.COLLAPSED)) {
             layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-            minimiseButton.setVisibility(View.VISIBLE);
+            supplyDemandSwitch.setVisibility(View.VISIBLE);
             Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
             v.vibrate(500);
         }

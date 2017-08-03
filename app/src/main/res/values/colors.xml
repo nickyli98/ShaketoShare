@@ -2,12 +2,12 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#009688</color>
     <color name="inputText">#FFFFFF</color>
     <color name="lineColour">#DCDCDC</color>
     <color name="inputError">#FF0000</color>
-    <color name="radio_button_selected_color">#ff33b5e5</color>
+    <color name="radio_button_selected_color">#009688</color>
     <color name="radio_button_unselected_color">#e0e0e0</color>
-    <dimen name="radio_button_conner_radius">5dp</dimen>
+    <dimen name="radio_button_conner_radius">1dp</dimen>
     <dimen name="radio_button_stroke_border">1dp</dimen>
 </resources>
