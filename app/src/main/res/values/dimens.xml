@@ -16,4 +16,8 @@
     <dimen name="lineMargin">5dp</dimen>
     <dimen name="login_padding">10dp</dimen>
     <dimen name="login_spacing">26dp</dimen>
+    <dimen name="selectionMarginFull">24dp</dimen>
+    <dimen name="selectionMarginHalf">12dp</dimen>
+    <dimen name="selectionTextSize">10pt</dimen>
+    <dimen name="dialogPadding">10dp</dimen>
 </resources>

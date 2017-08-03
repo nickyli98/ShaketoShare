@@ -16,4 +16,7 @@ class Constants {
     static final LatLngBounds HONGKONG
             = new LatLngBounds(new LatLng(22.17, 113.82), new LatLng(22.54, 114.38));
     static final LatLng HONGKONGCENTER = new LatLng(22.3964, 114.1095);
+    static final int HONGKONG_AREA_CODE = 852;
+    static final int MACAU_AREA_CODE = 853;
+    static final int CHINA_AREA_CODE = 86;
 }

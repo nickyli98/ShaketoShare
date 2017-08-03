@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">ShaketoShare</string>
+    <string name="app_name" translatable="false">Shake to Share</string>
     <string name="title_activity_maps" translatable="false">Map</string>
     <string name="title_activity_share" translatable="false">ShareActivity</string>
     <string name="action_settings" translatable="false">Settings</string>
@@ -48,4 +48,7 @@
     <string name="address_needed">Please input address</string>
     <string name="please_select_the_closest_address">Please select the closest address</string>
     <string name="create_account">No account yet? Create one</string>
+    <string name="areaCodeSelectionHongKong">+852 Hong Kong</string>
+    <string name="areaCodeSelection_macau">+853 Macau</string>
+    <string name="areaCodeSelection_china">+86  China</string>
 </resources>

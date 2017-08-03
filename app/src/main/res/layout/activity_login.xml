@@ -20,12 +20,14 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <ImageView
+                android:id="@+id/areaCodeSelection_image"
                 android:layout_width="45dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center"
                 android:padding="@dimen/text_box_padding"
                 android:src="@drawable/hong_kong_flag"/>
             <TextView
+                android:id="@+id/areaCodeSelection_text"
                 android:layout_width="wrap_content"
                 android:layout_height="42dp"
                 android:text="@string/hk_area_code"
