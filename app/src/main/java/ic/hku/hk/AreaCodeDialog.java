@@ -24,7 +24,7 @@ public class AreaCodeDialog {
         HK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((TextView) context.findViewById(R.id.areaCodeSelection_text)).setText(R.string.areaCodeSelectionHongKong);
+                ((TextView) context.findViewById(R.id.areaCodeSelection_text)).setText(R.string.hk_area_code);
                 ((ImageView) context.findViewById(R.id.areaCodeSelection_image)).setImageResource(R.drawable.hong_kong_flag);
                 dialog.cancel();
             }
@@ -33,7 +33,7 @@ public class AreaCodeDialog {
         Macau.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((TextView) context.findViewById(R.id.areaCodeSelection_text)).setText(R.string.areaCodeSelection_macau);
+                ((TextView) context.findViewById(R.id.areaCodeSelection_text)).setText(R.string.macau_area_code);
                 ((ImageView) context.findViewById(R.id.areaCodeSelection_image)).setImageResource(R.drawable.macau_flag);
                 dialog.cancel();
             }
@@ -42,7 +42,7 @@ public class AreaCodeDialog {
         China.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((TextView) context.findViewById(R.id.areaCodeSelection_text)).setText(R.string.areaCodeSelection_china);
+                ((TextView) context.findViewById(R.id.areaCodeSelection_text)).setText(R.string.china_area_code);
                 ((ImageView) context.findViewById(R.id.areaCodeSelection_image)).setImageResource(R.drawable.china_flag);
                 dialog.cancel();
             }
