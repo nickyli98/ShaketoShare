@@ -4,15 +4,11 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.PorterDuff;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -23,16 +19,14 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Switch;
-import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Vibrator;
@@ -55,7 +49,6 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Map;
 
 import static ic.hku.hk.AndroidUtils.*;
 import static ic.hku.hk.Constants.*;
@@ -81,6 +74,7 @@ public class MapsActivity extends AppCompatActivity
     private TextView addressPreview;
     private Geocoder geocoder;
     private SlidingUpPanelLayout layout;
+    private LinearLayout dragview;
     private Button shareButton;
     private SegmentedGroup supplyDemandSwitch;
     private RadioButton supplyOn;
@@ -144,7 +138,7 @@ public class MapsActivity extends AppCompatActivity
                 pickUpAddressDialog(MapsActivity.this, mGoogleApiClient
                         , pickUpAddress, adapter, showCurrentPlaceCheck()
                         , mMap, layout, geocoder, centreMap, selectFromMapDone
-                        , addressPreview);
+                        , addressPreview, dragview);
             }
         });
 
@@ -207,6 +201,7 @@ public class MapsActivity extends AppCompatActivity
         selectFromMapDone = (Button) findViewById(R.id.selectFromMapDone);
         addressPreview = (TextView) findViewById(R.id.addressPreview);
         geocoder = new Geocoder(MapsActivity.this, Locale.getDefault());
+        dragview = (LinearLayout) findViewById(R.id.dragView);
 
         //Swipe up menu buttons
         shareButton = (Button) findViewById(R.id.share);
