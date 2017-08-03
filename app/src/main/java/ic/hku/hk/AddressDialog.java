@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -80,8 +81,15 @@ public class AddressDialog {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
                     pickUpAddress.setText(adapter.getItem(pos).getFullText(null));
-                    enterManually.setBackgroundTintList(context.getResources().getColorStateList(R.color.colorAccent, context.getTheme()));
                     dialog.cancel();
+                }
+            });
+            enterManually.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    enterManually.setCursorVisible(true);
+                    enterManually.setBackgroundTintList(context.getResources().getColorStateList(R.color.colorAccent, context.getTheme()));
+                    return false;
                 }
             });
             enterManually.setOnEditorActionListener(new TextView.OnEditorActionListener() {
