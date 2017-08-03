@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="areaCodeSelectionHongKong">+852 香港</string>
+    <string name="areaCodeSelection_china">+86   中国</string>
+    <string name="areaCodeSelection_macau">+853 澳门</string>
+    <string name="create_account">没有户口? 创造户口</string>
+    <string name="login_button">登入</string>
+    <string name="phone_number_hint">电话</string>
+</resources>

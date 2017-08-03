@@ -24,31 +24,20 @@
     <string name="date_order_wrong">End of availability cannot be before it starts.</string>
     <string name="date_from_wrong">Availability date cannot be in the past.</string>
     <string name="date_to_wrong">Availability date cannot be in the past.</string>
-    <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_login" translatable="false">Sign in</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
     <string name="phone_number_hint">Phone Number</string>
-    <string name="hk_area_code">+852</string>
-    <string name="macau_area_code">+853</string>
-    <string name="china_area_code">+86</string>
+    <string name="hk_area_code" translatable="false">+852</string>
+    <string name="macau_area_code" translatable="false">+853</string>
+    <string name="china_area_code" translatable="false">+86</string>
     <string name="login_button">Login</string>
-    <string name="marks_centre_of_map">Marks centre of map</string>
+    <string name="marks_centre_of_map" translatable="false">Marks centre of map</string>
     <string name="share">Share</string>
     <string name="address_needed">Please input address</string>
     <string name="please_select_the_closest_address">Please select the closest address</string>
     <string name="create_account">No account yet? Create one</string>
     <string name="areaCodeSelectionHongKong">+852 Hong Kong</string>
     <string name="areaCodeSelection_macau">+853 Macau</string>
-    <string name="areaCodeSelection_china">+86  China</string>
+    <string name="areaCodeSelection_china">+86   China</string>
 </resources>
