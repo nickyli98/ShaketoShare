@@ -12,6 +12,7 @@ import android.hardware.SensorManager;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -29,6 +30,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -53,6 +55,7 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
 
 import static ic.hku.hk.AndroidUtils.*;
 import static ic.hku.hk.Constants.*;
@@ -80,6 +83,8 @@ public class MapsActivity extends AppCompatActivity
     private SlidingUpPanelLayout layout;
     private Button shareButton;
     private SegmentedGroup supplyDemandSwitch;
+    private RadioButton supplyOn;
+    private RadioButton demandOn;
     private Switch organicSwitch;
     private EditText weightEditText;
     private EditText dateFromEditText;
@@ -154,17 +159,15 @@ public class MapsActivity extends AppCompatActivity
                     , SlidingUpPanelLayout.PanelState newState) {
                 if (previousState.equals(SlidingUpPanelLayout.PanelState.DRAGGING)) {
                     if (newState.equals(SlidingUpPanelLayout.PanelState.COLLAPSED)) {
-                        supplyDemandSwitch.setVisibility(View.INVISIBLE);
-                        hideKeyboard();
+                        collapseUI();
                     } else if (newState.equals(SlidingUpPanelLayout.PanelState.EXPANDED)) {
-                        supplyDemandSwitch.setVisibility(View.VISIBLE);
+                        expandUI();
                     }
                 } else if (newState.equals(SlidingUpPanelLayout.PanelState.DRAGGING)) {
                     if (previousState.equals(SlidingUpPanelLayout.PanelState.COLLAPSED)) {
-                        supplyDemandSwitch.setVisibility(View.VISIBLE);
+                        expandUI();
                     } else if (previousState.equals(SlidingUpPanelLayout.PanelState.EXPANDED)) {
-                        supplyDemandSwitch.setVisibility(View.INVISIBLE);
-                        hideKeyboard();
+                        collapseUI();
                     }
                 }
             }
@@ -189,6 +192,8 @@ public class MapsActivity extends AppCompatActivity
                 handleShakeEvent(count);
             }
         });
+
+        supplyOn.setChecked(true);
     }
 
     public boolean showCurrentPlaceCheck() {
@@ -206,6 +211,8 @@ public class MapsActivity extends AppCompatActivity
         //Swipe up menu buttons
         shareButton = (Button) findViewById(R.id.share);
         supplyDemandSwitch = (SegmentedGroup) findViewById(R.id.supplyDemandSwitch);
+        supplyOn = (RadioButton) findViewById(R.id.supplyOn);
+        demandOn = (RadioButton) findViewById(R.id.demandOn);
 
         //Form elements
         organicSwitch = (Switch) findViewById(R.id.organic);
@@ -235,11 +242,10 @@ public class MapsActivity extends AppCompatActivity
                 supplyDemandSwitch.setVisibility(View.VISIBLE);
                 break;
             case EXPANDED:
-                boolean shareCheckPassed = shareCheck(weightEditText, dateFromEditText,dateToEditText);
+                boolean shareCheckPassed = shareCheck(weightEditText, dateFromEditText,dateToEditText, pickUpAddress);
                 if (shareCheckPassed) {
                     shareRequest();
-                    layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-                    supplyDemandSwitch.setVisibility(View.INVISIBLE);
+                    collapseUI();
                 }
         }
     }
@@ -281,7 +287,7 @@ public class MapsActivity extends AppCompatActivity
         Toast.makeText(MapsActivity.this, R.string.SharedToast, Toast.LENGTH_LONG).show();
     }
 
-    private boolean shareCheck(final EditText weight, final EditText dateFrom, final EditText dateTo) {
+    private boolean shareCheck(final EditText weight, final EditText dateFrom, final EditText dateTo, final EditText address) {
         weightEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -330,7 +336,23 @@ public class MapsActivity extends AppCompatActivity
                 //auto-generated method stub
             }
         });
-        return shareCheckHelper(weight, dateFrom, dateTo);
+        pickUpAddress.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                pickUpAddress.setBackgroundTintList(getResources().getColorStateList(R.color.inputText, MapsActivity.this.getTheme()));
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        return shareCheckHelper(weight, dateFrom, dateTo, pickUpAddress);
     }
 
     private boolean weightEmpty(final EditText weightEditText) {
@@ -342,18 +364,27 @@ public class MapsActivity extends AppCompatActivity
         return false;
     }
 
+    private boolean addressEmpty(EditText addressEditText) {
+        if(TextUtils.isEmpty(addressEditText.getText().toString())) {
+            Toast.makeText(this, getResources().getString(R.string.address_needed), Toast.LENGTH_SHORT).show();
+            addressEditText.setBackgroundTintList(getResources().getColorStateList(R.color.inputError, this.getTheme()));
+            return true;
+        }
+        return false;
+    }
+
     private boolean dateOrderRight(EditText dateFromEditText, EditText dateToEditText) {
         try {
             Date dateFrom = sdf.parse(dateFromEditText.getText().toString());
             Date dateTo = sdf.parse(dateToEditText.getText().toString());
             if (dateTo.before(dateFrom)) {
                 Toast.makeText(this, getResources().getString(R.string.date_order_wrong), Toast.LENGTH_SHORT).show();
-                dateToEditText.setBackgroundTintList(getResources().getColorStateList(R.color.inputError));
+                dateToEditText.setBackgroundTintList(getResources().getColorStateList(R.color.inputError, this.getTheme()));
                 return false;
             }
             if (dateFrom.before(Calendar.getInstance().getTime())) {
                 Toast.makeText(this, getResources().getString(R.string.date_from_wrong), Toast.LENGTH_SHORT).show();
-                dateFromEditText.setBackgroundTintList(getResources().getColorStateList(R.color.inputError));
+                dateFromEditText.setBackgroundTintList(getResources().getColorStateList(R.color.inputError, this.getTheme()));
                 return false;
             }
         } catch (ParseException e) {
@@ -366,8 +397,21 @@ public class MapsActivity extends AppCompatActivity
         return Double.parseDouble(String.valueOf(weightEditText.getText())) > 0;
     }
 
-    private boolean shareCheckHelper(EditText weightEditText, EditText dateFromEditText, EditText dateToEditText){
-        return !weightEmpty(weightEditText) && weightPositive(weightEditText) && dateOrderRight(dateFromEditText, dateToEditText);
+    private boolean shareCheckHelper(EditText weightEditText, EditText dateFromEditText, EditText dateToEditText, EditText addressEditText){
+        return !addressEmpty(addressEditText) && !weightEmpty(weightEditText) && weightPositive(weightEditText) && dateOrderRight(dateFromEditText, dateToEditText);
+    }
+
+    private void collapseUI() {
+        supplyDemandSwitch.setVisibility(View.INVISIBLE);
+        hideKeyboard();
+        weightEditText.setBackgroundTintList(getResources().getColorStateList(R.color.inputText, MapsActivity.this.getTheme()));
+        dateFromEditText.setBackgroundTintList(getResources().getColorStateList(R.color.inputText, MapsActivity.this.getTheme()));
+        dateFromEditText.setBackgroundTintList(getResources().getColorStateList(R.color.inputText, MapsActivity.this.getTheme()));
+        pickUpAddress.setBackgroundTintList(getResources().getColorStateList(R.color.inputText, MapsActivity.this.getTheme()));
+    }
+
+    private void expandUI() {
+        supplyDemandSwitch.setVisibility(View.VISIBLE);
     }
 
     @Override

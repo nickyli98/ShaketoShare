@@ -9,10 +9,9 @@
     <TextView
         android:layout_margin="24dp"
         android:textSize="10pt"
-        android:text="Please select the closest address"
+        android:text="@string/please_select_the_closest_address"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="HardcodedText" />
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/address1"
