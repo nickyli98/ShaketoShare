@@ -40,4 +40,10 @@
     <string name="areaCodeSelectionHongKong">+852 Hong Kong</string>
     <string name="areaCodeSelection_macau">+853 Macau</string>
     <string name="areaCodeSelection_china">+86   China</string>
+    <string name="name_register">Name</string>
+    <string name="email">Email</string>
+    <string name="company">Company</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="password">Password</string>
+    <string name="submitRegister">Submit</string>
 </resources>

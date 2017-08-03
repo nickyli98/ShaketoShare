@@ -35,11 +35,6 @@ import static ic.hku.hk.AreaCodeDialog.*;
 
 public class LoginActivity extends Activity {
 
-    //TODO do server side things
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "69793034", "999"
-    };
-
     // UI references.
     private LinearLayout areaCodeSelection;
     private EditText phoneNumberEditText;
