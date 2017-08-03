@@ -31,17 +31,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:contentDescription="@string/marks_centre_of_map"
             android:visibility="invisible"
-            sothree:srcCompat="@android:drawable/ic_delete"
-            android:contentDescription="@string/marks_centre_of_map" />
+            sothree:srcCompat="@drawable/ic_map_centre" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="55dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginTop="@dimen/marginPreviewVertical"
+            android:layout_marginStart="@dimen/marginPreviewHorizontal"
+            android:layout_marginEnd="@dimen/marginPreviewHorizontal"
             android:orientation="horizontal">
 
             <TextView
@@ -51,12 +51,12 @@
                 android:layout_weight="1"
                 android:background="@color/inputText"
                 android:visibility="invisible"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="@dimen/marginAddressPreview"
                 android:maxLines="1"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp"
-                android:paddingTop="7dp"
-                android:paddingBottom="7dp"/>
+                android:paddingStart="@dimen/paddingAddressPreviewHorizontal"
+                android:paddingEnd="@dimen/paddingAddressPreviewHorizontal"
+                android:paddingTop="@dimen/paddingAddressPreviewVertical"
+                android:paddingBottom="@dimen/paddingAddressPreviewVertical"/>
 
             <Button
                 android:id="@+id/selectFromMapDone"

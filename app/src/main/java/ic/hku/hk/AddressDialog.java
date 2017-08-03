@@ -1,5 +1,6 @@
 package ic.hku.hk;
 
+import android.content.res.ColorStateList;
 import android.location.Address;
 import android.location.Geocoder;
 import android.media.Image;
@@ -79,6 +80,7 @@ public class AddressDialog {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
                     pickUpAddress.setText(adapter.getItem(pos).getFullText(null));
+                    enterManually.setBackgroundTintList(context.getResources().getColorStateList(R.color.colorAccent, context.getTheme()));
                     dialog.cancel();
                 }
             });
