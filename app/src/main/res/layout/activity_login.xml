@@ -44,17 +44,38 @@
             android:hint="@string/phone_number_hint"
             android:padding="@dimen/login_padding"
             android:background="@android:color/transparent"
+            android:textSize="@dimen/input_text_size"
             android:inputType="phone"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/login_spacing"/>
-    <EditText
-        android:id="@+id/loginPassword"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="numberPassword"/>
+        android:orientation="horizontal">
+
+        <EditText android:id="@+id/first_pin_R"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:inputType="numberPassword"
+                  style="@style/pin_edittext_style" />
+        <EditText android:id="@+id/second_pin_R"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:inputType="numberPassword"
+                  style="@style/pin_edittext_style" />
+        <EditText android:id="@+id/third_pin_R"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:inputType="numberPassword"
+                  style="@style/pin_edittext_style" />
+        <EditText android:id="@+id/fourth_pin_R"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:inputType="numberPassword"
+                  style="@style/pin_edittext_style" />
+    </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/login_spacing"/>
