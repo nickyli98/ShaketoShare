@@ -22,39 +22,36 @@ public class activity_password_check extends AppCompatActivity {
         setContentView(R.layout.activity_password_check);
         initiate();
         input = new PasswordInput(activity_password_check.this, firstPin, secondPin, thirdPin, fourthPin, hiddenText);
-        run();
+        //run();
     }
 
-    private void run() {
-        fourthPin.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (!hasFocus){
-                    //TODO FIX
-                    if(input.getPassword() != null){
-                        firstAttempt = input.getPassword();
-                        confirmPassword(firstAttempt);
-                    }
-                }
+    private void run() throws InterruptedException {
+        while(true){
+            firstAttempt = input.getPassword();
+            if(firstAttempt != null){
+                break;
             }
-        });
+            wait(100);
+        }
+        confirmPassword(firstAttempt);
     }
 
-    private void confirmPassword(final String firstAttempt) {
+    private void confirmPassword(final String firstAttempt) throws InterruptedException {
         clearForm();
         input = new PasswordInput(activity_password_check.this, firstPin, secondPin, thirdPin, fourthPin, hiddenText);
-        fourthPin.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (!hasFocus && input.getPassword() != null ){
-                    if(input.getPassword().equals(firstAttempt)){
-                        createAccount();
-                    } else {
-                        //TODO
-                    }
-                }
+        String s;
+        while(true){
+            s = input.getPassword();
+            if(s != null){
+                break;
             }
-        });
+            wait(100);
+        }
+        if(s.equals(firstAttempt)){
+            createAccount();
+        } else {
+            //TODO
+        }
     }
 
     private void createAccount(){
