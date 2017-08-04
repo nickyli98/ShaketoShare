@@ -204,6 +204,7 @@
                     android:backgroundTint="@android:color/transparent"
                     android:cursorVisible="false"
                     android:focusable="false"
+                    android:layout_weight="2"
                     android:inputType="date"
                     android:padding="@dimen/text_box_padding" />
             </LinearLayout>
