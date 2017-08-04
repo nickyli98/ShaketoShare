@@ -68,8 +68,11 @@ class AndroidUtils {
                 dateSet.setText(sdf.format(calendar.getTime()));
             }
         };
-        new DatePickerDialog(dateSet.getContext(), date, calendar
+        DatePickerDialog datePickerDialog = new DatePickerDialog(dateSet.getContext(), date, calendar
                 .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)).show();
+                calendar.get(Calendar.DAY_OF_MONTH));
+        //remove ability to select the past
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+        datePickerDialog.show();
     }
 }
