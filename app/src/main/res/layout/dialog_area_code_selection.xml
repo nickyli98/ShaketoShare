@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:orientation="horizontal"
-        android:layout_marginTop="@dimen/selectionMarginFull"
+        android:layout_marginTop="@dimen/selectionMarginHalf"
         android:layout_marginRight="@dimen/selectionMarginFull"
         android:layout_marginLeft="@dimen/selectionMarginFull"
         android:layout_marginBottom="@dimen/selectionMarginHalf">
@@ -80,7 +80,7 @@
         android:layout_marginTop="@dimen/selectionMarginHalf"
         android:layout_marginRight="@dimen/selectionMarginFull"
         android:layout_marginLeft="@dimen/selectionMarginFull"
-        android:layout_marginBottom="@dimen/selectionMarginFull">
+        android:layout_marginBottom="@dimen/selectionMarginHalf">
 
         <ImageView
             android:layout_width="45dp"

@@ -52,7 +52,7 @@ public class LoginActivity extends Activity {
         //Initializes UI
         areaCodeSelection = findViewById(R.id.areaCodeSelection);
         phoneNumberEditText = (EditText) findViewById(R.id.loginPhoneNumber);
-        passwordEditText = (EditText) findViewById(R.id.loginPassword);
+       // passwordEditText = (EditText) findViewById(R.id.loginPassword);
         loginButton = (Button) findViewById(R.id.loginButton);
         createAccount = (TextView) findViewById(R.id.createAccount);
 
@@ -79,7 +79,10 @@ public class LoginActivity extends Activity {
     }
 
     private void attemptCreateAccount() {
-
+        //TODO validation
+        Intent toRegister = new Intent(this, RegisterActivity.class);
+        startActivity(toRegister);
+        this.finish();
     }
 
     private void attemptLogin() {

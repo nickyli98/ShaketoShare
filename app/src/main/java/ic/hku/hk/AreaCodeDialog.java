@@ -7,8 +7,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import static ic.hku.hk.Constants.*;
-
 public class AreaCodeDialog {
 
     static <T extends Activity> void areaCodeDialog(final T context, final LinearLayout areaCodeSelection){
