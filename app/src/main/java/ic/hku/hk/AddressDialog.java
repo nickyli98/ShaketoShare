@@ -1,5 +1,7 @@
 package ic.hku.hk;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.location.Address;
 import android.location.Geocoder;
@@ -54,8 +56,6 @@ public class AddressDialog {
         mBuilder.setView(mView);
         final AlertDialog dialog = mBuilder.create();
         dialog.show();
-        final TextView currentAddress = (TextView) dialog.findViewById(R.id.selectCurrentAddress);
-        final TextView selectFromMap = (TextView) dialog.findViewById(R.id.selectFromMap);
         final AutoCompleteTextView enterManually
                 = (AutoCompleteTextView) dialog.findViewById(R.id.enterManually);
         final RelativeLayout editLL = (RelativeLayout) dialog.findViewById(R.id.editLL);
@@ -111,7 +111,6 @@ public class AddressDialog {
                             if(mMap != null){
                                 selectFromMap(pickUpAddress, dialog, mMap, layout, geocoder
                                         , centreMap, selectFromMapDone, addressPreview, buttonBar, insidePane);
-                                dialog.cancel();
                             }
                     }
                     return true;
@@ -128,7 +127,6 @@ public class AddressDialog {
                             locationLL.setBackgroundColor(context.getResources().getColor(R.color.inputText, context.getTheme()));
                             if(showCurrentPlaceCheck){
                                 showCurrentPlace(pickUpAddress, apiClient, context);
-                                dialog.cancel();
                             }
                     }
                     return true;
@@ -148,12 +146,12 @@ public class AddressDialog {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(context);
         final View mView = context.getLayoutInflater().inflate(R.layout.dialog_select_closest_address, null);
         mBuilder.setView(mView);
-        final AlertDialog dialog = mBuilder.create();
+        final AlertDialog likelyPlacesDialog = mBuilder.create();
         final Button refresh = mView.findViewById(R.id.refresh);
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.cancel();
+                likelyPlacesDialog.cancel();
                 showCurrentPlace(pickUpAddress, client, context);
             }
         });
@@ -162,25 +160,26 @@ public class AddressDialog {
         );
         int px24 = dpToPx(24, context);
         marginParams.setMargins(px24, 0, px24, px24);
-        dialog.show();
+        likelyPlacesDialog.show();
         result.setResultCallback(new ResultCallback<PlaceLikelihoodBuffer>() {
             @Override
             public void onResult(@NonNull PlaceLikelihoodBuffer likelyPlaces) {
                 int i = 0;
                 for (PlaceLikelihood placeLikelihood : likelyPlaces) {
                     // Build a list of likely places to show the user. Max 5.
-                    final TextView view = (TextView) dialog.findViewById(context.getResources()
+                    final TextView view = (TextView) likelyPlacesDialog.findViewById(context.getResources()
                             .getIdentifier("address" + (i + 1), "id", context.getPackageName()));
                     if(view == null){
                         continue;
                     }
+                    view.setVisibility(View.VISIBLE);
                     view.setText(placeLikelihood.getPlace().getAddress());
                     view.setLayoutParams(marginParams);
                     view.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             pickUpAddress.setText(view.getText());
-                            dialog.cancel();
+                            likelyPlacesDialog.cancel();
                         }
                     });
                     i++;
@@ -188,15 +187,27 @@ public class AddressDialog {
                         break;
                     }
                 }
+                mView.findViewById(R.id.loadingAddresses).setVisibility(View.GONE);
                 // Release the place likelihood buffer, to avoid memory leaks.
                 likelyPlaces.release();
                 if(i == 0){
                     //No likely places
-                    dialog.cancel();
+                    likelyPlacesDialog.cancel();
                     Toast.makeText(context, R.string.NoAddressesFoundToast, Toast.LENGTH_SHORT).show();
                 }
                 // Show a dialog offering the user the list of likely places, and add a
                 // marker at the selected place.
+            }
+        });
+
+        //if back is pressed then close this new dialog
+        likelyPlacesDialog.setOnKeyListener(new Dialog.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
+                if (i == KeyEvent.KEYCODE_BACK) {
+                    likelyPlacesDialog.cancel();
+                }
+                return false;
             }
         });
     }
@@ -216,6 +227,7 @@ public class AddressDialog {
         centreMap.setVisibility(View.VISIBLE);
         selectFromMapDone.setVisibility(View.VISIBLE);
         addressPreview.setVisibility(View.VISIBLE);
+        layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         buttonBar.setVisibility(View.INVISIBLE);
         insidePane.setVisibility(View.INVISIBLE);
         layout.setTouchEnabled(false);

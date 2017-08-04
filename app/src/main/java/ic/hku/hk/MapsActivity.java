@@ -136,10 +136,7 @@ public class MapsActivity extends AppCompatActivity
                             , Toast.LENGTH_SHORT).show();
                     return;
                 }
-                pickUpAddressDialog(MapsActivity.this, mGoogleApiClient
-                        , pickUpAddress, adapter, showCurrentPlaceCheck()
-                        , mMap, layout, geocoder, centreMap, selectFromMapDone
-                        , addressPreview, buttonBar, insidePane);
+                openAddressDialog();
             }
         });
 
@@ -280,12 +277,35 @@ public class MapsActivity extends AppCompatActivity
     public void onBackPressed() {
         switch (layout.getPanelState()) {
             case COLLAPSED:
-                finish();
+                //if in select from map case then reopen UI
+                if (centreMap.getVisibility() == View.VISIBLE) {
+                    openAddressDialog();
+                    returnToAddressDialogUI();
+                } else {
+                    finish();
+                }
                 break;
             case EXPANDED:
                 layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                 break;
         }
+    }
+
+    private void returnToAddressDialogUI() {
+        centreMap.setVisibility(View.INVISIBLE);
+        selectFromMapDone.setVisibility(View.INVISIBLE);
+        addressPreview.setVisibility(View.INVISIBLE);
+        buttonBar.setVisibility(View.VISIBLE);
+        insidePane.setVisibility(View.VISIBLE);
+        layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+        layout.setTouchEnabled(true);
+    }
+
+    private void openAddressDialog() {
+        pickUpAddressDialog(MapsActivity.this, mGoogleApiClient
+                , pickUpAddress, adapter, showCurrentPlaceCheck()
+                , mMap, layout, geocoder, centreMap, selectFromMapDone
+                , addressPreview, buttonBar, insidePane);
     }
 
     private void shareRequest() {

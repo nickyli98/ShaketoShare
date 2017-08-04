@@ -25,6 +25,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -84,7 +85,10 @@ public class LoginActivity extends Activity {
     private void attemptLogin() {
         //TODO validation
         Intent toMap = new Intent(this, MapsActivity.class);
+        loginButton.setVisibility(View.GONE);
+        ProgressBar p = findViewById(R.id.loginLoading);
         startActivity(toMap);
+        p.setVisibility(View.VISIBLE);
         this.finish();
     }
 

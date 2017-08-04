@@ -7,7 +7,7 @@
     <color name="lineColour">#DCDCDC</color>
     <color name="inputError">#FF0000</color>
     <color name="textView">#757575</color>
-    <color name="textSelectedGrey">#A0A0A0</color>
+    <color name="textSelectedGrey">#e0e0e0</color>
     <color name="radio_button_selected_color">#009688</color>
     <color name="radio_button_unselected_color">#e0e0e0</color>
     <dimen name="radio_button_conner_radius">1dp</dimen>

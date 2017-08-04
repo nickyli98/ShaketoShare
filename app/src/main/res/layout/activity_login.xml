@@ -9,6 +9,7 @@
               android:paddingRight="@dimen/activity_horizontal_margin"
               android:paddingTop="@dimen/activity_vertical_margin"
               tools:context="ic.hku.hk.LoginActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -58,6 +59,15 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/login_spacing"/>
+
+    <ProgressBar
+        android:id="@+id/loginLoading"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="invisible" />
+
     <Button
         android:id="@+id/loginButton"
         android:layout_width="match_parent"

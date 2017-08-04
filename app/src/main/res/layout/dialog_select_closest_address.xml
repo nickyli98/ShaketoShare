@@ -13,34 +13,46 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <ProgressBar
+        android:id="@+id/loadingAddresses"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"/>
+
     <TextView
         android:id="@+id/address1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:clickable="true" />
 
     <TextView
         android:id="@+id/address2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:clickable="true" />
 
     <TextView
         android:id="@+id/address3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:clickable="true" />
 
     <TextView
         android:id="@+id/address4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:clickable="true" />
 
     <TextView
         android:id="@+id/address5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:clickable="true" />
 
     <Button
@@ -48,8 +60,8 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_marginBottom="24dp"
-        android:layout_marginRight="24dp"
+        android:layout_marginEnd="24dp"
         android:text="@string/refreshButton"
-        android:layout_gravity="right"/>
+        android:layout_gravity="end"/>
 
 </LinearLayout>
