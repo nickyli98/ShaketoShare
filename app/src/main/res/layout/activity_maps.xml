@@ -262,6 +262,7 @@
                             android:padding="@dimen/text_box_padding"
                             android:text="@string/tonnes"
                             android:textAlignment="textEnd"
+                            android:layout_weight="1"
                             android:textSize="@dimen/input_text_size" />
                     </LinearLayout>
 
@@ -282,12 +283,94 @@
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
     <!-- The navigation drawer -->
-    <ListView android:id="@+id/left_drawer"
-        android:layout_width="240dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
-        android:background="@color/inputText"/>
+    <LinearLayout android:id="@+id/settingsMenu"
+                  android:layout_width="300dp"
+                  android:layout_height="match_parent"
+                  android:layout_gravity="start"
+                  android:orientation="vertical"
+                  android:divider="@android:color/transparent"
+                  android:background="@color/inputText">
+        <ImageView
+            android:layout_marginTop="@dimen/selectionMarginFull"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/recycle_logo"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"/>
+        <TextView
+            android:paddingLeft="@dimen/selectionMarginFull"
+            android:id="@+id/settings_pendingOrders"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pending_orders"
+            android:textSize="@dimen/input_text_size"
+            android:layout_margin="@dimen/selectionMarginHalf"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_width"
+            android:background="@color/lineColour"
+            android:layout_marginStart="@dimen/lineMargin"
+            android:layout_marginEnd="@dimen/lineMargin"/>
+        <TextView
+            android:paddingLeft="@dimen/selectionMarginFull"
+            android:id="@+id/settings_tradeHistory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/order_history"
+            android:textSize="@dimen/input_text_size"
+            android:layout_margin="@dimen/selectionMarginHalf"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_width"
+            android:background="@color/lineColour"
+            android:layout_marginStart="@dimen/lineMargin"
+            android:layout_marginEnd="@dimen/lineMargin"/>
+        <TextView
+            android:paddingLeft="@dimen/selectionMarginFull"
+            android:id="@+id/settings_contactUs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/contactUs"
+            android:textSize="@dimen/input_text_size"
+            android:layout_margin="@dimen/selectionMarginHalf"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_width"
+            android:background="@color/lineColour"
+            android:layout_marginStart="@dimen/lineMargin"
+            android:layout_marginEnd="@dimen/lineMargin"/>
+        <TextView
+            android:paddingLeft="@dimen/selectionMarginFull"
+            android:id="@+id/settings_logOut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Log out"
+            android:textSize="@dimen/input_text_size"
+            android:layout_margin="@dimen/selectionMarginHalf"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <LinearLayout
+            android:id="@+id/settings_language"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:layout_margin="@dimen/selectionMarginHalf"
+            android:padding="@dimen/selectionMarginFull">
+            <TextView
+                android:id="@+id/settings_language_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/language"
+                android:textSize="@dimen/input_text_size"/>
+            <ImageView
+                android:id="@+id/settings_language_img"
+                android:layout_width="45dp"
+                android:layout_height="40dp"
+                android:src="@drawable/english_flag"/>
+        </LinearLayout>
+    </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

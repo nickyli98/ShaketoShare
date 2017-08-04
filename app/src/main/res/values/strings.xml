@@ -49,4 +49,8 @@
     <string name="next_button">Next</string>
     <string name="title_activity_password_check">activity_password_check</string>
     <string name="please_enter_a_password">Please enter a password</string>
+    <string name="pending_orders">Pending orders</string>
+    <string name="order_history">Order history</string>
+    <string name="contactUs">Contact us</string>
+    <string name="language">Language</string>
 </resources>
