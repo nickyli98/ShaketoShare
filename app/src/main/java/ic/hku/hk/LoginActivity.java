@@ -88,7 +88,7 @@ public class LoginActivity extends Activity {
     private void attemptLogin() {
         //TODO validation
         Intent toMap = new Intent(this, MapsActivity.class);
-        loginButton.setVisibility(View.GONE);
+        //loginButton.setVisibility(View.GONE);
         ProgressBar p = findViewById(R.id.loginLoading);
         startActivity(toMap);
         p.setVisibility(View.VISIBLE);

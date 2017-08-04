@@ -11,8 +11,8 @@
     <dimen name="marginPreviewVertical">55dp</dimen>
     <dimen name="marginPreviewHorizontal">8dp</dimen>
     <dimen name="marginAddressPreview">10dp</dimen>
-    <dimen name="paddingAddressPreviewHorizontal">5dp</dimen>
-    <dimen name="paddingAddressPreviewVertical">7dp</dimen>
+    <dimen name="paddingAddressPreviewHorizontal">8dp</dimen>
+    <dimen name="paddingAddressPreviewVertical">10dp</dimen>
     <dimen name="date_margin">70dp</dimen>
     <dimen name="text_box_padding">5dp</dimen>
     <dimen name="input_text_size">8pt</dimen>
