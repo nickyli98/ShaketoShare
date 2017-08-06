@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="areaCodeSelectionHongKong">+852 香港</string>
-    <string name="areaCodeSelection_china">+86   中国</string>
+    <string name="areaCodeSelection_china">+86  中国</string>
     <string name="areaCodeSelection_macau">+853 澳门</string>
     <string name="create_account">没有户口? 创造户口</string>
     <string name="login_button">登入</string>
     <string name="phone_number_hint">电话</string>
+    <string name="company">公司</string>
+    <string name="china_area_code" translatable="false"></string>
+    <string name="confirm_password">确定密码</string>
+    <string name="contactUs">联络我们</string>
+    <string name="language">语言</string>
+    <string name="log_out">登出</string>
+    <string name="name_register">名字</string>
+    <string name="next_button">确定</string>
+    <string name="order_history">交易历史</string>
+    <string name="password">密码</string>
+    <string name="pending_orders">有待确定的交易</string>
+    <string name="please_enter_a_password">请输入密码</string>
+    <string name="submitRegister">确定</string>
+    <string name="language_cn" translatable="false"></string>
+    <string name="email">电邮</string>
 </resources>

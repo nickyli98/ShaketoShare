@@ -6,4 +6,19 @@
     <string name="login_button">登入</string>
     <string name="create_account">沒有戶口？創造戶口</string>
     <string name="phone_number_hint">電話</string>
+    <string name="company">公司</string>
+    <string name="confirm_password">確定密碼</string>
+    <string name="contactUs">聯絡我們</string>
+    <string name="name_register">名字</string>
+    <string name="next_button">確定</string>
+    <string name="order_history">交易歷史</string>
+    <string name="log_out">登出</string>
+    <string name="language_cn" translatable="false"></string>
+    <string name="hk_area_code" translatable="false"></string>
+    <string name="language">語言</string>
+    <string name="password">密碼</string>
+    <string name="pending_orders">有待確定的交易</string>
+    <string name="please_enter_a_password">請輸入密碼</string>
+    <string name="submitRegister">確定</string>
+    <string name="email">電郵</string>
 </resources>
