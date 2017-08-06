@@ -1,11 +1,16 @@
 package ic.hku.hk;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.res.Resources;
 import android.support.v7.app.AlertDialog;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.Locale;
 
 public class AreaCodeDialog {
 
@@ -46,5 +51,4 @@ public class AreaCodeDialog {
             }
         });
     }
-
 }

@@ -313,7 +313,7 @@
             android:layout_marginEnd="@dimen/lineMargin"/>
         <TextView
             android:paddingLeft="@dimen/selectionMarginFull"
-            android:id="@+id/settings_tradeHistory"
+            android:id="@+id/settings_orderHistory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/order_history"
@@ -344,7 +344,7 @@
             android:id="@+id/settings_logOut"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Log out"
+            android:text="@string/log_out"
             android:textSize="@dimen/input_text_size"
             android:layout_margin="@dimen/selectionMarginHalf"/>
         <View
@@ -364,12 +364,15 @@
                 android:id="@+id/settings_language_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:text="@string/language"
                 android:textSize="@dimen/input_text_size"/>
             <ImageView
                 android:id="@+id/settings_language_img"
-                android:layout_width="45dp"
-                android:layout_height="40dp"
+                android:layout_gravity="center_vertical|fill"
+                android:paddingLeft="20dp"
+                android:layout_width="60dp"
+                android:layout_height="45dp"
                 android:src="@drawable/english_flag"/>
         </LinearLayout>
     </LinearLayout>

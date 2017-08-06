@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:paddingLeft="@dimen/dialogPadding"
+    android:paddingRight="@dimen/dialogPadding">
+
+    <LinearLayout
+        android:id="@+id/language_selection_en"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/selectionMarginHalf"
+        android:layout_marginRight="@dimen/selectionMarginFull"
+        android:layout_marginLeft="@dimen/selectionMarginFull"
+        android:layout_marginBottom="@dimen/selectionMarginHalf">
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:padding="@dimen/text_box_padding"
+            android:src="@drawable/english_flag"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:padding="5dp"
+            android:text="@string/language_en"
+            android:textSize="@dimen/selectionTextSize"/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_width"
+        android:background="@color/lineColour"
+        android:layout_marginStart="@dimen/lineMargin"
+        android:layout_marginEnd="@dimen/lineMargin"/>
+    <LinearLayout
+        android:id="@+id/language_selection_cn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/selectionMarginHalf"
+        android:layout_marginRight="@dimen/selectionMarginFull"
+        android:layout_marginLeft="@dimen/selectionMarginFull"
+        android:layout_marginBottom="@dimen/selectionMarginHalf">
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:padding="@dimen/text_box_padding"
+            android:src="@drawable/china_flag"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:padding="5dp"
+            android:text="@string/language_cn"
+            android:textSize="@dimen/selectionTextSize"/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_width"
+        android:background="@color/lineColour"
+        android:layout_marginStart="@dimen/lineMargin"
+        android:layout_marginEnd="@dimen/lineMargin"/>
+    <LinearLayout
+        android:id="@+id/language_selection_zh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/selectionMarginHalf"
+        android:layout_marginRight="@dimen/selectionMarginFull"
+        android:layout_marginLeft="@dimen/selectionMarginFull"
+        android:layout_marginBottom="@dimen/selectionMarginHalf">
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:padding="@dimen/text_box_padding"
+            android:src="@drawable/hong_kong_flag"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:padding="5dp"
+            android:layout_gravity="center_vertical"
+            android:text="@string/language_zh"
+            android:textSize="@dimen/selectionTextSize"/>
+    </LinearLayout>
+</LinearLayout>
