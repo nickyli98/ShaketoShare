@@ -19,4 +19,8 @@ class Constants {
     static final int HONGKONG_AREA_CODE = 852;
     static final int MACAU_AREA_CODE = 853;
     static final int CHINA_AREA_CODE = 86;
+    static final String USER = "shake";
+    static final String PASSWORD = "shake";
+    static final String IP = "147.8.133.49";
+    static final String DBNAME = "s2s";
 }

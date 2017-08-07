@@ -1,10 +1,16 @@
 package ic.hku.hk;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+import static ic.hku.hk.Constants.*;
+
+import java.sql.SQLException;
 
 public class activity_password_check extends AppCompatActivity {
 
@@ -17,6 +23,11 @@ public class activity_password_check extends AppCompatActivity {
     private PasswordInput input;
     private EditText hiddenText;
     private Button passwordNext;
+    private String PIN;
+    private String phoneNumber;
+    private String name;
+    private String email;
+    private String company;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +38,12 @@ public class activity_password_check extends AppCompatActivity {
         passwordNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String PIN = hiddenText.getText().toString();
-
+                PIN = input.getPassword();
+                phoneNumber = getIntent().getStringExtra("PHONE_NUMBER");
+                name = getIntent().getStringExtra("NAME");
+                email = getIntent().getStringExtra("EMAIL");
+                company = getIntent().getStringExtra("COMPANY");
+                new createUserTask().execute();
                 //send to db
                 //verify
                 //send to app
@@ -86,6 +101,27 @@ public class activity_password_check extends AppCompatActivity {
         fourthPin = (EditText) findViewById(R.id.fourth_pin_R);
         hiddenText = (EditText) findViewById(R.id.pin_hidden_edittext_R);
         passwordNext = (Button) findViewById(R.id.passwordNext);
+    }
+
+    private class createUserTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void...voids) {
+            DatabaseConnection dbc = new DatabaseConnection(USER, PASSWORD, IP, DBNAME);
+            try {
+                System.out.println("1");
+                if (dbc.createUser(name, company, email, phoneNumber, PIN)) {
+                    System.out.println("2");
+                    Toast.makeText(getBaseContext(), getResources().getString(R.string.made_user_success), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getBaseContext(), MapsActivity.class);
+                    startActivity(intent);
+                    activity_password_check.this.finish();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            System.out.println("3");
+            return null;
+        }
     }
 
 }

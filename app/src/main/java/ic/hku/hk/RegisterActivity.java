@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -17,6 +18,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText name;
     private EditText email;
     private EditText company;
+    private TextView areaCode;
     private Button next;
 
     @Override
@@ -28,6 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
         name = (EditText) findViewById(R.id.nameInput_R);
         email = (EditText) findViewById(R.id.emailInput_R);
         company = (EditText) findViewById(R.id.company_R);
+        areaCode = (TextView) findViewById(R.id.areaCodeSelection_text_R);
         initialiseListeners();
 
         next = (Button) findViewById(R.id.next_button_R);
@@ -37,7 +40,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (validInput()) {
                     Intent toPassword = new Intent(RegisterActivity.this, activity_password_check.class);
-                    toPassword.putExtra("PHONE_NUMBER", loginPhoneNumber.getText().toString());
+                    toPassword.putExtra("PHONE_NUMBER", areaCode.getText().toString().substring(1) + "-" + loginPhoneNumber.getText().toString());
                     toPassword.putExtra("NAME", name.getText().toString());
                     toPassword.putExtra("EMAIL", email.getText().toString());
                     toPassword.putExtra("COMPANY", company.getText().toString());
@@ -57,6 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
         } else if (loginPhoneNumber.getText().toString().length() < 8) {
             Toast.makeText(this, getResources().getString(R.string.phone_number_short), Toast.LENGTH_SHORT).show();
             loginPhoneNumber.setBackgroundTintList(getResources().getColorStateList(R.color.inputError, this.getTheme()));
+            return true;
         }
         return false;
     }
