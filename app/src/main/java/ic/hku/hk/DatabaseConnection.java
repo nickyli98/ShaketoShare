@@ -1,5 +1,7 @@
 package ic.hku.hk;
 
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
+
 import java.sql.*;
 
 public class DatabaseConnection {
@@ -27,8 +29,9 @@ public class DatabaseConnection {
 
     public static void main(String[] args) throws SQLException {
         DatabaseConnection dbc = new DatabaseConnection("shake", "shake", "147.8.133.49", "s2s");
-        if(dbc.confirmPassword("852-69793034", "0000")){
-            System.out.println("checked");
+        dbc.createUser("Dr Chow", "ICL", "jc@ic.ac.uk", "852-11111111", "1234");
+        if(dbc.confirmPassword("852-11111111", "1234")){
+            System.out.println("HERE");
         }
     }
 
@@ -37,7 +40,25 @@ public class DatabaseConnection {
         Statement statement = con.createStatement();
         ResultSet rs = statement.executeQuery("select * from user where phone_number='"
                 + user + "' and password='" + password + "'");
-        return rs.next();
+        //Makes sure that the user exist
+        boolean r = rs.next();
+        rs.close();
+        statement.close();
+        return r;
+    }
+
+    public boolean createUser(String name, String company, String email, String phone, String password) throws SQLException{
+        try {
+            Statement statement = con.createStatement();
+            statement.executeUpdate("insert into user VALUES('" + phone + "', '" + password + "');");
+            statement.executeUpdate("insert into user_info VALUES('" + name + "', '"
+                    + company + "', '" + email + "', '" + phone + "');");
+            return true;
+        } catch (MySQLIntegrityConstraintViolationException e) {
+            //Duplicate entry
+            return false;
+        }
+
     }
 
     public void closeConnection() throws SQLException {
