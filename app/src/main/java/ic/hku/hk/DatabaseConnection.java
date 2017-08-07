@@ -1,5 +1,6 @@
 package ic.hku.hk;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 
 import java.sql.*;
@@ -10,6 +11,7 @@ public class DatabaseConnection {
     private final String password;
     private final String ip;
     private final String dbName;
+    private String phoneNumber;
 
     private Connection con;
 
@@ -27,12 +29,16 @@ public class DatabaseConnection {
 
     }
 
+    public DatabaseConnection(String user, String password, String ip, String dbName, String phoneNumber) {
+        this(user, password, ip, dbName);
+        phoneNumber = phoneNumber;
+    }
+
+
+
     public static void main(String[] args) throws SQLException {
         DatabaseConnection dbc = new DatabaseConnection("shake", "shake", "147.8.133.49", "s2s");
-        dbc.createUser("Dr Chow", "ICL", "jc@ic.ac.uk", "852-11111111", "1234");
-        if(dbc.confirmPassword("852-11111111", "1234")){
-            System.out.println("HERE");
-        }
+        dbc.share("Knowles", new LatLng(3, 1), true, true, "1111/33/11", "1111/33/12", 41.2);
     }
 
 
@@ -48,17 +54,30 @@ public class DatabaseConnection {
     }
 
     public boolean createUser(String name, String company, String email, String phone, String password) throws SQLException{
+        Statement statement = con.createStatement();
         try {
-            Statement statement = con.createStatement();
             statement.executeUpdate("insert into user VALUES('" + phone + "', '" + password + "');");
             statement.executeUpdate("insert into user_info VALUES('" + name + "', '"
                     + company + "', '" + email + "', '" + phone + "');");
+            statement.close();
             return true;
         } catch (MySQLIntegrityConstraintViolationException e) {
             //Duplicate entry
+            statement.close();
             return false;
         }
+    }
 
+    public boolean share(String address, LatLng addressLatLng, boolean organic,
+                         boolean isSupply, String dateFrom, String dateTo, double weight) throws SQLException {
+        Statement statement = con.createStatement();
+        int org = organic ? 1 : 0;
+        int supply = isSupply ? 1 : 0;
+        statement.executeUpdate("insert into share_history VALUES(" + weight + ", " + org + ", '"
+                + address + "', " + addressLatLng.latitude + ", " + addressLatLng.longitude + ", "
+                + supply + ", '" + phoneNumber + "', '" + dateFrom + "', '" + dateTo + "');");
+        statement.close();
+        return true;
     }
 
     public void closeConnection() throws SQLException {
