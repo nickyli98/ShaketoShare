@@ -43,6 +43,12 @@ public class LoginActivity extends Activity {
     private TextView createAccount;
     private Button loginButton;
     private int areaCode;
+    private PasswordInput input;
+    private EditText firstPin;
+    private EditText secondPin;
+    private EditText thirdPin;
+    private EditText fourthPin;
+    private EditText hiddenText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +58,15 @@ public class LoginActivity extends Activity {
         //Initializes UI
         areaCodeSelection = findViewById(R.id.areaCodeSelection);
         phoneNumberEditText = (EditText) findViewById(R.id.loginPhoneNumber);
-       // passwordEditText = (EditText) findViewById(R.id.loginPassword);
+
+        firstPin = findViewById(R.id.first_pin);
+        secondPin = findViewById(R.id.second_pin);
+        thirdPin = findViewById(R.id.third_pin);
+        fourthPin = findViewById(R.id.fourth_pin);
+        hiddenText = findViewById(R.id.pin_hidden_edittext);
+
+        input = new PasswordInput(LoginActivity.this, firstPin, secondPin, thirdPin, fourthPin, hiddenText);
+
         loginButton = (Button) findViewById(R.id.loginButton);
         createAccount = (TextView) findViewById(R.id.createAccount);
 
@@ -86,7 +100,7 @@ public class LoginActivity extends Activity {
     }
 
     private void attemptLogin() {
-        //TODO validation
+        //TODO validation, get text from hiddentext
         Intent toMap = new Intent(this, MapsActivity.class);
         //loginButton.setVisibility(View.GONE);
         ProgressBar p = findViewById(R.id.loginLoading);

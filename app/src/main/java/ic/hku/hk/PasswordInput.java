@@ -2,6 +2,7 @@ package ic.hku.hk;
 
 import android.app.Activity;
 import android.app.Service;
+import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -72,21 +73,11 @@ public class PasswordInput implements View.OnFocusChangeListener, View.OnKeyList
 
     @Override
     public void onFocusChange(View view, boolean hasFocus) {
-        final int id = view.getId();
         if (hasFocus) {
-            switch (id) {
-                case (R.id.first_pin_R):
-                    showSoftKeyboard(hiddenText);
-                    break;
-                case (R.id.second_pin_R):
-                    showSoftKeyboard(hiddenText);
-                    break;
-                case (R.id.third_pin_R):
-                    showSoftKeyboard(hiddenText);
-                    break;
-                case (R.id.fourth_pin_R):
-                    hideSoftKeyboard(hiddenText);
-                    break;
+            if (view == first || view == second || view == third) {
+                showSoftKeyboard(hiddenText);
+            } else {
+                hideSoftKeyboard(hiddenText);
             }
         }
     }

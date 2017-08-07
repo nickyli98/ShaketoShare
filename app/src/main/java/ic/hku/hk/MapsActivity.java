@@ -53,7 +53,6 @@ import java.util.Locale;
 import static ic.hku.hk.AndroidUtils.*;
 import static ic.hku.hk.Constants.*;
 import static ic.hku.hk.AddressDialog.pickUpAddressDialog;
-import static ic.hku.hk.LanguageDialog.languageDialog;
 
 public class MapsActivity extends AppCompatActivity
         implements OnMapReadyCallback,
@@ -92,7 +91,6 @@ public class MapsActivity extends AppCompatActivity
     private TextView orderHistory;
     private TextView contactUs;
     private TextView logOut;
-    private LinearLayout languageSetting;
 
     // The following are used for the shake detection
     private SensorManager mSensorManager;
@@ -159,13 +157,6 @@ public class MapsActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
 
-            }
-        });
-
-        languageSetting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                languageDialog(MapsActivity.this, languageSetting);
             }
         });
 
@@ -277,7 +268,6 @@ public class MapsActivity extends AppCompatActivity
         orderHistory = (TextView) findViewById(R.id.settings_orderHistory);
         contactUs = (TextView) findViewById(R.id.settings_contactUs);
         logOut = (TextView) findViewById(R.id.settings_logOut);
-        languageSetting = (LinearLayout) findViewById(R.id.settings_language);
 
         //Sets date default to current date
         dateFromEditText.setText(sdf.format(Calendar.getInstance().getTime()));

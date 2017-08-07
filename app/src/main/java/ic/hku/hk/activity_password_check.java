@@ -3,6 +3,7 @@ package ic.hku.hk;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 public class activity_password_check extends AppCompatActivity {
@@ -15,6 +16,7 @@ public class activity_password_check extends AppCompatActivity {
     private String firstAttempt;
     private PasswordInput input;
     private EditText hiddenText;
+    private Button passwordNext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +24,16 @@ public class activity_password_check extends AppCompatActivity {
         setContentView(R.layout.activity_password_check);
         initiate();
         input = new PasswordInput(activity_password_check.this, firstPin, secondPin, thirdPin, fourthPin, hiddenText);
+        passwordNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String PIN = hiddenText.getText().toString();
+
+                //send to db
+                //verify
+                //send to app
+            }
+        });
         //run();
     }
 
@@ -73,6 +85,7 @@ public class activity_password_check extends AppCompatActivity {
         thirdPin = (EditText) findViewById(R.id.third_pin_R);
         fourthPin = (EditText) findViewById(R.id.fourth_pin_R);
         hiddenText = (EditText) findViewById(R.id.pin_hidden_edittext_R);
+        passwordNext = (Button) findViewById(R.id.passwordNext);
     }
 
 }

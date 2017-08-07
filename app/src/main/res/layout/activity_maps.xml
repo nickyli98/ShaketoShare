@@ -261,8 +261,8 @@
                             android:layout_height="match_parent"
                             android:padding="@dimen/text_box_padding"
                             android:text="@string/tonnes"
-                            android:textAlignment="textEnd"
                             android:layout_weight="1"
+                            android:textAlignment="textEnd"
                             android:textSize="@dimen/input_text_size" />
                     </LinearLayout>
 
@@ -351,29 +351,5 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1"/>
-        <LinearLayout
-            android:id="@+id/settings_language"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:orientation="horizontal"
-            android:clickable="true"
-            android:layout_margin="@dimen/selectionMarginHalf"
-            android:padding="@dimen/selectionMarginFull">
-            <TextView
-                android:id="@+id/settings_language_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="@string/language"
-                android:textSize="@dimen/input_text_size"/>
-            <ImageView
-                android:id="@+id/settings_language_img"
-                android:layout_gravity="center_vertical|fill"
-                android:paddingLeft="20dp"
-                android:layout_width="60dp"
-                android:layout_height="45dp"
-                android:src="@drawable/english_flag"/>
-        </LinearLayout>
     </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

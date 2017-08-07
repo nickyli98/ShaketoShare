@@ -44,7 +44,6 @@
             android:layout_height="wrap_content"
             android:hint="@string/phone_number_hint"
             android:padding="@dimen/login_padding"
-            android:background="@android:color/transparent"
             android:textSize="@dimen/input_text_size"
             android:inputType="phone"/>
     </LinearLayout>
@@ -56,31 +55,47 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <EditText android:id="@+id/first_pin_R"
+        <EditText android:id="@+id/first_pin"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:inputType="numberPassword"
                   style="@style/pin_edittext_style" />
-        <EditText android:id="@+id/second_pin_R"
+        <EditText android:id="@+id/second_pin"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:inputType="numberPassword"
                   style="@style/pin_edittext_style" />
-        <EditText android:id="@+id/third_pin_R"
+        <EditText android:id="@+id/third_pin"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:inputType="numberPassword"
                   style="@style/pin_edittext_style" />
-        <EditText android:id="@+id/fourth_pin_R"
+        <EditText android:id="@+id/fourth_pin"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:inputType="numberPassword"
                   style="@style/pin_edittext_style" />
+        <EditText
+            android:id="@+id/pin_hidden_edittext"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@null"
+            android:cursorVisible="false"
+            android:gravity="center_horizontal"
+            android:inputType="numberPassword"
+            android:maxLength="5"
+            android:textColor="#00000000" />
+
     </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/login_spacing"/>
-
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/login_button"/>
     <ProgressBar
         android:id="@+id/loginLoading"
         style="?android:attr/progressBarStyle"
@@ -88,12 +103,6 @@
         android:layout_height="wrap_content"
         android:indeterminate="true"
         android:visibility="invisible" />
-
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/login_button"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/login_spacing"/>

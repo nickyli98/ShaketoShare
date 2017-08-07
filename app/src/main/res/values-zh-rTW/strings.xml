@@ -21,4 +21,8 @@
     <string name="please_enter_a_password">請輸入密碼</string>
     <string name="submitRegister">確定</string>
     <string name="email">電郵</string>
+    <string name="no_phone_number">請輸入電話號碼</string>
+    <string name="no_email">請輸入電郵地址</string>
+    <string name="no_company">請輸入公司名字</string>
+    <string name="no_name">請輸入姓名</string>
 </resources>

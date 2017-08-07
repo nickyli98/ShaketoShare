@@ -23,4 +23,5 @@
     <string name="share">分享</string>
     <string name="address_needed">請輸入地址</string>
     <string name="please_select_the_closest_address">請選擇最靠近的地址</string>
+    <string name="phone_number_short">電話號碼無效</string>
 </resources>

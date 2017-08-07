@@ -57,4 +57,9 @@
     <string name="language_en" translatable="false">English</string>
     <string name="language_cn" translatable="false">简体中文</string>
     <string name="language_zh" translatable="false">繁體中文</string>
+    <string name="no_phone_number">Please enter a phone number</string>
+    <string name="no_email">Please enter an email address</string>
+    <string name="no_company">Please enter a company name</string>
+    <string name="no_name">Please enter a name</string>
+    <string name="phone_number_short">Invalid phone number</string>
 </resources>
