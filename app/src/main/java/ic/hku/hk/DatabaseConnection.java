@@ -59,6 +59,9 @@ public class DatabaseConnection {
     }
 
     public boolean createUser(String name, String company, String email, String phone, String password) throws SQLException{
+        if(con == null){
+            con = DriverManager.getConnection("jdbc:mysql://" + ip + "/" + dbName, user, this.password);
+        }
         Statement statement = con.createStatement();
         try {
             statement.executeUpdate(USER_VALUES_QUERY + phone + "', '" + password + "');");
@@ -87,35 +90,51 @@ public class DatabaseConnection {
         statement.close();
     }
 
-    public List<Transaction> getOrders(boolean doneB) throws SQLException {
+    public List<Transaction> getOrders(boolean doneBool) throws SQLException {
         Statement statement = con.createStatement();
-        int done = doneB ? 1 : 0;
+        Statement statement2 = null;
+        int done = 0;
+        if(doneBool) {
+            statement2 = con.createStatement();
+            done = 1;
+        }
         ResultSet orders = statement.executeQuery(GET_HISTORY + phoneNumber + "' and done=" + done + ";");
         if(orders != null){
-            List<? extends Transaction> transactions
-                    = doneB ? new ArrayList<CompletedTransactions>() : new ArrayList<Transaction>();
+            List<Transaction> transactions = new ArrayList<>();
             while(orders.next()){
-                /*
-                final int id;
-    private final String phone;
-    private final double weight;
-    private final String address;
-    private final LatLng latLng;
-    private final boolean isSupply;
-    private final String dateFrom;
-    private final String dateTo;
-    private final String dateSubmitted;
-                 */
                 final int id = orders.getInt("id");
                 final String phone = orders.getString("phone_number");
                 final double weight = orders.getDouble("weight");
                 final String address = orders.getString("address");
-                final LatLng latLng = new LatLng(orders.getDouble("latitude"), orders.getDouble("longitude"));
+                final double lat = orders.getDouble("latitude");
+                final double lng = orders.getDouble("longitude");
                 final boolean isSupply = orders.getBoolean("supply");
-                final String dateFrom;
-                return null;
+                final String dateFrom = orders.getString("dateFrom");
+                final String dateTo = orders.getString("dateTo");
+                final String dateSubmitted = orders.getString("dateSubmitted");
+                if(doneBool){
+                    String idT = isSupply ? "idS" : "idD";
+                    String other = isSupply ? "idD" : "idS";
+                    ResultSet matched_Transaction = statement2.executeQuery("select * from matched_orders where " + idT + "=" + id);
+                    matched_Transaction.next();
+                    final int matchedID = matched_Transaction.getInt("id");
+                    final int otherId = matched_Transaction.getInt(other);
+                    final String dateMatched = matched_Transaction.getString("date");
+                    Transaction t = new CompletedTransaction(id, phone, weight, address,
+                            lat, lng, isSupply, dateFrom, dateTo, dateSubmitted, matchedID, dateMatched, otherId);
+                    transactions.add(t);
+                } else {
+                    Transaction t = new Transaction(id, phone, weight,
+                            address, lat, lng, isSupply, dateFrom, dateTo, dateSubmitted);
+                    transactions.add(t);
+                }
             }
+            statement.close();
+            statement2.close();
+            return transactions;
         } else {
+            statement.close();
+            statement2.close();
             return null;
         }
     }

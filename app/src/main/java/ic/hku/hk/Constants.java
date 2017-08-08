@@ -23,4 +23,5 @@ class Constants {
     static final String PASSWORD = "shake";
     static final String IP = "147.8.133.49";
     static final String DBNAME = "s2s";
+    static DatabaseConnection dbc;
 }
