@@ -4,6 +4,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import static ic.hku.hk.Constants.*;
+import static ic.hku.hk.SQLQuery.*;
 
 public class DatabaseConnection {
 
@@ -13,7 +20,7 @@ public class DatabaseConnection {
     private final String dbName;
     private String phoneNumber;
 
-    public Connection con;
+    private Connection con;
 
     public DatabaseConnection(String user, String password, String ip, String dbName) {
         this.user = user;
@@ -21,46 +28,29 @@ public class DatabaseConnection {
         this.ip = ip;
         this.dbName = dbName;
         try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            System.out.println(ip);
-            System.out.println(dbName);
-            System.out.println(user);
-            System.out.println(password);
+            Class.forName(DRIVER_CLASS_LOCATION).newInstance();
             con = DriverManager.getConnection("jdbc:mysql://" + ip + "/" + dbName, user, password);
-            System.out.println("done");
-        } catch (IllegalAccessException e) {
-            System.out.println("illegal");
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            System.out.println("instantiation");
-            e.printStackTrace();
-        } catch (SQLException e) {
-            System.out.println("sql");
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            System.out.println("classnotfound");
-            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println(e);
         }
 
     }
 
     public DatabaseConnection(String user, String password, String ip, String dbName, String phoneNumber) {
         this(user, password, ip, dbName);
-        phoneNumber = phoneNumber;
+        this.phoneNumber = phoneNumber;
     }
 
 
 
     public static void main(String[] args) throws SQLException {
-        DatabaseConnection dbc = new DatabaseConnection("shake", "shake", "147.8.133.49", "s2s");
-        dbc.share("Knowles", new LatLng(3, 1), true, true, "1111/33/11", "1111/33/12", 41.2);
+        DatabaseConnection dbc = new DatabaseConnection("shake", "shake", "147.8.133.49", "s2s", "852-69793034");
     }
 
 
     public boolean confirmPassword(String user, String password) throws SQLException {
         Statement statement = con.createStatement();
-        ResultSet rs = statement.executeQuery("select * from user where phone_number='"
-                + user + "' and password='" + password + "'");
+        ResultSet rs = statement.executeQuery(CONFIRM_PASSWORD_QUERY + user + "' and password='" + password + "'");
         //Makes sure that the user exist
         boolean r = rs.next();
         rs.close();
@@ -69,11 +59,14 @@ public class DatabaseConnection {
     }
 
     public boolean createUser(String name, String company, String email, String phone, String password) throws SQLException{
+        if(con == null){
+            con = DriverManager.getConnection("jdbc:mysql://" + ip + "/" + dbName, user, this.password);
+        }
         Statement statement = con.createStatement();
         try {
-            statement.executeUpdate("insert into user VALUES('" + phone + "', '" + password + "');");
-            statement.executeUpdate("insert into user_info VALUES('" + name + "', '"
-                    + company + "', '" + email + "', '" + phone + "');");
+            statement.executeUpdate(USER_VALUES_QUERY + phone + "', '" + password + "');");
+            statement.executeUpdate(USER_INFO_VALUES_QUERY + name + "', '" + company + "', '"
+                    + email + "', '" + phone + "');");
             statement.close();
             return true;
         } catch (MySQLIntegrityConstraintViolationException e) {
@@ -96,7 +89,6 @@ public class DatabaseConnection {
                 + dateFrom + "', '" + dateTo + "', '" + dateS + "');");
         statement.close();
     }
-
 
     public List<Transaction> getOrders(boolean doneBool) throws SQLException {
         Statement statement = con.createStatement();
