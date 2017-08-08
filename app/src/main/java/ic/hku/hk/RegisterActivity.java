@@ -6,11 +6,16 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import static ic.hku.hk.AreaCodeDialog.areaCodeDialog;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -18,7 +23,9 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText name;
     private EditText email;
     private EditText company;
-    private TextView areaCode;
+    private TextView areaCodeText;
+    private ImageView areaCodeImage;
+    private LinearLayout areaCodeSelection;
     private Button next;
 
     @Override
@@ -27,10 +34,20 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         loginPhoneNumber = (EditText) findViewById(R.id.loginPhoneNumber_R);
+        loginPhoneNumber.setText(getIntent().getStringExtra("phoneNumber"), TextView.BufferType.EDITABLE);
+
         name = (EditText) findViewById(R.id.nameInput_R);
         email = (EditText) findViewById(R.id.emailInput_R);
         company = (EditText) findViewById(R.id.company_R);
-        areaCode = (TextView) findViewById(R.id.areaCodeSelection_text_R);
+        areaCodeText = (TextView) findViewById(R.id.areaCodeSelection_text_R);
+        areaCodeImage = (ImageView) findViewById(R.id.areaCodeSelection_image_R);
+        areaCodeSelection = (LinearLayout) findViewById(R.id.areaCodeSelection_R);
+        areaCodeSelection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                areaCodeDialog(RegisterActivity.this, areaCodeText, areaCodeImage);
+            }
+        });
         initialiseListeners();
 
         next = (Button) findViewById(R.id.next_button_R);
@@ -40,7 +57,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (validInput()) {
                     Intent toPassword = new Intent(RegisterActivity.this, activity_password_check.class);
-                    toPassword.putExtra("PHONE_NUMBER", areaCode.getText().toString().substring(1) + "-" + loginPhoneNumber.getText().toString());
+                    toPassword.putExtra("PHONE_NUMBER", areaCodeText.getText().toString().substring(1) + "-" + loginPhoneNumber.getText().toString());
                     toPassword.putExtra("NAME", name.getText().toString());
                     toPassword.putExtra("EMAIL", email.getText().toString());
                     toPassword.putExtra("COMPANY", company.getText().toString());

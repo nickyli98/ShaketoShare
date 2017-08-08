@@ -14,7 +14,8 @@ import java.util.Locale;
 
 public class AreaCodeDialog {
 
-    static <T extends Activity> void areaCodeDialog(final T context, final LinearLayout areaCodeSelection){
+    static <T extends Activity> void areaCodeDialog(final T context, final TextView areaCodeSelection_text
+            ,final ImageView areaCodeSelection_image){
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(context);
         View mView = context.getLayoutInflater().inflate(R.layout.dialog_area_code_selection, null);
         mBuilder.setView(mView);
@@ -27,8 +28,8 @@ public class AreaCodeDialog {
         HK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((TextView) context.findViewById(R.id.areaCodeSelection_text)).setText(R.string.hk_area_code);
-                ((ImageView) context.findViewById(R.id.areaCodeSelection_image)).setImageResource(R.drawable.hong_kong_flag);
+                areaCodeSelection_text.setText(R.string.hk_area_code);
+                areaCodeSelection_image.setImageResource(R.drawable.hong_kong_flag);
                 dialog.cancel();
             }
         });
@@ -36,8 +37,8 @@ public class AreaCodeDialog {
         Macau.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((TextView) context.findViewById(R.id.areaCodeSelection_text)).setText(R.string.macau_area_code);
-                ((ImageView) context.findViewById(R.id.areaCodeSelection_image)).setImageResource(R.drawable.macau_flag);
+                areaCodeSelection_text.setText(R.string.macau_area_code);
+                areaCodeSelection_image.setImageResource(R.drawable.macau_flag);
                 dialog.cancel();
             }
         });
@@ -45,8 +46,8 @@ public class AreaCodeDialog {
         China.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((TextView) context.findViewById(R.id.areaCodeSelection_text)).setText(R.string.china_area_code);
-                ((ImageView) context.findViewById(R.id.areaCodeSelection_image)).setImageResource(R.drawable.china_flag);
+                areaCodeSelection_text.setText(R.string.china_area_code);
+                areaCodeSelection_image.setImageResource(R.drawable.china_flag);
                 dialog.cancel();
             }
         });

@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -38,6 +39,8 @@ public class LoginActivity extends Activity {
 
     // UI references.
     private LinearLayout areaCodeSelection;
+    private TextView areaCodeSelectionText;
+    private ImageView areaCodeSelectionImage;
     private EditText phoneNumberEditText;
     private EditText passwordEditText;
     private TextView createAccount;
@@ -57,6 +60,8 @@ public class LoginActivity extends Activity {
 
         //Initializes UI
         areaCodeSelection = findViewById(R.id.areaCodeSelection);
+        areaCodeSelectionText = (TextView) findViewById(R.id.areaCodeSelection_text);
+        areaCodeSelectionImage = (ImageView) findViewById(R.id.areaCodeSelection_image);
         phoneNumberEditText = (EditText) findViewById(R.id.loginPhoneNumber);
 
         firstPin = findViewById(R.id.first_pin);
@@ -73,7 +78,7 @@ public class LoginActivity extends Activity {
         areaCodeSelection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                areaCodeDialog(LoginActivity.this, areaCodeSelection);
+                areaCodeDialog(LoginActivity.this, areaCodeSelectionText, areaCodeSelectionImage);
             }
         });
 
@@ -95,6 +100,7 @@ public class LoginActivity extends Activity {
     private void attemptCreateAccount() {
         //TODO validation
         Intent toRegister = new Intent(this, RegisterActivity.class);
+        toRegister.putExtra("phoneNumber", phoneNumberEditText.getText().toString());
         startActivity(toRegister);
         this.finish();
     }

@@ -353,6 +353,7 @@ public class MapsActivity extends AppCompatActivity
 
         //TODO SHARE
 
+        collapseUI();
         Toast.makeText(MapsActivity.this, R.string.SharedToast, Toast.LENGTH_LONG).show();
     }
 

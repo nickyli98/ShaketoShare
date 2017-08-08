@@ -26,4 +26,5 @@
     <string name="no_company">请输入公司名字</string>
     <string name="no_name">请输入姓名</string>
     <string name="phone_number_short">电话号码无效</string>
+    <string name="failedToMakeUser">用戶已存在</string>
 </resources>

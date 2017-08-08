@@ -29,6 +29,8 @@ public class activity_password_check extends AppCompatActivity {
     private String email;
     private String company;
 
+    private DatabaseConnection dbc;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,12 +45,8 @@ public class activity_password_check extends AppCompatActivity {
                 name = getIntent().getStringExtra("NAME");
                 email = getIntent().getStringExtra("EMAIL");
                 company = getIntent().getStringExtra("COMPANY");
-                new createUserTask().execute();
-                //send to db
-                //verify
-                //send to app
-            }
-        });
+                new createUserTask().execute(name, email, company, phoneNumber, PIN);
+            }});
         //run();
     }
 
@@ -103,24 +101,31 @@ public class activity_password_check extends AppCompatActivity {
         passwordNext = (Button) findViewById(R.id.passwordNext);
     }
 
-    private class createUserTask extends AsyncTask<Void, Void, Void> {
+    private class createUserTask extends AsyncTask<String, Void, Boolean> {
         @Override
-        protected Void doInBackground(Void...voids) {
-            DatabaseConnection dbc = new DatabaseConnection(USER, PASSWORD, IP, DBNAME);
+        protected void onPostExecute(Boolean aBoolean) {
+            if (aBoolean) {
+                Intent toMap = new Intent(activity_password_check.this, MapsActivity.class);
+                Toast.makeText(activity_password_check.this, getResources().getString(R.string.made_user_success), Toast.LENGTH_SHORT).show();
+                startActivity(toMap);
+                finish();
+            } else {
+                Intent toRegister = new Intent(activity_password_check.this, RegisterActivity.class);
+                Toast.makeText(activity_password_check.this, getResources().getString(R.string.failedToMakeUser), Toast.LENGTH_SHORT).show();
+                startActivity(toRegister);
+                finish();
+            }
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
             try {
-                System.out.println("1");
-                if (dbc.createUser(name, company, email, phoneNumber, PIN)) {
-                    System.out.println("2");
-                    Toast.makeText(getBaseContext(), getResources().getString(R.string.made_user_success), Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getBaseContext(), MapsActivity.class);
-                    startActivity(intent);
-                    activity_password_check.this.finish();
-                }
+                dbc = new DatabaseConnection(USER, PASSWORD, IP, DBNAME);
+                return dbc.createUser(strings[0], strings[1], strings[2], strings[3], strings[4]);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            System.out.println("3");
-            return null;
+            return false;
         }
     }
 

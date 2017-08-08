@@ -25,4 +25,5 @@
     <string name="no_email">請輸入電郵地址</string>
     <string name="no_company">請輸入公司名字</string>
     <string name="no_name">請輸入姓名</string>
+    <string name="failedToMakeUser">用戶已存在</string>
 </resources>
