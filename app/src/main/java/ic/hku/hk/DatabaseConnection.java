@@ -1,9 +1,14 @@
 package ic.hku.hk;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.mysql.jdbc.*;
+import com.mysql.jdbc.Driver;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 
 import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -33,20 +38,12 @@ public class DatabaseConnection {
         } catch (Exception e) {
             System.out.println(e);
         }
-
     }
 
     public DatabaseConnection(String user, String password, String ip, String dbName, String phoneNumber) {
         this(user, password, ip, dbName);
         this.phoneNumber = phoneNumber;
     }
-
-
-
-    public static void main(String[] args) throws SQLException {
-        DatabaseConnection dbc = new DatabaseConnection("shake", "shake", "147.8.133.49", "s2s", "852-69793034");
-    }
-
 
     public boolean confirmPassword(String user, String password) throws SQLException {
         Statement statement = con.createStatement();
@@ -130,11 +127,15 @@ public class DatabaseConnection {
                 }
             }
             statement.close();
-            statement2.close();
+            if(doneBool){
+                statement2.close();
+            }
             return transactions;
         } else {
             statement.close();
-            statement2.close();
+            if(doneBool){
+                statement2.close();
+            }
             return null;
         }
     }

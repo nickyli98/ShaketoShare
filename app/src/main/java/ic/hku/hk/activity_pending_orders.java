@@ -5,12 +5,12 @@ import android.os.Bundle;
 
 import static ic.hku.hk.DatabaseVariables.*;
 
-public class activity_history_orders extends AppCompatActivity {
+public class activity_pending_orders extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_history_orders);
+        setContentView(R.layout.activity_pending_orders);
         //System.out.println("CHECK HERE - " + historyTransactions.size());
     }
 

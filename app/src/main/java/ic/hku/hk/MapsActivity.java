@@ -2,6 +2,7 @@ package ic.hku.hk;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.hardware.Sensor;
@@ -46,14 +47,17 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import static ic.hku.hk.AndroidUtils.*;
 import static ic.hku.hk.Constants.*;
 import static ic.hku.hk.AddressDialog.pickUpAddressDialog;
+import static ic.hku.hk.DatabaseVariables.*;
 
 public class MapsActivity extends AppCompatActivity
         implements OnMapReadyCallback,
@@ -145,7 +149,8 @@ public class MapsActivity extends AppCompatActivity
         orderHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent toHistory = new Intent(MapsActivity.this, activity_history_orders.class);
+                startActivity(toHistory);
             }
         });
 
@@ -655,12 +660,41 @@ public class MapsActivity extends AppCompatActivity
     private class createDBC extends AsyncTask<Void, Void, DatabaseConnection>{
         @Override
         protected DatabaseConnection doInBackground(Void... voids) {
-            return new DatabaseConnection(USER, PASSWORD, IP, DBNAME);
+            //TODO phone number
+            return new DatabaseConnection(USER, PASSWORD, IP, DBNAME, "852-69793034");
         }
 
         @Override
         protected void onPostExecute(DatabaseConnection databaseConnection) {
             dbc = databaseConnection;
+            new getOrders().execute();
+        }
+    }
+
+    private class getOrders extends AsyncTask<Void, Void, List<Transaction>[]>{
+        @Override
+        protected List<Transaction>[] doInBackground(Void... voids) {
+            System.out.println("BACKGROUND ORDER S");
+            List<Transaction>[] transactions = new List[2];
+            try {
+                transactions[0] = dbc.getOrders(false);
+            } catch (SQLException e) {
+                System.out.println("Pending - TRANSACTION LIST SQL EXCEPTION");
+                e.printStackTrace();
+            }
+            try {
+                transactions[1] = dbc.getOrders(true);
+            } catch (SQLException e) {
+                System.out.println("History - TRANSACTION LIST SQL EXCEPTION");
+                e.printStackTrace();
+            }
+            return transactions;
+        }
+
+        @Override
+        protected void onPostExecute(List<Transaction>[] transactions) {
+            pendingTransactions = transactions[0];
+            historyTransactions = transactions[1];
         }
     }
 

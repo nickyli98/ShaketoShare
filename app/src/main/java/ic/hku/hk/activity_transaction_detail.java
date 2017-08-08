@@ -11,4 +11,6 @@ public class activity_transaction_detail extends Activity {
         setContentView(R.layout.activity_transaction_detail);
     }
 
+    //TODO deal with putextra stuff
+
 }
