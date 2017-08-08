@@ -69,10 +69,6 @@ public class DatabaseConnection {
     }
 
     public boolean createUser(String name, String company, String email, String phone, String password) throws SQLException{
-        if(con == null){
-            con = DriverManager.getConnection("jdbc:mysql://" + ip + "/" + dbName, user, this.password);
-        }
-        System.out.println("creating statement....");
         Statement statement = con.createStatement();
         try {
             statement.executeUpdate("insert into user VALUES('" + phone + "', '" + password + "');");
@@ -87,16 +83,68 @@ public class DatabaseConnection {
         }
     }
 
-    public boolean share(String address, LatLng addressLatLng, boolean organic,
-                         boolean isSupply, String dateFrom, String dateTo, double weight) throws SQLException {
+    public void share(String address, LatLng addressLatLng, boolean organic,
+                      boolean isSupply, String dateFrom, String dateTo, double weight) throws SQLException {
         Statement statement = con.createStatement();
         int org = organic ? 1 : 0;
         int supply = isSupply ? 1 : 0;
-        statement.executeUpdate("insert into share_history VALUES(" + weight + ", " + org + ", '"
-                + address + "', " + addressLatLng.latitude + ", " + addressLatLng.longitude + ", "
-                + supply + ", '" + phoneNumber + "', '" + dateFrom + "', '" + dateTo + "');");
+        Date date = Calendar.getInstance().getTime();
+        String dateS = sdf.format(date);
+        statement.executeUpdate(SHARE_QUERY + weight + ", " + org + ", '" + address
+                + "', " + addressLatLng.latitude + ", " + addressLatLng.longitude
+                + ", " + supply + ", '" + phoneNumber + "', '"
+                + dateFrom + "', '" + dateTo + "', '" + dateS + "');");
         statement.close();
-        return true;
+    }
+
+
+    public List<Transaction> getOrders(boolean doneBool) throws SQLException {
+        Statement statement = con.createStatement();
+        Statement statement2 = null;
+        int done = 0;
+        if(doneBool) {
+            statement2 = con.createStatement();
+            done = 1;
+        }
+        ResultSet orders = statement.executeQuery(GET_HISTORY + phoneNumber + "' and done=" + done + ";");
+        if(orders != null){
+            List<Transaction> transactions = new ArrayList<>();
+            while(orders.next()){
+                final int id = orders.getInt("id");
+                final String phone = orders.getString("phone_number");
+                final double weight = orders.getDouble("weight");
+                final String address = orders.getString("address");
+                final double lat = orders.getDouble("latitude");
+                final double lng = orders.getDouble("longitude");
+                final boolean isSupply = orders.getBoolean("supply");
+                final String dateFrom = orders.getString("dateFrom");
+                final String dateTo = orders.getString("dateTo");
+                final String dateSubmitted = orders.getString("dateSubmitted");
+                if(doneBool){
+                    String idT = isSupply ? "idS" : "idD";
+                    String other = isSupply ? "idD" : "idS";
+                    ResultSet matched_Transaction = statement2.executeQuery("select * from matched_orders where " + idT + "=" + id);
+                    matched_Transaction.next();
+                    final int matchedID = matched_Transaction.getInt("id");
+                    final int otherId = matched_Transaction.getInt(other);
+                    final String dateMatched = matched_Transaction.getString("date");
+                    Transaction t = new CompletedTransaction(id, phone, weight, address,
+                            lat, lng, isSupply, dateFrom, dateTo, dateSubmitted, matchedID, dateMatched, otherId);
+                    transactions.add(t);
+                } else {
+                    Transaction t = new Transaction(id, phone, weight,
+                            address, lat, lng, isSupply, dateFrom, dateTo, dateSubmitted);
+                    transactions.add(t);
+                }
+            }
+            statement.close();
+            statement2.close();
+            return transactions;
+        } else {
+            statement.close();
+            statement2.close();
+            return null;
+        }
     }
 
     public void closeConnection() throws SQLException {

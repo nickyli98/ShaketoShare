@@ -8,6 +8,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -106,6 +107,8 @@ public class MapsActivity extends AppCompatActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        new createDBC().execute();
 
         initializeAndroidUI();
 
@@ -650,4 +653,17 @@ public class MapsActivity extends AppCompatActivity
             firstTime = false;
         }
     }
+
+    private class createDBC extends AsyncTask<Void, Void, DatabaseConnection>{
+        @Override
+        protected DatabaseConnection doInBackground(Void... voids) {
+            return new DatabaseConnection(USER, PASSWORD, IP, DBNAME);
+        }
+
+        @Override
+        protected void onPostExecute(DatabaseConnection databaseConnection) {
+            dbc = databaseConnection;
+        }
+    }
+
 }

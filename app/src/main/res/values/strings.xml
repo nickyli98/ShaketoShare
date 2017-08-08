@@ -64,4 +64,5 @@
     <string name="phone_number_short">Invalid phone number</string>
     <string name="made_user_success">Successfully created!</string>
     <string name="failedToMakeUser">A user already exists for this number</string>
+    <string name="title_activity_transaction_detail">activity_transaction_detail</string>
 </resources>
