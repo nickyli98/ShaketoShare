@@ -24,4 +24,5 @@
     <string name="address_needed">请输入地址</string>
     <string name="please_select_the_closest_address">请选择最靠近的地址</string>
     <string name="made_user_success">成功建立用戶!</string>
+    <string name="check_internet_connection">连接到互联网失败</string>
 </resources>

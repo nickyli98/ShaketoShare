@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +59,8 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        AndroidUtils.checkConnection(this);
+
         //Initializes UI
         areaCodeSelection = findViewById(R.id.areaCodeSelection);
         areaCodeSelectionText = (TextView) findViewById(R.id.areaCodeSelection_text);
@@ -85,7 +88,11 @@ public class LoginActivity extends Activity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                if (AndroidUtils.isConnected(LoginActivity.this)) {
+                    attemptLogin();
+                } else {
+                    Toast.makeText(LoginActivity.this, R.string.check_internet_connection, Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -108,10 +115,9 @@ public class LoginActivity extends Activity {
     private void attemptLogin() {
         //TODO validation, get text from hiddentext
         Intent toMap = new Intent(this, MapsActivity.class);
-        //loginButton.setVisibility(View.GONE);
         ProgressBar p = findViewById(R.id.loginLoading);
-        startActivity(toMap);
         p.setVisibility(View.VISIBLE);
+        startActivity(toMap);
         this.finish();
     }
 

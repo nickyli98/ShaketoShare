@@ -127,6 +127,7 @@ public class AddressDialog {
                             locationLL.setBackgroundColor(context.getResources().getColor(R.color.inputText, context.getTheme()));
                             if(showCurrentPlaceCheck){
                                 showCurrentPlace(pickUpAddress, apiClient, context);
+                                dialog.cancel();
                             }
                     }
                     return true;

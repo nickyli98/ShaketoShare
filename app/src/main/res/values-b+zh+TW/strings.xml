@@ -25,4 +25,5 @@
     <string name="please_select_the_closest_address">請選擇最靠近的地址</string>
     <string name="phone_number_short">電話號碼無效</string>
     <string name="made_user_success">成功建立用戶!</string>
+    <string name="check_internet_connection">連接到互聯網失敗</string>
 </resources>
