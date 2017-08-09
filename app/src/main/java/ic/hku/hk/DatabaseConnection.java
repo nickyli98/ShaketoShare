@@ -1,8 +1,6 @@
 package ic.hku.hk;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.mysql.jdbc.*;
-import com.mysql.jdbc.Driver;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 
 import java.sql.*;
@@ -96,6 +94,7 @@ public class DatabaseConnection {
         }
         ResultSet orders = statement.executeQuery(GET_HISTORY + phoneNumber + "' and done=" + done + ";");
         if(orders != null){
+            System.out.println("IN here");
             List<Transaction> transactions = new ArrayList<>();
             while(orders.next()){
                 final int id = orders.getInt("id");
@@ -108,6 +107,8 @@ public class DatabaseConnection {
                 final String dateFrom = orders.getString("dateFrom");
                 final String dateTo = orders.getString("dateTo");
                 final String dateSubmitted = orders.getString("dateSubmitted");
+                final boolean organic = orders.getBoolean("organic");
+                final double bid = orders.getDouble("bid");
                 if(doneBool){
                     String idT = isSupply ? "idS" : "idD";
                     String other = isSupply ? "idD" : "idS";
@@ -115,13 +116,15 @@ public class DatabaseConnection {
                     matched_Transaction.next();
                     final int matchedID = matched_Transaction.getInt("id");
                     final int otherId = matched_Transaction.getInt(other);
+                    final double price = orders.getDouble("price");
                     final String dateMatched = matched_Transaction.getString("date");
-                    Transaction t = new CompletedTransaction(id, phone, weight, address,
-                            lat, lng, isSupply, dateFrom, dateTo, dateSubmitted, matchedID, dateMatched, otherId);
+                    Transaction t = new CompletedTransaction(id, phone, weight, address, lat, lng,
+                            isSupply, dateFrom, dateTo, dateSubmitted, organic, bid, matchedID,
+                            dateMatched, otherId, price);
                     transactions.add(t);
                 } else {
                     Transaction t = new Transaction(id, phone, weight,
-                            address, lat, lng, isSupply, dateFrom, dateTo, dateSubmitted);
+                            address, lat, lng, isSupply, dateFrom, dateTo, dateSubmitted, organic, bid);
                     transactions.add(t);
                 }
             }
@@ -141,5 +144,15 @@ public class DatabaseConnection {
 
     public void closeConnection() throws SQLException {
         con.close();
+    }
+
+    public UserInfo getUserInfo(int transactionId) throws SQLException {
+        Statement statement = con.createStatement();
+        ResultSet r = statement.executeQuery("select phone_number from share_history where id=" + transactionId + ";");
+        r.next();
+        String number = r.getString("phone_number");
+        r = statement.executeQuery("select * from user_info where phone_number='" + number + "';");
+        r.next();
+        return new UserInfo(r.getString("name"), r.getString("email"), number, r.getString("company"));
     }
 }

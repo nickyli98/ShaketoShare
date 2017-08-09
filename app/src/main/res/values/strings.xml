@@ -65,6 +65,13 @@
     <string name="made_user_success">Successfully created!</string>
     <string name="failedToMakeUser">A user already exists for this number</string>
     <string name="title_activity_transaction_detail">activity_transaction_detail</string>
+    <string name="order_completed_on">Order completed on:</string>
+    <string name="your_order_details">Your order details</string>
+    <string name="cancel">Cancel</string>
+    <string name="inorganicWord">Inorganic</string>
+    <string name="organicWord">Organic</string>
+    <string name="demandReqString">Your demand request</string>
+    <string name="supplyDetails">Your supply details</string>
     <string name="check_internet_connection">Please check your internet connection</string>
     <string name="hkd">HKD</string>
     <string name="supply_bid_prompt">What is your asking price?</string>

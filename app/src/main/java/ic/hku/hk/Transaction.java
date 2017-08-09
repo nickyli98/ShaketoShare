@@ -16,9 +16,11 @@ public class Transaction implements Parcelable{
     private final String dateFrom;
     private final String dateTo;
     private final String dateSubmitted;
+    private final boolean organic;
+    private final double bid;
 
     public Transaction(int id, String phone, double weight, String address, double lat, double lng,
-                       boolean isSupply, String dateFrom, String dateTo, String dateSubmitted) {
+                       boolean isSupply, String dateFrom, String dateTo, String dateSubmitted, boolean organic, double bid) {
         this.id = id;
         this.phone = phone;
         this.weight = weight;
@@ -29,7 +31,14 @@ public class Transaction implements Parcelable{
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
         this.dateSubmitted = dateSubmitted;
+        this.organic = organic;
+        this.bid = bid;
     }
+
+    public String getBid(){
+        return bid + "";
+    }
+
 
     public int getId() {
         return id;
@@ -85,7 +94,14 @@ public class Transaction implements Parcelable{
         dateFrom = in.readString();
         dateTo = in.readString();
         dateSubmitted = in.readString();
+        organic = in.readByte() != 0;
+        bid = in.readDouble();
     }
+
+    public boolean getOrganic() {
+        return organic;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -103,6 +119,8 @@ public class Transaction implements Parcelable{
         parcel.writeString(dateFrom);
         parcel.writeString(dateTo);
         parcel.writeString(dateSubmitted);
+        parcel.writeByte((byte) (organic ? 1 : 0));
+        parcel.writeDouble(bid);
     }
 
     public static final Parcelable.Creator CREATOR = new Creator() {
