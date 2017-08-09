@@ -365,8 +365,8 @@ public class MapsActivity extends AppCompatActivity
 
     private void openBidDialog(String address, String lat, String lon,
                                String organic, String isSupply, String dateFrom,
-                               String dateTo, String weight) {
-        bidDialog(MapsActivity.this, address, lat, lon, organic, isSupply, dateFrom, dateTo, weight);
+                               String dateTo, String weight, DatabaseConnection dbc) {
+        bidDialog(MapsActivity.this, address, lat, lon, organic, isSupply, dateFrom, dateTo, weight, dbc);
     }
 
     private void shareRequest() {
@@ -380,7 +380,7 @@ public class MapsActivity extends AppCompatActivity
         String dateTo = dateToEditText.getText().toString();
         String weight = weightEditText.getText().toString();
         //with these fields
-        openBidDialog(address, lat, lon, organic, isSupply, dateFrom, dateTo, weight);
+        openBidDialog(address, lat, lon, organic, isSupply, dateFrom, dateTo, weight, dbc);
         //resets the UI
         clearForm(insidePane);
         dateFromEditText.setText(sdf.format(Calendar.getInstance().getTime()));

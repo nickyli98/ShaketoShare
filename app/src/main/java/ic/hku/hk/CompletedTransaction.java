@@ -77,8 +77,8 @@ public class CompletedTransaction extends Transaction implements AsyncResponse{
     }
 
     @Override
-    public void processFinish(UserInfo output) {
-        this.userInfo = output;
+    public <T> void processFinish(T output) {
+        this.userInfo = (UserInfo) output;
     }
 
     private class getUserInfoTask extends AsyncTask<Integer, Void, UserInfo>{

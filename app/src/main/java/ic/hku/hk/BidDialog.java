@@ -15,46 +15,55 @@ import static ic.hku.hk.DatabaseVariables.dbc;
 
 public class BidDialog implements AsyncResponse {
 
-    static <T extends AppCompatActivity> void bidDialog (final T context, final String address, final String lat
+    static <T extends AppCompatActivity> void bidDialog(final T context, final String address, final String lat
             , final String lon, final String organic, final String isSupply, final String dateFrom
-            , final String dateTo, final String weight) {
+            , final String dateTo, final String weight, DatabaseConnection dbc) {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(context);
         View mView = context.getLayoutInflater().inflate(R.layout.dialog_share_bid, null);
         mBuilder.setView(mView);
         final AlertDialog dialog = mBuilder.create();
         dialog.show();
 
-        final TextView bidPrompt = (TextView) context.findViewById(R.id.bidPromptText);
-        final EditText bidAmount = (EditText) context.findViewById(R.id.bidAmount);
-        final Button bidConfirm = (Button) context.findViewById(R.id.bidConfirm);
+        final TextView bidPrompt = (TextView) dialog.findViewById(R.id.bidPromptText);
+        final EditText bidAmount = (EditText) dialog.findViewById(R.id.bidAmount);
+        final Button bidConfirm = (Button) dialog.findViewById(R.id.bidConfirm);
 
-        if (isSupply.equals("1")) {
-            bidPrompt.setText(context.getString(R.string.supply_bid_prompt));
-        } else {
-            bidPrompt.setText(context.getString(R.string.demand_bid_prompt));
+        if (bidPrompt != null) {
+            if (isSupply.equals("1")) {
+                bidPrompt.setText(context.getString(R.string.supply_bid_prompt));
+            } else {
+                bidPrompt.setText(context.getString(R.string.demand_bid_prompt));
+            }
         }
 
-        bidConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String bid = bidAmount.getText().toString();
-                new shareRequestTask().execute(address, lat, lon, organic, isSupply, dateFrom, dateTo, weight, bid);
-            }
-        });
+        if (bidConfirm != null) {
+            bidConfirm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String bid = bidAmount.getText().toString();
+                    new shareRequestTask().execute(address, lat, lon, organic, isSupply, dateFrom, dateTo, weight, bid);
+                }
+            });
+        }
     }
 
+    @Override
+    public <T> void processFinish(T output) {
+        /*boolean aBoolean = (boolean) output;
+        if (aBoolean) {
+            Toast.makeText(context, R.string.SharedToast, Toast.LENGTH_LONG).show();
+        } else {
+            //Toast.makeText(MapsActivity.this, "Failed to share", Toast.LENGTH_SHORT).show();
+        }*/
+    }
 
     private static class shareRequestTask extends AsyncTask<String, Void, Boolean> {
-        //TODO SQL INTEGRITY
+
+        //public AsyncResponse delegate = null;
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            if (aBoolean) {
-                Toast.makeText(context, R.string.SharedToast, Toast.LENGTH_LONG).show();
-            } else {
-                //Toast.makeText(MapsActivity.this, "Failed to share", Toast.LENGTH_SHORT).show();
-            }
+            //delegate.processFinish(aBoolean);
         }
 
         @Override

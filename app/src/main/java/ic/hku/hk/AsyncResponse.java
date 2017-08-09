@@ -1,5 +1,5 @@
 package ic.hku.hk;
 
 public interface AsyncResponse{
-    void processFinish(UserInfo output);
+    <T> void processFinish(T output);
 }
