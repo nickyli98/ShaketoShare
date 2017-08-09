@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import static ic.hku.hk.DatabaseVariables.*;
+import static ic.hku.hk.TransactionListUtil.*;
 
 public class activity_history_orders extends AppCompatActivity {
 
@@ -11,7 +12,7 @@ public class activity_history_orders extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_orders);
-        //System.out.println("CHECK HERE - " + historyTransactions.size());
+        listAdd(this, historyTransactions, R.id.transactionHistoryScroll, true);
     }
 
 

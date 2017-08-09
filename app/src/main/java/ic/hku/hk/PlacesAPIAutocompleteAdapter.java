@@ -136,7 +136,7 @@ public class PlacesAPIAutocompleteAdapter
                 results.await(60, TimeUnit.SECONDS);
         final Status status = autocompletePredictions.getStatus();
         if(!status.isSuccess()){
-            Toast.makeText(getContext(), R.string.FailedToConnectToast, Toast.LENGTH_SHORT).show();;
+            Toast.makeText(getContext(), R.string.FailedToConnectToast, Toast.LENGTH_SHORT).show();
             autocompletePredictions.release();
             return null;
         }

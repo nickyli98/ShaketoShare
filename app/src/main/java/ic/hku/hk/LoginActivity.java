@@ -63,9 +63,9 @@ public class LoginActivity extends Activity {
 
         //Initializes UI
         areaCodeSelection = findViewById(R.id.areaCodeSelection);
-        areaCodeSelectionText = (TextView) findViewById(R.id.areaCodeSelection_text);
-        areaCodeSelectionImage = (ImageView) findViewById(R.id.areaCodeSelection_image);
-        phoneNumberEditText = (EditText) findViewById(R.id.loginPhoneNumber);
+        areaCodeSelectionText = findViewById(R.id.areaCodeSelection_text);
+        areaCodeSelectionImage = findViewById(R.id.areaCodeSelection_image);
+        phoneNumberEditText = findViewById(R.id.loginPhoneNumber);
 
         firstPin = findViewById(R.id.first_pin);
         secondPin = findViewById(R.id.second_pin);
@@ -75,8 +75,8 @@ public class LoginActivity extends Activity {
 
         input = new PasswordInput(LoginActivity.this, firstPin, secondPin, thirdPin, fourthPin, hiddenText);
 
-        loginButton = (Button) findViewById(R.id.loginButton);
-        createAccount = (TextView) findViewById(R.id.createAccount);
+        loginButton = findViewById(R.id.loginButton);
+        createAccount = findViewById(R.id.createAccount);
 
         areaCodeSelection.setOnClickListener(new View.OnClickListener() {
             @Override
