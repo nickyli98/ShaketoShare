@@ -55,6 +55,7 @@ import java.util.List;
 import java.util.Locale;
 
 import static ic.hku.hk.AndroidUtils.*;
+import static ic.hku.hk.BidDialog.bidDialog;
 import static ic.hku.hk.Constants.*;
 import static ic.hku.hk.AddressDialog.pickUpAddressDialog;
 import static ic.hku.hk.DatabaseVariables.*;
@@ -77,6 +78,8 @@ public class MapsActivity extends AppCompatActivity
     private ImageView centreMap;
     private Button selectFromMapDone;
     private TextView addressPreview;
+    private TextView shareLat;
+    private TextView shareLon;
     private Geocoder geocoder;
     private SlidingUpPanelLayout layout;
     private LinearLayout buttonBar;
@@ -271,6 +274,10 @@ public class MapsActivity extends AppCompatActivity
         pickUpAddress = (EditText) findViewById(R.id.pickUpAddress);
         weightLayout = (LinearLayout) findViewById(R.id.weightBox);
 
+        //Invisible latitude/longitude elements for sharing location
+        shareLat = (TextView) findViewById(R.id.shareLat);
+        shareLon = (TextView) findViewById(R.id.shareLon);
+
         //Settings elements
         pendingOrders = (TextView) findViewById(R.id.settings_pendingOrders);
         orderHistory = (TextView) findViewById(R.id.settings_orderHistory);
@@ -353,14 +360,32 @@ public class MapsActivity extends AppCompatActivity
         pickUpAddressDialog(MapsActivity.this, mGoogleApiClient
                 , pickUpAddress, adapter, showCurrentPlaceCheck()
                 , mMap, layout, geocoder, centreMap, selectFromMapDone
-                , addressPreview, buttonBar, insidePane);
+                , addressPreview, buttonBar, insidePane, shareLat, shareLon);
+    }
+
+    private void openBidDialog(String address, String lat, String lon,
+                               String organic, String isSupply, String dateFrom,
+                               String dateTo, String weight) {
+        bidDialog(MapsActivity.this, address, lat, lon, organic, isSupply, dateFrom, dateTo, weight);
     }
 
     private void shareRequest() {
-        //TODO: clear the fields
-
-        //TODO SHARE
-        Toast.makeText(MapsActivity.this, R.string.SharedToast, Toast.LENGTH_LONG).show();
+        //gets the fields
+        String address = pickUpAddress.getText().toString();
+        String lat = shareLat.getText().toString();
+        String lon = shareLon.getText().toString();
+        String organic = organicSwitch.isChecked() ? "1" : "0";
+        String isSupply = supplyOn.isChecked() ? "1" : "0";
+        String dateFrom = dateFromEditText.getText().toString();
+        String dateTo = dateToEditText.getText().toString();
+        String weight = weightEditText.getText().toString();
+        //with these fields
+        openBidDialog(address, lat, lon, organic, isSupply, dateFrom, dateTo, weight);
+        //resets the UI
+        clearForm(insidePane);
+        dateFromEditText.setText(sdf.format(Calendar.getInstance().getTime()));
+        dateToEditText.setText(sdf.format(Calendar.getInstance().getTime()));
+        layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
     }
 
     private boolean shareCheck(final EditText weight, final EditText dateFrom, final EditText dateTo, final EditText address) {

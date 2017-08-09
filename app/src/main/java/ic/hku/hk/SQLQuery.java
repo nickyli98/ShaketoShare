@@ -11,6 +11,6 @@ public final class SQLQuery {
     static final String USER_VALUES_QUERY = "insert into user VALUES('";
     static final String USER_INFO_VALUES_QUERY = "insert into user_info VALUES('";
     static final String SHARE_QUERY = "insert into share_history (weight, organic, address, " +
-            "latitude, longitude, supply, phone_number, dateFrom, dateTo, dateSubmitted) VALUES(";
+            "latitude, longitude, supply, phone_number, dateFrom, dateTo, dateSubmitted, bid) VALUES(";
     static final String GET_HISTORY = "select * from share_history where phone_number='";
 }

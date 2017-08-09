@@ -73,18 +73,17 @@ public class DatabaseConnection {
         }
     }
 
-    public void share(String address, LatLng addressLatLng, boolean organic,
-                      boolean isSupply, String dateFrom, String dateTo, double weight) throws SQLException {
+    public boolean share(String address, double lat, double lon, int organic,
+                      int isSupply, String dateFrom, String dateTo, double weight, double bid) throws SQLException {
         Statement statement = con.createStatement();
-        int org = organic ? 1 : 0;
-        int supply = isSupply ? 1 : 0;
         Date date = Calendar.getInstance().getTime();
         String dateS = sdf.format(date);
-        statement.executeUpdate(SHARE_QUERY + weight + ", " + org + ", '" + address
-                + "', " + addressLatLng.latitude + ", " + addressLatLng.longitude
-                + ", " + supply + ", '" + phoneNumber + "', '"
-                + dateFrom + "', '" + dateTo + "', '" + dateS + "');");
+        statement.executeUpdate(SHARE_QUERY + weight + ", " + organic + ", '" + address
+                + "', " + lat + ", " + lon
+                + ", " + isSupply + ", '" + phoneNumber + "', '"
+                + dateFrom + "', '" + dateTo + "', '" + dateS + "', " + bid + ");");
         statement.close();
+        return true;
     }
 
     public List<Transaction> getOrders(boolean doneBool) throws SQLException {

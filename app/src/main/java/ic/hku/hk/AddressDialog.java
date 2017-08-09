@@ -2,10 +2,8 @@ package ic.hku.hk;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.res.ColorStateList;
 import android.location.Address;
 import android.location.Geocoder;
-import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -27,7 +25,6 @@ import android.widget.Toast;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.places.PlaceLikelihood;
 import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
 import com.google.android.gms.location.places.Places;
@@ -35,11 +32,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 
 import static ic.hku.hk.AndroidUtils.dpToPx;
 
@@ -50,7 +44,8 @@ public class AddressDialog {
             , final PlacesAPIAutocompleteAdapter adapter, final boolean showCurrentPlaceCheck
             , final GoogleMap mMap, final SlidingUpPanelLayout layout, final Geocoder geocoder
             , final ImageView centreMap, final Button selectFromMapDone, final TextView addressPreview
-            , final LinearLayout buttonBar, final LinearLayout insidePane){
+            , final LinearLayout buttonBar, final LinearLayout insidePane, final TextView shareLat
+            , final TextView shareLon){
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(context);
         View mView = context.getLayoutInflater().inflate(R.layout.dialog_address_selection, null);
         mBuilder.setView(mView);
@@ -68,7 +63,15 @@ public class AddressDialog {
             enterManually.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
-                    pickUpAddress.setText(adapter.getItem(pos).getFullText(null));
+                    String address = (String) adapter.getItem(pos).getFullText(null);
+                    pickUpAddress.setText(address);
+                    try {
+                        Address location = geocoder.getFromLocationName(address, 1).get(0);
+                        shareLat.setText(String.valueOf(location.getLatitude()));
+                        shareLon.setText(String.valueOf(location.getLongitude()));
+                    } catch (IOException e) {
+                        Toast.makeText(context, "Address not found", Toast.LENGTH_SHORT).show();
+                    }
                     dialog.cancel();
                 }
             });
@@ -76,8 +79,18 @@ public class AddressDialog {
                 @Override
                 public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                     if(i == EditorInfo.IME_ACTION_DONE) {
-                        pickUpAddress.setText(enterManually.getText());
-                        dialog.cancel();
+                        String address = enterManually.getText().toString();
+                        pickUpAddress.setText(address);
+                        try {
+                            Address location = geocoder.getFromLocationName(address, 1).get(0);
+                            shareLat.setText(String.valueOf(location.getLatitude()));
+                            shareLon.setText(String.valueOf(location.getLongitude()));
+                            dialog.cancel();
+                        } catch (IOException e) {
+                            Toast.makeText(context, "Error in parsing your address", Toast.LENGTH_SHORT).show();
+                        } catch (IndexOutOfBoundsException e) {
+                            Toast.makeText(context, "Address not found", Toast.LENGTH_SHORT).show();
+                        }
                     }
                     return true;
                 }
@@ -110,7 +123,7 @@ public class AddressDialog {
                             mapLL.setBackgroundColor(context.getResources().getColor(R.color.inputText, context.getTheme()));
                             if(mMap != null){
                                 selectFromMap(pickUpAddress, dialog, mMap, layout, geocoder
-                                        , centreMap, selectFromMapDone, addressPreview, buttonBar, insidePane);
+                                        , centreMap, selectFromMapDone, addressPreview, buttonBar, insidePane, shareLat, shareLon);
                             }
                     }
                     return true;
@@ -126,7 +139,7 @@ public class AddressDialog {
                         case MotionEvent.ACTION_UP:
                             locationLL.setBackgroundColor(context.getResources().getColor(R.color.inputText, context.getTheme()));
                             if(showCurrentPlaceCheck){
-                                showCurrentPlace(pickUpAddress, apiClient, context);
+                                showCurrentPlace(pickUpAddress, apiClient, context, shareLat, shareLon);
                                 dialog.cancel();
                             }
                     }
@@ -137,7 +150,7 @@ public class AddressDialog {
     }
 
     private static <T extends AppCompatActivity> void showCurrentPlace(final EditText pickUpAddress
-            , final GoogleApiClient client, final T context) {
+            , final GoogleApiClient client, final T context, final TextView shareLat, final TextView shareLon) {
         // Get the likely places - that is, the businesses and other points of interest that
         // are the best match for the device's current location.
         @SuppressWarnings("MissingPermission")
@@ -153,7 +166,7 @@ public class AddressDialog {
             @Override
             public void onClick(View view) {
                 likelyPlacesDialog.cancel();
-                showCurrentPlace(pickUpAddress, client, context);
+                showCurrentPlace(pickUpAddress, client, context, shareLat, shareLon);
             }
         });
         final LinearLayout.LayoutParams marginParams = new LinearLayout.LayoutParams(
@@ -175,11 +188,14 @@ public class AddressDialog {
                     }
                     view.setVisibility(View.VISIBLE);
                     view.setText(placeLikelihood.getPlace().getAddress());
+                    final LatLng latLng = placeLikelihood.getPlace().getLatLng();
                     view.setLayoutParams(marginParams);
                     view.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             pickUpAddress.setText(view.getText());
+                            shareLat.setText(String.valueOf(latLng.latitude));
+                            shareLon.setText(String.valueOf(latLng.longitude));
                             likelyPlacesDialog.cancel();
                         }
                     });
@@ -221,7 +237,8 @@ public class AddressDialog {
     private static void selectFromMap(final TextView addressView
             , final AlertDialog dialog, final GoogleMap mMap, final SlidingUpPanelLayout layout
             , final Geocoder geocoder, final ImageView centreMap, final Button selectFromMapDone
-            , final TextView addressPreview, final LinearLayout buttonBar, final LinearLayout insidePane) {
+            , final TextView addressPreview, final LinearLayout buttonBar, final LinearLayout insidePane
+            , final TextView shareLat, final TextView shareLon) {
 
         dialog.cancel();
 
@@ -254,6 +271,8 @@ public class AddressDialog {
             @Override
             public void onClick(View view) {
                 final LatLng centre = mMap.getCameraPosition().target;
+                shareLat.setText(String.valueOf(centre.latitude));
+                shareLon.setText(String.valueOf(centre.longitude));
                 selectFromMapDone.setVisibility(View.INVISIBLE);
                 centreMap.setVisibility(View.INVISIBLE);
                 addressPreview.setVisibility(View.INVISIBLE);

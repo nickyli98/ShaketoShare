@@ -168,6 +168,18 @@
                         android:hint="@string/address_hint"
                         android:padding="@dimen/text_box_padding"
                         android:textSize="@dimen/input_text_size" />
+
+                    <TextView
+                        android:id="@+id/shareLat"
+                        android:layout_width="1dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/shareLon"
+                        android:layout_width="1dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
                 </LinearLayout>
 
                 <View
@@ -254,6 +266,7 @@
                             android:cursorVisible="false"
                             android:hint="@string/weight_hint"
                             android:inputType="numberDecimal"
+                            android:maxLength="7"
                             android:padding="@dimen/text_box_padding" />
 
                         <TextView
