@@ -76,4 +76,5 @@
     <string name="hkd">HKD</string>
     <string name="supply_bid_prompt">What is your asking price?</string>
     <string name="demand_bid_prompt">What is your bidding price?</string>
+    <string name="confirmBid">Confirm</string>
 </resources>

@@ -29,4 +29,5 @@
     <string name="hkd">港幣</string>
     <string name="supply_bid_prompt">要價價錢：</string>
     <string name="demand_bid_prompt">出價價錢：</string>
+    <string name="confirmBid">確定</string>
 </resources>

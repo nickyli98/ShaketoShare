@@ -13,9 +13,15 @@ import java.sql.SQLException;
 
 import static ic.hku.hk.DatabaseVariables.dbc;
 
-public class BidDialog implements AsyncResponse {
+public class BidDialog<U extends AppCompatActivity> implements AsyncResponse {
 
-    static <T extends AppCompatActivity> void bidDialog(final T context, final String address, final String lat
+    private final U context;
+
+    public BidDialog(U context) {
+        this.context = context;
+    }
+
+    void bidDialog(final String address, final String lat
             , final String lon, final String organic, final String isSupply, final String dateFrom
             , final String dateTo, final String weight, DatabaseConnection dbc) {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(context);
@@ -41,7 +47,10 @@ public class BidDialog implements AsyncResponse {
                 @Override
                 public void onClick(View view) {
                     String bid = bidAmount.getText().toString();
-                    new shareRequestTask().execute(address, lat, lon, organic, isSupply, dateFrom, dateTo, weight, bid);
+                    shareRequestTask shareRequest = new shareRequestTask();
+                    shareRequest.delegate = BidDialog.this;
+                    shareRequest.execute(address, lat, lon, organic, isSupply, dateFrom, dateTo, weight, bid);
+                    dialog.cancel();
                 }
             });
         }
@@ -49,21 +58,21 @@ public class BidDialog implements AsyncResponse {
 
     @Override
     public <T> void processFinish(T output) {
-        /*boolean aBoolean = (boolean) output;
+        boolean aBoolean = (boolean) (Object) output;
         if (aBoolean) {
             Toast.makeText(context, R.string.SharedToast, Toast.LENGTH_LONG).show();
         } else {
-            //Toast.makeText(MapsActivity.this, "Failed to share", Toast.LENGTH_SHORT).show();
-        }*/
+            Toast.makeText(context, "Failed to share", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private static class shareRequestTask extends AsyncTask<String, Void, Boolean> {
 
-        //public AsyncResponse delegate = null;
+        public AsyncResponse delegate = null;
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
-            //delegate.processFinish(aBoolean);
+            delegate.processFinish(aBoolean);
         }
 
         @Override
