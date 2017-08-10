@@ -22,6 +22,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/order_completed_on"
                 android:textSize="@dimen/input_text_size"
+                android:textStyle="bold"
                 android:padding="@dimen/selectionMarginHalf"/>
             <TextView
                 android:id="@+id/completedTransactionDetails_date"
@@ -103,7 +104,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/input_text_size"
-
+            android:textStyle="bold"
             android:padding="@dimen/selectionMarginHalf"/>
         <View
             android:layout_width="match_parent"
@@ -217,6 +218,22 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/selectionMarginHalf"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/input_text_size"
+                android:text="Order submitted on: "
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/transactionDetails_dateSubmitted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/input_text_size"/>
+        </LinearLayout>
         <Button
             android:id="@+id/transactionCancel"
             android:layout_width="wrap_content"

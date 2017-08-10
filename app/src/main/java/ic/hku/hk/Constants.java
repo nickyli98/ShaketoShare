@@ -23,4 +23,12 @@ class Constants {
     static final String PASSWORD = "shake";
     static final String IP = "147.8.133.49";
     static final String DBNAME = "s2s";
+    static final double LATITUDE_TO_KM = 110.574;
+    static double LONGITUDE_TO_KM(double latitude){
+        return 111.320*Math.cos(latitude);
+    }
+    static final double KM_TO_LATITUDE = 1 / LATITUDE_TO_KM;
+    static double KM_TO_LONGITUDE(double latitude){
+        return 1 / (LONGITUDE_TO_KM(latitude));
+    }
 }

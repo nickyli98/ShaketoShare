@@ -1,5 +1,6 @@
 package ic.hku.hk;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 
 import java.sql.*;
@@ -8,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -94,8 +96,17 @@ public class DatabaseConnection {
         statement.setString(9, dateTo);
         statement.setString(10, dateS);
         statement.setDouble(11, bid);
-        statement.close();
-        return true;
+        try{
+            statement.executeUpdate();
+            statement.close();
+            return true;
+        } catch (MySQLIntegrityConstraintViolationException e) {
+            statement.close();
+            System.out.println(e);
+            System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public List<Transaction> getOrders(boolean doneBool) throws SQLException {
@@ -112,41 +123,13 @@ public class DatabaseConnection {
         if(orders != null){
             List<Transaction> transactions = new ArrayList<>();
             while(orders.next()){
-                final int id = orders.getInt("id");
-                final String phone = orders.getString("phone_number");
-                final double weight = orders.getDouble("weight");
-                final String address = orders.getString("address");
-                final double lat = orders.getDouble("latitude");
-                final double lng = orders.getDouble("longitude");
-                final boolean isSupply = orders.getBoolean("supply");
-                final String dateFrom = orders.getString("dateFrom");
-                final String dateTo = orders.getString("dateTo");
-                final String dateSubmitted = orders.getString("dateSubmitted");
-                final boolean organic = orders.getBoolean("organic");
-                final double bid = orders.getDouble("bid");
-                if(doneBool){
-                    String idT = isSupply ? "idS" : "idD";
-                    String other = isSupply ? "idD" : "idS";
-                    ResultSet matched_Transaction = statement2.executeQuery("select * from matched_orders where " + idT + "=" + id);
-                    matched_Transaction.next();
-                    final int matchedID = matched_Transaction.getInt("id");
-                    final int otherId = matched_Transaction.getInt(other);
-                    final String dateMatched = matched_Transaction.getString("date");
-                    final double price = matched_Transaction.getDouble("price");
-                    Transaction t = new CompletedTransaction(id, phone, weight, address, lat, lng,
-                            isSupply, dateFrom, dateTo, dateSubmitted, organic, bid, matchedID,
-                            dateMatched, otherId, price);
-                    transactions.add(t);
-                } else {
-                    Transaction t = new PendingTransaction(id, phone, weight,
-                            address, lat, lng, isSupply, dateFrom, dateTo, dateSubmitted, organic, bid);
-                    transactions.add(t);
-                }
+                transactions.add(getTransaction(orders, doneBool, statement2));
             }
             statement.close();
             if(doneBool){
                 statement2.close();
             }
+            Collections.reverse(transactions);
             return transactions;
         } else {
             statement.close();
@@ -155,6 +138,62 @@ public class DatabaseConnection {
             }
             return null;
         }
+    }
+
+    private Transaction getTransaction(ResultSet orders, boolean doneBool, Statement statement) throws SQLException {
+        final int id = orders.getInt("id");
+        final String phone = orders.getString("phone_number");
+        final double weight = orders.getDouble("weight");
+        final String address = orders.getString("address");
+        final double lat = orders.getDouble("latitude");
+        final double lng = orders.getDouble("longitude");
+        final boolean isSupply = orders.getBoolean("supply");
+        final String dateFrom = orders.getString("dateFrom");
+        final String dateTo = orders.getString("dateTo");
+        final String dateSubmitted = orders.getString("dateSubmitted");
+        final boolean organic = orders.getBoolean("organic");
+        final double bid = orders.getDouble("bid");
+        Transaction t;
+        if(doneBool){
+            String idT = isSupply ? "idS" : "idD";
+            String other = isSupply ? "idD" : "idS";
+            ResultSet matched_Transaction = statement.executeQuery("select * from matched_orders where " + idT + "=" + id);
+            matched_Transaction.next();
+            final int matchedID = matched_Transaction.getInt("id");
+            final int otherId = matched_Transaction.getInt(other);
+            final String dateMatched = matched_Transaction.getString("date");
+            final double price = matched_Transaction.getDouble("price");
+            t = new CompletedTransaction(id, phone, weight, address, lat, lng,
+                    isSupply, dateFrom, dateTo, dateSubmitted, organic, bid, matchedID,
+                    dateMatched, otherId, price);
+        } else {
+            t = new PendingTransaction(id, phone, weight,
+                    address, lat, lng, isSupply, dateFrom, dateTo, dateSubmitted, organic, bid);
+        }
+        return t;
+    }
+
+    public List<Transaction> getRadiusItems(LatLng currentLocation) throws SQLException {
+        //Gets everything within 15km of currentLocation
+        double lat = currentLocation.latitude;
+        double lng = currentLocation.longitude;
+        double latDeg15KM = KM_TO_LATITUDE * 15;
+        double lngDeg15KM = KM_TO_LONGITUDE(lat) * 15;
+        double latMax = lat + latDeg15KM;
+        double latMin = lat - latDeg15KM;
+        double lngMax = lng + lngDeg15KM;
+        double lngMin = lng - lngDeg15KM;
+        PreparedStatement statement = con.prepareStatement(GET_RADIUS_ITEMS);
+        statement.setDouble(1, latMin);
+        statement.setDouble(2, latMax);
+        statement.setDouble(3, lngMin);
+        statement.setDouble(4, lngMax);
+        ResultSet rs = statement.executeQuery();
+        List<Transaction> transactions = new ArrayList<>();
+        while(rs.next()){
+            transactions.add(getTransaction(rs, false, null));
+        }
+        return transactions;
     }
 
     public void closeConnection() throws SQLException {
