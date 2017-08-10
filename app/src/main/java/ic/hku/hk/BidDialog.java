@@ -1,9 +1,13 @@
 package ic.hku.hk;
 
+import android.app.Service;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -28,21 +32,21 @@ public class BidDialog<U extends AppCompatActivity> implements AsyncResponse {
         View mView = context.getLayoutInflater().inflate(R.layout.dialog_share_bid, null);
         mBuilder.setView(mView);
         final AlertDialog dialog = mBuilder.create();
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         dialog.show();
 
         final TextView bidPrompt = (TextView) dialog.findViewById(R.id.bidPromptText);
         final EditText bidAmount = (EditText) dialog.findViewById(R.id.bidAmount);
         final Button bidConfirm = (Button) dialog.findViewById(R.id.bidConfirm);
 
-        if (bidPrompt != null) {
+        if (bidPrompt != null && bidConfirm != null && bidAmount != null) {
             if (isSupply.equals("1")) {
                 bidPrompt.setText(context.getString(R.string.supply_bid_prompt));
             } else {
                 bidPrompt.setText(context.getString(R.string.demand_bid_prompt));
             }
-        }
 
-        if (bidConfirm != null) {
+
             bidConfirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
