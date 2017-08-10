@@ -1,6 +1,5 @@
 package ic.hku.hk;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 
 import java.sql.*;
@@ -44,8 +43,10 @@ public class DatabaseConnection {
     }
 
     public boolean confirmPassword(String user, String password) throws SQLException {
-        Statement statement = con.createStatement();
-        ResultSet rs = statement.executeQuery(CONFIRM_PASSWORD_QUERY + user + "' and password='" + password + "'");
+        PreparedStatement statement = con.prepareStatement(CONFIRM_PASSWORD_QUERY);
+        statement.setString(1, user);
+        statement.setString(2, password);
+        ResultSet rs = statement.executeQuery();
         //Makes sure that the user exist
         boolean r = rs.next();
         rs.close();
@@ -57,11 +58,17 @@ public class DatabaseConnection {
         if(con == null){
             con = DriverManager.getConnection("jdbc:mysql://" + ip + "/" + dbName, user, this.password);
         }
-        Statement statement = con.createStatement();
+        PreparedStatement statement = con.prepareStatement(USER_VALUES_INSERT);
+        statement.setString(1, phone);
+        statement.setString(2, password);
         try {
-            statement.executeUpdate(USER_VALUES_QUERY + phone + "', '" + password + "');");
-            statement.executeUpdate(USER_INFO_VALUES_QUERY + name + "', '" + company + "', '"
-                    + email + "', '" + phone + "');");
+            statement.executeUpdate();
+            statement = con.prepareStatement(USER_INFO_VALUES_INSERT);
+            statement.setString(1, name);
+            statement.setString(2, company);
+            statement.setString(3, email);
+            statement.setString(4, phone);
+            statement.executeUpdate();
             statement.close();
             return true;
         } catch (MySQLIntegrityConstraintViolationException e) {
@@ -73,26 +80,35 @@ public class DatabaseConnection {
 
     public boolean share(String address, double lat, double lon, int organic,
                       int isSupply, String dateFrom, String dateTo, double weight, double bid) throws SQLException {
-        Statement statement = con.createStatement();
+        PreparedStatement statement = con.prepareStatement(SHARE_QUERY);
         Date date = Calendar.getInstance().getTime();
         String dateS = sdf.format(date);
-        statement.executeUpdate(SHARE_QUERY + weight + ", " + organic + ", '" + address
-                + "', " + lat + ", " + lon
-                + ", " + isSupply + ", '" + phoneNumber + "', '"
-                + dateFrom + "', '" + dateTo + "', '" + dateS + "', " + bid + ");");
+        statement.setDouble(1, weight);
+        statement.setInt(2, organic);
+        statement.setString(3, address);
+        statement.setDouble(4, lat);
+        statement.setDouble(5, lon);
+        statement.setInt(6, isSupply);
+        statement.setString(7, phoneNumber);
+        statement.setString(8, dateFrom);
+        statement.setString(9, dateTo);
+        statement.setString(10, dateS);
+        statement.setDouble(11, bid);
         statement.close();
         return true;
     }
 
     public List<Transaction> getOrders(boolean doneBool) throws SQLException {
-        Statement statement = con.createStatement();
+        PreparedStatement statement = con.prepareStatement(GET_HISTORY);
         Statement statement2 = null;
         int done = 0;
         if(doneBool) {
             statement2 = con.createStatement();
             done = 1;
         }
-        ResultSet orders = statement.executeQuery(GET_HISTORY + phoneNumber + "' and done=" + done + ";");
+        statement.setString(1, phoneNumber);
+        statement.setInt(2, done);
+        ResultSet orders = statement.executeQuery();
         if(orders != null){
             List<Transaction> transactions = new ArrayList<>();
             while(orders.next()){
