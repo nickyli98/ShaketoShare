@@ -55,7 +55,6 @@ import java.util.List;
 import java.util.Locale;
 
 import static ic.hku.hk.AndroidUtils.*;
-import static ic.hku.hk.BidDialog.bidDialog;
 import static ic.hku.hk.Constants.*;
 import static ic.hku.hk.AddressDialog.pickUpAddressDialog;
 import static ic.hku.hk.DatabaseVariables.*;
@@ -367,7 +366,8 @@ public class MapsActivity extends AppCompatActivity
     private void openBidDialog(String address, String lat, String lon,
                                String organic, String isSupply, String dateFrom,
                                String dateTo, String weight, DatabaseConnection dbc) {
-        bidDialog(MapsActivity.this, address, lat, lon, organic, isSupply, dateFrom, dateTo, weight, dbc);
+        BidDialog bidDialog = new BidDialog(MapsActivity.this);
+        bidDialog.bidDialog(address, lat, lon, organic, isSupply, dateFrom, dateTo, weight, dbc);
     }
 
     private void shareRequest() {
