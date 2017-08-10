@@ -1,5 +1,6 @@
 <android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -40,6 +41,86 @@
                 android:contentDescription="@string/marks_centre_of_map"
                 android:visibility="invisible"
                 sothree:srcCompat="@drawable/ic_map_centre" />
+
+            <LinearLayout
+                android:id="@+id/radiusMenuBox"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="55dp"
+                android:layout_marginStart="55dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/radius_map_background"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <SeekBar
+                            android:id="@+id/seekBarRadius"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_weight="1"
+                            android:max="150"
+                            android:minHeight="10dip" />
+
+                        <TextView
+                            android:id="@+id/radiusLength"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp" />
+                    </LinearLayout>
+
+                    <ic.hku.hk.SegmentedGroup
+                        android:id="@+id/supplyDemandSwitchRadius"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:visibility="visible"
+                        segmentedgroup:sc_border_width="2dp"
+                        segmentedgroup:sc_corner_radius="5dp">
+
+                        <RadioButton
+                            android:id="@+id/supplyOnRadius"
+                            style="@style/RadioButton"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/supplySwitch"
+                            android:textSize="@dimen/button_bar_text_size" />
+
+                        <RadioButton
+                            android:id="@+id/demandOnRadius"
+                            style="@style/RadioButton"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/demandSwitch"
+                            android:textSize="@dimen/button_bar_text_size" />
+                    </ic.hku.hk.SegmentedGroup>
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -330,6 +411,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/order_history"
+            android:textSize="@dimen/input_text_size"
+            android:layout_margin="@dimen/selectionMarginHalf"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_width"
+            android:background="@color/lineColour"
+            android:layout_marginStart="@dimen/lineMargin"
+            android:layout_marginEnd="@dimen/lineMargin"/>
+        <TextView
+            android:paddingLeft="@dimen/selectionMarginFull"
+            android:id="@+id/settings_getRadiusOfItems"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/getRadius"
             android:textSize="@dimen/input_text_size"
             android:layout_margin="@dimen/selectionMarginHalf"/>
         <View

@@ -29,4 +29,5 @@
     <string name="supply_bid_prompt">要价价钱:</string>
     <string name="demand_bid_prompt">出价价钱:</string>
     <string name="confirmBid">确定</string>
+    <string name="getRadius">找附近的废料</string>
 </resources>

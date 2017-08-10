@@ -3,6 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#009688</color>
+    <color name="colorAccentOpaque">#40009688</color>
+    <color name="backgroundGrey">#f7f7f7</color>
     <color name="inputText">#FFFFFF</color>
     <color name="lineColour">#DCDCDC</color>
     <color name="inputError">#FF0000</color>

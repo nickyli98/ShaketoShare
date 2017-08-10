@@ -16,6 +16,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -28,6 +29,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,9 +45,13 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+
+import org.w3c.dom.Text;
 
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -92,10 +98,18 @@ public class MapsActivity extends AppCompatActivity
     private EditText dateFromEditText;
     private EditText dateToEditText;
     private EditText pickUpAddress;
+    private LinearLayout radiusMenuBox;
+    private SeekBar seekBarRadius;
+    private Circle radiusCircle;
+    private TextView radiusLengthText;
+    private RadioButton supplyOnRadius;
+    private RadioButton demandOnRadius;
 
     //Settings menu
+    private DrawerLayout drawerLayout;
     private TextView pendingOrders;
     private TextView orderHistory;
+    private TextView radiusOfItems;
     private TextView contactUs;
     private TextView logOut;
 
@@ -154,6 +168,43 @@ public class MapsActivity extends AppCompatActivity
             public void onClick(View view) {
                 Intent toHistory = new Intent(MapsActivity.this, activity_history_orders.class);
                 startActivity(toHistory);
+            }
+        });
+
+        radiusOfItems.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.closeDrawers();
+                radiusMenuBox.setVisibility(View.VISIBLE);
+                LatLng centre = new LatLng(mLastKnownLocation.getLatitude(),mLastKnownLocation.getLongitude());
+                double radius = 500;
+                CircleOptions circleOptions = new CircleOptions();
+                circleOptions.center(centre).radius(radius).fillColor(getColor(R.color.colorAccentOpaque));
+                circleOptions.strokeColor(getColor(R.color.colorAccent));
+                circleOptions.strokeWidth(dpToPx(1, MapsActivity.this));
+                radiusCircle = mMap.addCircle(circleOptions);
+                seekBarRadius.setProgress(5);
+                radiusLengthText.setText("0.5km");
+                supplyOnRadius.setChecked(true);
+            }
+        });
+
+        seekBarRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                //change UI here
+                radiusLengthText.setText(i/10.0 + "km");
+                radiusCircle.setRadius(i*100);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                //update here
             }
         });
 
@@ -278,9 +329,18 @@ public class MapsActivity extends AppCompatActivity
         shareLat = (TextView) findViewById(R.id.shareLat);
         shareLon = (TextView) findViewById(R.id.shareLon);
 
+        //radius elements
+        radiusMenuBox = (LinearLayout) findViewById(R.id.radiusMenuBox);
+        seekBarRadius = (SeekBar) findViewById(R.id.seekBarRadius);
+        radiusLengthText = (TextView) findViewById(R.id.radiusLength);
+        supplyOnRadius = (RadioButton) findViewById(R.id.supplyOnRadius);
+        demandOnRadius = (RadioButton) findViewById(R.id.demandOnRadius);
+
         //Settings elements
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         pendingOrders = (TextView) findViewById(R.id.settings_pendingOrders);
         orderHistory = (TextView) findViewById(R.id.settings_orderHistory);
+        radiusOfItems = (TextView) findViewById(R.id.settings_getRadiusOfItems);
         contactUs = (TextView) findViewById(R.id.settings_contactUs);
         logOut = (TextView) findViewById(R.id.settings_logOut);
 
