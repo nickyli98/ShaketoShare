@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +52,7 @@ public class activity_transaction_detail extends Activity {
                 ((TextView) findViewById(R.id.transactionDetails_priceVal)).setText(t.getBid());
                 ((TextView) findViewById(R.id.transactionDetails_price)).setText("Your bid: ");
             }
+            ((TextView) findViewById(R.id.transactionDetails_dateSubmitted)).setText(t.getDateSubmitted());
             ((TextView) findViewById(R.id.transactionDetails_address)).setText(t.getAddress());
             ((TextView) findViewById(R.id.transactionDetails_dateFrom)).setText(t.getDateFrom());
             ((TextView) findViewById(R.id.transactionDetails_dateTo)).setText(t.getDateTo());
