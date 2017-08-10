@@ -42,9 +42,16 @@
                 android:visibility="invisible"
                 sothree:srcCompat="@drawable/ic_map_centre" />
 
+            <ImageView
+                android:id="@+id/drawer_open"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="12dp"
+                segmentedgroup:srcCompat="@drawable/ic_menu_open" />
+
             <LinearLayout
                 android:id="@+id/radiusMenuBox"
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"

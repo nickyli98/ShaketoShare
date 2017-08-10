@@ -16,6 +16,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -106,6 +107,7 @@ public class MapsActivity extends AppCompatActivity
     private RadioButton demandOnRadius;
 
     //Settings menu
+    private ImageView drawerOpen;
     private DrawerLayout drawerLayout;
     private TextView pendingOrders;
     private TextView orderHistory;
@@ -152,6 +154,13 @@ public class MapsActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 dateSet(dateToEditText);
+            }
+        });
+
+        drawerOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.openDrawer(GravityCompat.START);
             }
         });
 
@@ -337,6 +346,7 @@ public class MapsActivity extends AppCompatActivity
         demandOnRadius = (RadioButton) findViewById(R.id.demandOnRadius);
 
         //Settings elements
+        drawerOpen = (ImageView) findViewById(R.id.drawer_open);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         pendingOrders = (TextView) findViewById(R.id.settings_pendingOrders);
         orderHistory = (TextView) findViewById(R.id.settings_orderHistory);
@@ -650,6 +660,7 @@ public class MapsActivity extends AppCompatActivity
         mMap.setLatLngBoundsForCameraTarget(HONGKONG);
         mMap.setMinZoomPreference(10.0f);
         mMap.setMaxZoomPreference(25.0f);
+        mMap.getUiSettings().setRotateGesturesEnabled(false);
     }
 
     private void initializeGooglePlayServices() {
