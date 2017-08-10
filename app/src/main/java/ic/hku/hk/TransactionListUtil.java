@@ -17,35 +17,21 @@ import static ic.hku.hk.AndroidUtils.dpToPx;
 
 public class TransactionListUtil {
 
-    private static class buildLine <T extends AppCompatActivity>{
-
-        T context;
-
-        public buildLine(T context){
-            this.context = context;
-        }
-
-        public View getLine(){
-            View v = new View(context);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, R.dimen.line_width);
-            int margin = (int) context.getResources().getDimension(R.dimen.lineMargin);
-            lp.setMargins(margin, 0, margin, 0);
-            v.setLayoutParams(lp);
-            v.setBackgroundColor(context.getResources().getColor(R.color.lineColour));
-            return v;
-        }
-    }
-
-
     static <T extends AppCompatActivity> void listAdd(final T context, List<Transaction> transactionList, int scrollViewID, final boolean done){
-        ScrollView sv = (ScrollView) context.findViewById(scrollViewID);
-        View line = new buildLine(context).getLine();
-        boolean notFirst = false;
+        LinearLayout sv = (LinearLayout) context.findViewById(scrollViewID);
+        boolean first = true;
         if(transactionList != null){
             for(final Transaction t : transactionList){
-                if(notFirst){
-                    sv.addView(line);
-                    notFirst = true;
+                if(first){
+                    first = false;
+                } else {
+                    View v = new View(context);
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dpToPx(1, context));
+                    int margin = (int) context.getResources().getDimension(R.dimen.lineMargin);
+                    lp.setMargins(margin, 0, margin, 0);
+                    v.setLayoutParams(lp);
+                    v.setBackgroundColor(context.getResources().getColor(R.color.lineColour));
+                    sv.addView(v);
                 }
                 TextView tv = new TextView(context);
                 String text = "";

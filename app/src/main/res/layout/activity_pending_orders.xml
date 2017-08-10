@@ -7,20 +7,25 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_margin="@dimen/full_screen_scroll_margin"
-    tools:context="ic.hku.hk.activity_history_orders">
+    tools:context="ic.hku.hk.activity_pending_orders">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Transaction history"
+        android:text="Pending transactions"
         android:textSize="16pt"
         android:layout_marginBottom="24dp"/>
 
     <ScrollView
-        android:id="@+id/transactionPendingScroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/transactionPendingScroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
+        </LinearLayout>
     </ScrollView>
 
 </LinearLayout>

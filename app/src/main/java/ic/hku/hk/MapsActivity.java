@@ -145,7 +145,8 @@ public class MapsActivity extends AppCompatActivity
         pendingOrders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO
+                Intent toPending = new Intent(MapsActivity.this, activity_pending_orders.class);
+                startActivity(toPending);
             }
         });
 

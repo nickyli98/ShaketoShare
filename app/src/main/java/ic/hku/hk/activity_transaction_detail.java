@@ -22,6 +22,7 @@ public class activity_transaction_detail extends Activity {
         setContentView(R.layout.activity_transaction_detail);
         t = getIntent().getExtras().getParcelable("Transaction");
         completed = t instanceof CompletedTransaction;
+        System.out.println("check here " + completed);
         if(completed){
             matchedInfo = ((CompletedTransaction) t).getUserInfo();
         }
@@ -43,12 +44,14 @@ public class activity_transaction_detail extends Activity {
                 ((TextView) findViewById(R.id.completedTransactionDetails_email)).setText(matchedInfo.getEmail());
                 ((TextView) findViewById(R.id.completedTransactionDetails_company)).setText(matchedInfo.getCompany());
                 ((TextView) findViewById(R.id.completedTransactionDetails_location)).setText(otherAddress);
-                ((TextView) findViewById(R.id.completedTransactionDetails_name)).setText(((CompletedTransaction) t).getDateMatched());
+                ((TextView) findViewById(R.id.completedTransactionDetails_date)).setText(((CompletedTransaction) t).getDateMatched());
                 ((TextView) findViewById(R.id.transactionDetails_priceVal)).setText(((CompletedTransaction) t).getPrice());
+                ((TextView) findViewById(R.id.transactionDetails_price)).setText("Agreed price: ");
             } else {
                 findViewById(R.id.completedDetails).setVisibility(View.GONE);
                 ((TextView) findViewById(R.id.transactionDetails_priceVal)).setText(t.getAddress());
                 ((TextView) findViewById(R.id.transactionDetails_priceVal)).setText(t.getBid());
+                ((TextView) findViewById(R.id.transactionDetails_price)).setText("Your bid: ");
             }
             ((TextView) findViewById(R.id.transactionDetails_address)).setText(t.getAddress());
             ((TextView) findViewById(R.id.transactionDetails_dateFrom)).setText(t.getDateFrom());

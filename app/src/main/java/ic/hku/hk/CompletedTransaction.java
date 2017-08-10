@@ -2,12 +2,13 @@ package ic.hku.hk;
 
 import android.os.AsyncTask;
 import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.sql.SQLException;
 
 import static ic.hku.hk.DatabaseVariables.*;
 
-public class CompletedTransaction extends Transaction implements AsyncResponse{
+public class CompletedTransaction extends PendingTransaction implements AsyncResponse{
 
     private final int matched_id;
     private final int other_transaction_id;
@@ -81,10 +82,12 @@ public class CompletedTransaction extends Transaction implements AsyncResponse{
         this.userInfo = (UserInfo) output;
     }
 
-    private class getUserInfoTask extends AsyncTask<Integer, Void, UserInfo>{
+    private class getUserInfoTask extends AsyncTask<Integer, Void, UserInfo> {
 
         public AsyncResponse delegate = null;
-        public getUserInfoTask(){}
+
+        public getUserInfoTask() {
+        }
 
         @Override
         protected void onPostExecute(UserInfo userInfo) {
@@ -101,4 +104,16 @@ public class CompletedTransaction extends Transaction implements AsyncResponse{
             }
         }
     }
+
+    public static final Parcelable.Creator CREATOR = new Creator() {
+        @Override
+        public Object createFromParcel(Parcel parcel) {
+            return new CompletedTransaction(parcel);
+        }
+
+        @Override
+        public Transaction[] newArray(int i) {
+            return new Transaction[i];
+        }
+    };
 }

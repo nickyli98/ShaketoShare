@@ -17,10 +17,15 @@
         android:layout_marginBottom="24dp"/>
 
     <ScrollView
-        android:id="@+id/transactionHistoryScroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/transactionHistoryScroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+        </LinearLayout>
     </ScrollView>
 
 </LinearLayout>

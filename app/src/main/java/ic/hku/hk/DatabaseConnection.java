@@ -94,7 +94,6 @@ public class DatabaseConnection {
         }
         ResultSet orders = statement.executeQuery(GET_HISTORY + phoneNumber + "' and done=" + done + ";");
         if(orders != null){
-            System.out.println("IN here");
             List<Transaction> transactions = new ArrayList<>();
             while(orders.next()){
                 final int id = orders.getInt("id");
@@ -116,14 +115,14 @@ public class DatabaseConnection {
                     matched_Transaction.next();
                     final int matchedID = matched_Transaction.getInt("id");
                     final int otherId = matched_Transaction.getInt(other);
-                    final double price = orders.getDouble("price");
                     final String dateMatched = matched_Transaction.getString("date");
+                    final double price = matched_Transaction.getDouble("price");
                     Transaction t = new CompletedTransaction(id, phone, weight, address, lat, lng,
                             isSupply, dateFrom, dateTo, dateSubmitted, organic, bid, matchedID,
                             dateMatched, otherId, price);
                     transactions.add(t);
                 } else {
-                    Transaction t = new Transaction(id, phone, weight,
+                    Transaction t = new PendingTransaction(id, phone, weight,
                             address, lat, lng, isSupply, dateFrom, dateTo, dateSubmitted, organic, bid);
                     transactions.add(t);
                 }

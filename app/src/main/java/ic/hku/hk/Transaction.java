@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 
-public class Transaction implements Parcelable{
+public abstract class Transaction implements Parcelable{
 
     private final int id;
     private final String phone;
@@ -38,7 +38,6 @@ public class Transaction implements Parcelable{
     public String getBid(){
         return bid + "";
     }
-
 
     public int getId() {
         return id;
@@ -79,7 +78,6 @@ public class Transaction implements Parcelable{
     public String getDateSubmitted() {
         return dateSubmitted;
     }
-
 
     //PARCEL STUFF
     public Transaction(Parcel in){
@@ -123,15 +121,4 @@ public class Transaction implements Parcelable{
         parcel.writeDouble(bid);
     }
 
-    public static final Parcelable.Creator CREATOR = new Creator() {
-        @Override
-        public Object createFromParcel(Parcel parcel) {
-            return new Transaction(parcel);
-        }
-
-        @Override
-        public Transaction[] newArray(int i) {
-            return new Transaction[i];
-        }
-    };
 }

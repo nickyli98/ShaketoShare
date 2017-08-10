@@ -32,36 +32,67 @@
                 android:textAlignment="viewEnd"
                 android:padding="@dimen/selectionMarginHalf"/>
         </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_width"
+            android:background="@color/lineColour"
+            android:layout_marginStart="@dimen/lineMargin"
+            android:layout_marginEnd="@dimen/lineMargin"/>
         <TextView
             android:id="@+id/completedTransactionDetails_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/input_text_size"
             android:padding="@dimen/selectionMarginHalf"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_width"
+            android:background="@color/lineColour"
+            android:layout_marginStart="@dimen/lineMargin"
+            android:layout_marginEnd="@dimen/lineMargin"/>
         <TextView
             android:id="@+id/completedTransactionDetails_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/input_text_size"
             android:padding="@dimen/selectionMarginHalf"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_width"
+            android:background="@color/lineColour"
+            android:layout_marginStart="@dimen/lineMargin"
+            android:layout_marginEnd="@dimen/lineMargin"/>
         <TextView
             android:id="@+id/completedTransactionDetails_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/input_text_size"
             android:padding="@dimen/selectionMarginHalf"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_width"
+            android:background="@color/lineColour"
+            android:layout_marginStart="@dimen/lineMargin"
+            android:layout_marginEnd="@dimen/lineMargin"/>
         <TextView
             android:id="@+id/completedTransactionDetails_company"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/input_text_size"
             android:padding="@dimen/selectionMarginHalf"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_width"
+            android:background="@color/lineColour"
+            android:layout_marginStart="@dimen/lineMargin"
+            android:layout_marginEnd="@dimen/lineMargin"/>
+
         <TextView
             android:id="@+id/completedTransactionDetails_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/input_text_size"
-            android:padding="@dimen/selectionMarginHalf"/>
+            android:padding="@dimen/selectionMarginHalf"
+            android:textSize="@dimen/input_text_size"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -72,13 +103,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/input_text_size"
+
             android:padding="@dimen/selectionMarginHalf"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_width"
+            android:background="@color/lineColour"
+            android:layout_marginStart="@dimen/lineMargin"
+            android:layout_marginEnd="@dimen/lineMargin"/>
         <TextView
             android:id="@+id/transactionDetails_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/input_text_size"
             android:padding="@dimen/selectionMarginHalf"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_width"
+            android:background="@color/lineColour"
+            android:layout_marginStart="@dimen/lineMargin"
+            android:layout_marginEnd="@dimen/lineMargin"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -105,16 +149,29 @@
                 android:textSize="@dimen/input_text_size"
                 android:layout_weight="2"/>
         </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_width"
+            android:background="@color/lineColour"
+            android:layout_marginStart="@dimen/lineMargin"
+            android:layout_marginEnd="@dimen/lineMargin"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/selectionMarginHalf"
             android:orientation="horizontal">
             <TextView
+                android:id="@+id/transactionDetails_organic"
+                android:layout_width="0dp"
+                android:textSize="@dimen/input_text_size"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"/>
+            <TextView
                 android:id="@+id/transactionDetails_weight"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/input_text_size"
+                android:textAlignment="viewEnd"
                 android:layout_weight="2"/>
             <TextView
                 android:layout_width="0dp"
@@ -124,12 +181,12 @@
                 android:text="@string/tonnes"
                 android:layout_weight="1"/>
         </LinearLayout>
-        <TextView
-            android:id="@+id/transactionDetails_organic"
+        <View
             android:layout_width="match_parent"
-            android:textSize="@dimen/input_text_size"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/selectionMarginHalf"/>
+            android:layout_height="@dimen/line_width"
+            android:background="@color/lineColour"
+            android:layout_marginStart="@dimen/lineMargin"
+            android:layout_marginEnd="@dimen/lineMargin"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -145,8 +202,9 @@
                 android:id="@+id/transactionDetails_priceVal"
                 android:layout_width="0dp"
                 android:textSize="@dimen/input_text_size"
+                android:textAlignment="viewEnd"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"/>
+                android:layout_weight="3"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
