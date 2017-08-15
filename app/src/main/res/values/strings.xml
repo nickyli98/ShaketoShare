@@ -78,4 +78,7 @@
     <string name="demand_bid_prompt">What is your bidding price?</string>
     <string name="confirmBid">Confirm</string>
     <string name="getRadius">Find waste nearby</string>
+    <string name="organic">Organic</string>
+    <string name="inorganic">inorganic</string>
+    <string name="price">Price</string>
 </resources>

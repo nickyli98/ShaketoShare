@@ -183,11 +183,12 @@ public class DatabaseConnection {
         double latMin = lat - latDeg15KM;
         double lngMax = lng + lngDeg15KM;
         double lngMin = lng - lngDeg15KM;
+        System.out.println("latMax: " + latMax + "\nlatMin: " + latMin + "\nlngMax: " + lngMax + "\nlngMin: " + lngMin);
         PreparedStatement statement = con.prepareStatement(GET_RADIUS_ITEMS);
         statement.setDouble(1, latMin);
         statement.setDouble(2, latMax);
-        statement.setDouble(3, lngMin);
-        statement.setDouble(4, lngMax);
+        statement.setDouble(3, lngMax);
+        statement.setDouble(4, lngMin);
         ResultSet rs = statement.executeQuery();
         List<Transaction> transactions = new ArrayList<>();
         while(rs.next()){

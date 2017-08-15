@@ -54,6 +54,8 @@ public class BidDialog<U extends AppCompatActivity> implements AsyncResponse {
                     shareRequestTask shareRequest = new shareRequestTask();
                     shareRequest.delegate = BidDialog.this;
                     shareRequest.execute(address, lat, lon, organic, isSupply, dateFrom, dateTo, weight, bid);
+                    InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     dialog.cancel();
                 }
             });

@@ -31,4 +31,7 @@
     <string name="demand_bid_prompt">出價價錢：</string>
     <string name="confirmBid">確定</string>
     <string name="getRadius">找附近的廢料</string>
+    <string name="organic">自然</string>
+    <string name="inorganic">非自然</string>
+    <string name="price">價格</string>
 </resources>

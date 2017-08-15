@@ -7,5 +7,6 @@ public class DatabaseVariables {
     static DatabaseConnection dbc;
     static List<Transaction> historyTransactions;
     static List<Transaction> pendingTransactions;
+    static List<Transaction> radiusItems;
 
 }

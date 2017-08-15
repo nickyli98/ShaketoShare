@@ -50,6 +50,15 @@
                 android:layout_marginStart="12dp"
                 segmentedgroup:srcCompat="@drawable/ic_menu_open" />
 
+            <ImageView
+                android:id="@+id/back_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="72dp"
+                android:layout_marginStart="12dp"
+                android:visibility="gone"
+                segmentedgroup:srcCompat="@drawable/back_arrow" />
+
             <LinearLayout
                 android:id="@+id/radiusMenuBox"
                 android:layout_width="match_parent"
@@ -130,40 +139,82 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/selectFromMap"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="@dimen/marginPreviewVertical"
-                android:layout_marginStart="@dimen/marginPreviewHorizontal"
                 android:layout_marginEnd="@dimen/marginPreviewHorizontal"
+                android:layout_marginStart="@dimen/marginPreviewHorizontal"
+                android:layout_marginTop="@dimen/marginPreviewVertical"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/addressPreview"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="@dimen/marginAddressPreview"
                     android:layout_weight="1"
                     android:background="@color/inputText"
-                    android:visibility="invisible"
-                    android:layout_marginStart="@dimen/marginAddressPreview"
                     android:maxLines="1"
-                    android:textSize="@dimen/input_text_size"
-                    android:layout_marginEnd="10dp"
-                    android:paddingStart="@dimen/paddingAddressPreviewHorizontal"
+                    android:paddingBottom="@dimen/paddingAddressPreviewVertical"
                     android:paddingEnd="@dimen/paddingAddressPreviewHorizontal"
+                    android:paddingStart="@dimen/paddingAddressPreviewHorizontal"
                     android:paddingTop="@dimen/paddingAddressPreviewVertical"
-                    android:paddingBottom="@dimen/paddingAddressPreviewVertical"/>
+                    android:textSize="@dimen/input_text_size"
+                    android:visibility="invisible" />
 
                 <Button
                     android:id="@+id/selectFromMapDone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/share_button"
+                    android:text="@string/select_from_map_done"
                     android:textColor="@color/inputText"
                     android:textSize="@dimen/input_text_size"
-                    android:text="@string/select_from_map_done"
                     android:visibility="invisible" />
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/markerInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/inputText"
+                android:layout_alignParentBottom="true"
+                android:visibility="visible"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/weightOrganic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/text_box_padding"
+                    android:text="120 Tonnes, Organic"
+                    android:textSize="@dimen/input_text_size"/>
+
+                <TextView
+                    android:id="@+id/addressDateTo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/text_box_padding"
+                    android:text="Address: 9 Home Road, Date To: 20/08/2017"
+                    android:textSize="@dimen/input_text_size"/>
+
+                <TextView
+                    android:id="@+id/phoneBid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/text_box_padding"
+                    android:text="Phone: 852-55555555, Bid: 5600"
+                    android:textSize="@dimen/input_text_size"/>
+
+                <Button
+                    android:id="@+id/radiusContact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/input_text_size"
+                    android:text="Contact 852-55555555" />
             </LinearLayout>
 
         </RelativeLayout>

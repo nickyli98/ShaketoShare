@@ -9,6 +9,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -42,20 +43,26 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.AutocompleteFilter;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.w3c.dom.Text;
 
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -88,6 +95,7 @@ public class MapsActivity extends AppCompatActivity
     private TextView shareLon;
     private Geocoder geocoder;
     private SlidingUpPanelLayout layout;
+    private LinearLayout dragView;
     private LinearLayout buttonBar;
     private LinearLayout insidePane;
     private Button shareButton;
@@ -105,6 +113,12 @@ public class MapsActivity extends AppCompatActivity
     private TextView radiusLengthText;
     private RadioButton supplyOnRadius;
     private RadioButton demandOnRadius;
+    private List<Marker> markerList;
+    private LinearLayout markerInfo;
+    private TextView weightOrganic;
+    private TextView addressDateTo;
+    private TextView phoneBid;
+    private Button radiusContact;
 
     //Settings menu
     private ImageView drawerOpen;
@@ -112,6 +126,7 @@ public class MapsActivity extends AppCompatActivity
     private TextView pendingOrders;
     private TextView orderHistory;
     private TextView radiusOfItems;
+    private ImageView backArrow;
     private TextView contactUs;
     private TextView logOut;
 
@@ -120,6 +135,7 @@ public class MapsActivity extends AppCompatActivity
     private Sensor mAccelerometer;
     private ShakeDetector mShakeDetector;
     private LinearLayout weightLayout;
+    ShakeDetector.OnShakeListener onShakeListener;
 
     //Current user
     private String phoneNumber;
@@ -186,40 +202,96 @@ public class MapsActivity extends AppCompatActivity
             }
         });
 
+        backArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                radiusMenuBox.setVisibility(View.GONE);
+                backArrow.setVisibility(View.GONE);
+                mShakeDetector.setOnShakeListener(onShakeListener);
+                mMap.clear();
+                dragView.setVisibility(View.VISIBLE);
+            }
+        });
+
         radiusOfItems.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 drawerLayout.closeDrawers();
                 radiusMenuBox.setVisibility(View.VISIBLE);
-                LatLng centre = new LatLng(mLastKnownLocation.getLatitude(),mLastKnownLocation.getLongitude());
+                backArrow.setVisibility(View.VISIBLE);
+                dragView.setVisibility(View.GONE);
+                mShakeDetector.setOnShakeListener(null);
+                final double lat = mLastKnownLocation.getLatitude();
+                final double lng = mLastKnownLocation.getLongitude();
+                LatLng centre = new LatLng(lat, lng);
                 double radius = 500;
                 CircleOptions circleOptions = new CircleOptions();
                 circleOptions.center(centre).radius(radius).fillColor(getColor(R.color.colorAccentOpaque));
                 circleOptions.strokeColor(getColor(R.color.colorAccent));
                 circleOptions.strokeWidth(dpToPx(1, MapsActivity.this));
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f));
                 radiusCircle = mMap.addCircle(circleOptions);
                 seekBarRadius.setProgress(5);
                 radiusLengthText.setText("0.5km");
                 supplyOnRadius.setChecked(true);
+                new getRadiusItems().execute(centre);
+                mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        Transaction transaction = (Transaction) marker.getTag();
+                        if (transaction != null) {
+                            weightOrganic.setText(transaction.getWeight() + " " + getString(R.string.tonnes) + ", "
+                                    + (transaction.getOrganic() ? getString(R.string.organic) : getString(R.string.inorganic)));
+                            markerInfo.setVisibility(View.VISIBLE);
+                            addressDateTo.setText(getString(R.string.address_hint) + ": " + transaction.getAddress()
+                                    + " " + getString(R.string.date_to) + ": " + transaction.getDateTo());
+                            phoneBid.setText(getString(R.string.phone_number_hint) + ": " + transaction.getPhone()
+                                    + " " + getString(R.string.price) + ": " + transaction.getBid());
+                        }
+                        return false;
+                    }
+                });
+                seekBarRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                        //change UI here
+                        radiusLengthText.setText(i/10.0 + "km");
+                        radiusCircle.setRadius(i*100);
+                        LatLngBounds latLngBounds = radiusBounds(seekBar.getProgress()/10, lat, lng);
+                        for (Marker marker : markerList) {
+                            Transaction transaction = (Transaction) marker.getTag();
+                            if (latLngBounds.contains(marker.getPosition())) {
+                                if (transaction != null) {
+                                    if (supplyOnRadius.isChecked() && transaction.isSupply()
+                                        || demandOnRadius.isChecked() && !transaction.isSupply()) {
+                                        marker.setVisible(true);
+                                    }
+                                }
+                            } else {
+                                marker.setVisible(false);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+
+                    }
+                });
             }
         });
 
-        seekBarRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        radiusContact.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                //change UI here
-                radiusLengthText.setText(i/10.0 + "km");
-                radiusCircle.setRadius(i*100);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                //update here
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:852-55555555"));
+                startActivity(intent);
             }
         });
 
@@ -297,7 +369,7 @@ public class MapsActivity extends AppCompatActivity
         mAccelerometer = mSensorManager
                 .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mShakeDetector = new ShakeDetector();
-        mShakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
+        onShakeListener = new ShakeDetector.OnShakeListener() {
 
             @Override
             public void onShake(int count) {
@@ -307,7 +379,8 @@ public class MapsActivity extends AppCompatActivity
                     vibrate();
                 }
             }
-        });
+        };
+        mShakeDetector.setOnShakeListener(onShakeListener);
 
         supplyOn.setChecked(true);
     }
@@ -327,6 +400,7 @@ public class MapsActivity extends AppCompatActivity
         insidePane = (LinearLayout) findViewById(R.id.insidePane);
 
         //Swipe up menu buttons
+        dragView = (LinearLayout) findViewById(R.id.dragView);
         shareButton = (Button) findViewById(R.id.share);
         supplyDemandSwitch = (SegmentedGroup) findViewById(R.id.supplyDemandSwitch);
         supplyOn = (RadioButton) findViewById(R.id.supplyOn);
@@ -350,6 +424,12 @@ public class MapsActivity extends AppCompatActivity
         radiusLengthText = (TextView) findViewById(R.id.radiusLength);
         supplyOnRadius = (RadioButton) findViewById(R.id.supplyOnRadius);
         demandOnRadius = (RadioButton) findViewById(R.id.demandOnRadius);
+        backArrow = (ImageView) findViewById(R.id.back_arrow);
+        markerInfo = (LinearLayout) findViewById(R.id.markerInfo);
+        weightOrganic = (TextView) findViewById(R.id.weightOrganic);
+        phoneBid = (TextView) findViewById(R.id.phoneBid);
+        addressDateTo = (TextView) findViewById(R.id.addressDateTo);
+        radiusContact = (Button) findViewById(R.id.radiusContact);
 
         //Settings elements
         drawerOpen = (ImageView) findViewById(R.id.drawer_open);
@@ -799,6 +879,46 @@ public class MapsActivity extends AppCompatActivity
             pendingTransactions = transactions[0];
             historyTransactions = transactions[1];
         }
+    }
+
+    private class getRadiusItems extends AsyncTask<LatLng, Void, List<Transaction>> {
+        @Override
+        protected List<Transaction> doInBackground(LatLng... latLngs) {
+            try {
+                return dbc.getRadiusItems(latLngs[0]);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(List<Transaction> transactions) {
+            radiusItems = transactions;
+            markerList = new ArrayList<>();
+            for (Transaction t : transactions) {
+                MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(t.getLat(), t.getLng()));
+                if (t.getOrganic()) {
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.organic_marker));
+                } else {
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.inorganic_marker));
+                }
+                Marker marker = mMap.addMarker(markerOptions);
+                marker.setVisible(false);
+                marker.setTag(t);
+                markerList.add(marker);
+            }
+        }
+    }
+
+    private LatLngBounds radiusBounds (double radius, double lat, double lng) {
+        final double latDegRadiusKM = KM_TO_LATITUDE * radius;
+        final double lngDegRadiusKM = KM_TO_LONGITUDE(lat) * radius;
+        double latMax = lat + latDegRadiusKM;
+        double latMin = lat - latDegRadiusKM;
+        double lngMax = lng + lngDegRadiusKM;
+        double lngMin = lng - lngDegRadiusKM;
+        return new LatLngBounds(new LatLng(latMin, lngMax), new LatLng(latMax, lngMin));
     }
 
 }

@@ -30,4 +30,7 @@
     <string name="demand_bid_prompt">出价价钱:</string>
     <string name="confirmBid">确定</string>
     <string name="getRadius">找附近的废料</string>
+    <string name="organic">自然</string>
+    <string name="inorganic">非自然</string>
+    <string name="price">价格</string>
 </resources>
