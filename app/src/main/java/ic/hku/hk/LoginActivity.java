@@ -1,27 +1,12 @@
 package ic.hku.hk;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
 import android.app.Activity;
-import android.app.LoaderManager.LoaderCallbacks;
 
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,13 +15,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 import static ic.hku.hk.Constants.*;
 import static ic.hku.hk.AreaCodeDialog.*;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends Activity implements AsyncResponse {
 
     // UI references.
     private LinearLayout areaCodeSelection;
@@ -53,6 +38,7 @@ public class LoginActivity extends Activity {
     private EditText thirdPin;
     private EditText fourthPin;
     private EditText hiddenText;
+    private ProgressBar p;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +64,8 @@ public class LoginActivity extends Activity {
         loginButton = findViewById(R.id.loginButton);
         createAccount = findViewById(R.id.createAccount);
 
+        p = findViewById(R.id.loginLoading);
+
         areaCodeSelection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,7 +77,10 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View view) {
                 if (AndroidUtils.isConnected(LoginActivity.this)) {
-                    attemptLogin();
+                    final AttemptLoginTask task = new AttemptLoginTask();
+                    task.delegate = LoginActivity.this;
+                    task.execute(areaCodeSelectionText.getText().toString().substring(1) + "-" + phoneNumberEditText.getText().toString(), hiddenText.getText().toString());
+                    p.setVisibility(View.VISIBLE);
                 } else {
                     Toast.makeText(LoginActivity.this, R.string.check_internet_connection, Toast.LENGTH_LONG).show();
                 }
@@ -112,13 +103,50 @@ public class LoginActivity extends Activity {
         this.finish();
     }
 
-    private void attemptLogin() {
-        //TODO validation, get text from hiddentext
-        Intent toMap = new Intent(this, MapsActivity.class);
-        ProgressBar p = findViewById(R.id.loginLoading);
-        p.setVisibility(View.VISIBLE);
-        startActivity(toMap);
-        this.finish();
+    @Override
+    public <T> void processFinish(T output) {
+        if((boolean) (Object) output){
+            Intent toMap = new Intent(this, MapsActivity.class);
+            toMap.putExtra("phoneNumber", areaCodeSelectionText.getText().toString().substring(1) + "-" + phoneNumberEditText.getText().toString());
+            startActivity(toMap);
+            this.finish();
+        } else {
+            p.setVisibility(View.INVISIBLE);
+            Toast.makeText(this, "Invalid number or password", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private class AttemptLoginTask extends AsyncTask<String, Void, Boolean>{
+
+        public AsyncResponse delegate = null;
+
+        public AttemptLoginTask() {
+        }
+
+        @Override
+        protected Boolean doInBackground(String... texts) {
+            DatabaseConnection dbc = new DatabaseConnection(USER, PASSWORD, IP, DBNAME);
+            try{
+                if(dbc.confirmPassword(texts[0], texts[1])){
+                    dbc.closeConnection();
+                    return true;
+                } else {
+                    dbc.closeConnection();
+                    return false;
+                }
+            } catch (SQLIntegrityConstraintViolationException e) {
+                return false;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            delegate.processFinish(success);
+        }
     }
 
     public int getAreaCode(){

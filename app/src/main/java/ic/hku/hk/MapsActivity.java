@@ -121,6 +121,9 @@ public class MapsActivity extends AppCompatActivity
     private ShakeDetector mShakeDetector;
     private LinearLayout weightLayout;
 
+    //Current user
+    private String phoneNumber;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,10 +132,13 @@ public class MapsActivity extends AppCompatActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        new createDBC().execute();
+        Intent i = getIntent();
+        phoneNumber = i.getStringExtra("phoneNumber");
+        new createDBC().execute(phoneNumber);
 
         initializeAndroidUI();
+
+
 
         layout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
 
@@ -754,11 +760,11 @@ public class MapsActivity extends AppCompatActivity
         }
     }
 
-    private class createDBC extends AsyncTask<Void, Void, DatabaseConnection>{
+    private class createDBC extends AsyncTask<String, Void, DatabaseConnection>{
         @Override
-        protected DatabaseConnection doInBackground(Void... voids) {
+        protected DatabaseConnection doInBackground(String... number) {
             //TODO phone number
-            return new DatabaseConnection(USER, PASSWORD, IP, DBNAME, "852-69793034");
+            return new DatabaseConnection(USER, PASSWORD, IP, DBNAME, number[0]);
         }
 
         @Override
