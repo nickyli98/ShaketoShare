@@ -43,7 +43,6 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.AutocompleteFilter;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -57,8 +56,6 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-
-import org.w3c.dom.Text;
 
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -316,7 +313,9 @@ public class MapsActivity extends AppCompatActivity
         logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent toLogout = new Intent(MapsActivity.this, LoginActivity.class);
+                startActivity(toLogout);
+                close();
             }
         });
 
@@ -394,6 +393,10 @@ public class MapsActivity extends AppCompatActivity
         mShakeDetector.setOnShakeListener(onShakeListener);
 
         supplyOn.setChecked(true);
+    }
+
+    private void close() {
+        finish();
     }
 
     public boolean showCurrentPlaceCheck() {
@@ -864,11 +867,14 @@ public class MapsActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(DatabaseConnection databaseConnection) {
             dbc = databaseConnection;
-            new getOrders().execute();
+            new GetOrderTask().execute();
         }
     }
 
-    public static class getOrders extends AsyncTask<Void, Void, List<Transaction>[]>{
+    public static class GetOrderTask extends AsyncTask<Void, Void, List<Transaction>[]>{
+
+        AsyncResponse delegate = null;
+
         @Override
         protected List<Transaction>[] doInBackground(Void... voids) {
             List<Transaction>[] transactions = new List[2];
@@ -889,6 +895,9 @@ public class MapsActivity extends AppCompatActivity
         protected void onPostExecute(List<Transaction>[] transactions) {
             pendingTransactions = transactions[0];
             historyTransactions = transactions[1];
+            if(delegate != null){
+                delegate.processFinish(true);
+            }
         }
     }
 
