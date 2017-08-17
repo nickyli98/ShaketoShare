@@ -81,4 +81,7 @@
     <string name="organic">Organic</string>
     <string name="inorganic">inorganic</string>
     <string name="price">Price</string>
+    <string name="current_offer">Current offer:</string>
+    <string name="asking_price">Asking price:</string>
+    <string name="contact_phone_number">Contact</string>
 </resources>

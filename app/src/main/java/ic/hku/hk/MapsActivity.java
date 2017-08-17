@@ -115,10 +115,15 @@ public class MapsActivity extends AppCompatActivity
     private RadioButton demandOnRadius;
     private List<Marker> markerList;
     private LinearLayout markerInfo;
-    private TextView weightOrganic;
-    private TextView addressDateTo;
-    private TextView phoneBid;
+    private TextView radiusMarkerAddress;
+    private TextView radiusMarkerDateFrom;
+    private TextView radiusMarkerDateTo;
+    private TextView radiusMarkerOrganic;
+    private TextView radiusMarkerWeight;
+    private TextView radiusMarkerPrice;
+    private TextView radiusMarkerPriceVal;
     private Button radiusContact;
+    private String radiusContactNumber;
 
     //Settings menu
     private ImageView drawerOpen;
@@ -225,7 +230,7 @@ public class MapsActivity extends AppCompatActivity
                 final double lat = mLastKnownLocation.getLatitude();
                 final double lng = mLastKnownLocation.getLongitude();
                 LatLng centre = new LatLng(lat, lng);
-                double radius = 500;
+                final double radius = 500;
                 CircleOptions circleOptions = new CircleOptions();
                 circleOptions.center(centre).radius(radius).fillColor(getColor(R.color.colorAccentOpaque));
                 circleOptions.strokeColor(getColor(R.color.colorAccent));
@@ -241,13 +246,18 @@ public class MapsActivity extends AppCompatActivity
                     public boolean onMarkerClick(Marker marker) {
                         Transaction transaction = (Transaction) marker.getTag();
                         if (transaction != null) {
-                            weightOrganic.setText(transaction.getWeight() + " " + getString(R.string.tonnes) + ", "
-                                    + (transaction.getOrganic() ? getString(R.string.organic) : getString(R.string.inorganic)));
+                            radiusMarkerAddress.setText(transaction.getAddress());
+                            radiusMarkerDateFrom.setText(transaction.getDateFrom());
+                            radiusMarkerDateTo.setText(transaction.getDateTo());
+                            radiusMarkerOrganic.setText((transaction.getOrganic() ? getString(R.string.organic) : getString(R.string.inorganic)));
+                            radiusMarkerPrice.setText((transaction.isSupply()) ? getString(R.string.asking_price) : getString(R.string.current_offer));
+                            radiusMarkerPriceVal.setText(transaction.getBid());
+                            radiusMarkerWeight.setText(String.valueOf(transaction.getWeight()));
+                            radiusContactNumber = "tel:" + transaction.getPhone();
+                            String radiusContactText = getString(R.string.contact_phone_number) + " " + transaction.getPhone();
+                            radiusContact.setText(radiusContactText);
+                            mMap.setPadding(0, 0, 0, dpToPx(250, MapsActivity.this));
                             markerInfo.setVisibility(View.VISIBLE);
-                            addressDateTo.setText(getString(R.string.address_hint) + ": " + transaction.getAddress()
-                                    + " " + getString(R.string.date_to) + ": " + transaction.getDateTo());
-                            phoneBid.setText(getString(R.string.phone_number_hint) + ": " + transaction.getPhone()
-                                    + " " + getString(R.string.price) + ": " + transaction.getBid());
                         }
                         return false;
                     }
@@ -291,7 +301,7 @@ public class MapsActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:852-55555555"));
+                intent.setData(Uri.parse(radiusContactNumber));
                 startActivity(intent);
             }
         });
@@ -427,9 +437,13 @@ public class MapsActivity extends AppCompatActivity
         demandOnRadius = (RadioButton) findViewById(R.id.demandOnRadius);
         backArrow = (ImageView) findViewById(R.id.back_arrow);
         markerInfo = (LinearLayout) findViewById(R.id.markerInfo);
-        weightOrganic = (TextView) findViewById(R.id.weightOrganic);
-        phoneBid = (TextView) findViewById(R.id.phoneBid);
-        addressDateTo = (TextView) findViewById(R.id.addressDateTo);
+        radiusMarkerAddress = (TextView) findViewById(R.id.radius_marker_address);
+        radiusMarkerDateFrom = (TextView) findViewById(R.id.radius_marker_dateFrom);
+        radiusMarkerDateTo = (TextView) findViewById(R.id.radius_marker_dateTo);
+        radiusMarkerOrganic = (TextView) findViewById(R.id.radius_marker_organic);
+        radiusMarkerWeight = (TextView) findViewById(R.id.radius_marker_weight);
+        radiusMarkerPrice = (TextView) findViewById(R.id.radius_marker_price);
+        radiusMarkerPriceVal = (TextView) findViewById(R.id.radius_marker_priceVal);
         radiusContact = (Button) findViewById(R.id.radiusContact);
 
         //Settings elements

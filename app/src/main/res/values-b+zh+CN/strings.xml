@@ -33,4 +33,7 @@
     <string name="organic">自然</string>
     <string name="inorganic">非自然</string>
     <string name="price">价格</string>
+    <string name="current_offer">目前报价:</string>
+    <string name="asking_price">询问价格:</string>
+    <string name="contact_phone_number">致电</string>
 </resources>
