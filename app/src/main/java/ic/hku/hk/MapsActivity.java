@@ -249,8 +249,13 @@ public class MapsActivity extends AppCompatActivity
                             radiusContactNumber = "tel:" + transaction.getPhone();
                             String radiusContactText = getString(R.string.contact_phone_number) + " " + transaction.getPhone();
                             radiusContact.setText(radiusContactText);
-                            mMap.setPadding(0, 0, 0, dpToPx(250, MapsActivity.this));
                             markerInfo.setVisibility(View.VISIBLE);
+                            markerInfo.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mMap.setPadding(0, 0, 0, markerInfo.getHeight());
+                                }
+                            });
                         }
                         return false;
                     }
@@ -987,6 +992,13 @@ public class MapsActivity extends AppCompatActivity
         double lngMax = lng + lngDegRadiusKM;
         double lngMin = lng - lngDegRadiusKM;
         return new LatLngBounds(new LatLng(latMin, lngMax), new LatLng(latMax, lngMin));
+
+        /*
+        LatLng center = new LatLng(lat, lng);
+
+        LatLng targetNorthEast = SphericalUtil.computeOffset(center, radius * Math.sqrt(2), 45);
+        LatLng targetSouthWest = SphericalUtil.computeOffset(center, radius * Math.sqrt(2), 225);
+        return new LatLngBounds(targetSouthWest, targetNorthEast);*/
     }
 
 }
