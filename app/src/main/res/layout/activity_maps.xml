@@ -88,17 +88,18 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="12dp"
-                            android:layout_marginStart="12dp"
+                            android:layout_marginStart="8dp"
                             android:layout_marginTop="12dp"
                             android:layout_weight="1"
-                            android:max="150"
-                            android:minHeight="10dip" />
+                            android:max="150" />
 
                         <TextView
                             android:id="@+id/radiusLength"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="12dp" />
+                            android:layout_marginTop="12dp"
+                            android:layout_marginBottom="12dp"
+                            android:layout_marginEnd="8dp" />
                     </LinearLayout>
 
                     <ic.hku.hk.SegmentedGroup

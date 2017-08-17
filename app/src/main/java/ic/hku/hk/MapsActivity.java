@@ -55,6 +55,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.SphericalUtil;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.sql.SQLException;
@@ -274,7 +275,7 @@ public class MapsActivity extends AppCompatActivity
                         radiusLengthText.setText(i/10.0 + "km");
                         radiusCircle.setRadius(i*100);
                         showMarkers(seekBar, mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
-                        mMap.animateCamera(CameraUpdateFactory.zoomTo((float)((-1/30.0 * i) + 15.0)));
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(radiusCircle.getCenter(), getZoomLevel(radiusCircle)));
                     }
 
                     @Override
@@ -403,6 +404,16 @@ public class MapsActivity extends AppCompatActivity
         supplyOn.setChecked(true);
     }
 
+    private float getZoomLevel(Circle radiusCircle) {
+        float zoomLevel = 11.0f;
+        if (radiusCircle != null) {
+            double radius = radiusCircle.getRadius() + radiusCircle.getRadius() / 2;
+            double scale = radius / 500;
+            zoomLevel = (float)(16 - Math.log(scale) / Math.log(2));
+        }
+        return zoomLevel;
+    }
+
     private void close() {
         finish();
     }
@@ -427,10 +438,10 @@ public class MapsActivity extends AppCompatActivity
     }
 
     private void showMarkers(SeekBar seekBar, double lat, double lng) {
-        LatLngBounds latLngBounds = radiusBounds(seekBar.getProgress()/10.0, lat, lng);
+        LatLng latLng = new LatLng(lat, lng);
         for (Marker marker : markerList) {
             Transaction transaction = (Transaction) marker.getTag();
-            if (latLngBounds.contains(marker.getPosition())) {
+            if (SphericalUtil.computeDistanceBetween(latLng, marker.getPosition()) <= seekBar.getProgress() * 100) {
                 if (transaction != null) {
                     if (supplyOnRadius.isChecked()) {
                         if (transaction.isSupply()) {
@@ -982,23 +993,6 @@ public class MapsActivity extends AppCompatActivity
             }
             showMarkers(seekBarRadius, mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
         }
-    }
-
-    private LatLngBounds radiusBounds (double radius, double lat, double lng) {
-        final double latDegRadiusKM = KM_TO_LATITUDE * radius;
-        final double lngDegRadiusKM = KM_TO_LONGITUDE(lat) * radius;
-        double latMax = lat + latDegRadiusKM;
-        double latMin = lat - latDegRadiusKM;
-        double lngMax = lng + lngDegRadiusKM;
-        double lngMin = lng - lngDegRadiusKM;
-        return new LatLngBounds(new LatLng(latMin, lngMax), new LatLng(latMax, lngMin));
-
-        /*
-        LatLng center = new LatLng(lat, lng);
-
-        LatLng targetNorthEast = SphericalUtil.computeOffset(center, radius * Math.sqrt(2), 45);
-        LatLng targetSouthWest = SphericalUtil.computeOffset(center, radius * Math.sqrt(2), 225);
-        return new LatLngBounds(targetSouthWest, targetNorthEast);*/
     }
 
 }
