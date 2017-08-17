@@ -21,7 +21,7 @@ class Constants {
     static final int CHINA_AREA_CODE = 86;
     static final String USER = "shake";
     static final String PASSWORD = "shake";
-    static final String IP = "147.8.133.49";
+    static final String IP = "147.8.133.189";
     static final String DBNAME = "s2s";
     static final double LATITUDE_TO_KM = 110.574;
     static double LONGITUDE_TO_KM(double latitude){

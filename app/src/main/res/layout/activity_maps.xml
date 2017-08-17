@@ -182,32 +182,111 @@
                 android:layout_height="wrap_content"
                 android:background="@color/inputText"
                 android:layout_alignParentBottom="true"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/weightOrganic"
+                    android:id="@+id/radius_marker_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/text_box_padding"
-                    android:text="120 Tonnes, Organic"
-                    android:textSize="@dimen/input_text_size"/>
-
-                <TextView
-                    android:id="@+id/addressDateTo"
+                    android:textSize="@dimen/input_text_size"
+                    android:padding="@dimen/selectionMarginHalf"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_width"
+                    android:background="@color/lineColour"
+                    android:layout_marginStart="@dimen/lineMargin"
+                    android:layout_marginEnd="@dimen/lineMargin"/>
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/text_box_padding"
-                    android:text="Address: 9 Home Road, Date To: 20/08/2017"
-                    android:textSize="@dimen/input_text_size"/>
-
-                <TextView
-                    android:id="@+id/phoneBid"
+                    android:padding="@dimen/selectionMarginHalf"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/radius_marker_dateFrom"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/input_text_size"
+                        android:layout_weight="2"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="@string/dateConnector"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/input_text_size" />
+                    <TextView
+                        android:id="@+id/radius_marker_dateTo"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="viewEnd"
+                        android:textSize="@dimen/input_text_size"
+                        android:layout_weight="2"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_width"
+                    android:background="@color/lineColour"
+                    android:layout_marginStart="@dimen/lineMargin"
+                    android:layout_marginEnd="@dimen/lineMargin"/>
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/text_box_padding"
-                    android:text="Phone: 852-55555555, Bid: 5600"
-                    android:textSize="@dimen/input_text_size"/>
+                    android:padding="@dimen/selectionMarginHalf"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/radius_marker_organic"
+                        android:layout_width="0dp"
+                        android:textSize="@dimen/input_text_size"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"/>
+                    <TextView
+                        android:id="@+id/radius_marker_weight"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/input_text_size"
+                        android:textAlignment="viewEnd"
+                        android:layout_weight="2"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="viewEnd"
+                        android:textSize="@dimen/input_text_size"
+                        android:text="@string/tonnes"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_width"
+                    android:background="@color/lineColour"
+                    android:layout_marginStart="@dimen/lineMargin"
+                    android:layout_marginEnd="@dimen/lineMargin"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/selectionMarginHalf"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/radius_marker_price"
+                        android:layout_width="0dp"
+                        android:textSize="@dimen/input_text_size"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"/>
+                    <TextView
+                        android:id="@+id/radius_marker_priceVal"
+                        android:layout_width="0dp"
+                        android:textSize="@dimen/input_text_size"
+                        android:textAlignment="viewEnd"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="viewEnd"
+                        android:textSize="@dimen/input_text_size"
+                        android:text="HKD"
+                        android:layout_weight="1"/>
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/radiusContact"
@@ -387,13 +466,24 @@
                     android:layout_marginTop="@dimen/marginVerticalHalf"
                     android:orientation="horizontal">
 
+                    <Switch
+                        android:id="@+id/organic"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="fill_horizontal"
+                        android:layout_marginEnd="@dimen/switchMargin"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:text="@string/organicSwitchName"
+                        android:textSize="@dimen/input_text_size" />
+
                     <LinearLayout
                         android:id="@+id/weightBox"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="fill_horizontal"
                         android:layout_weight="1"
-                        android:layout_marginEnd="@dimen/marginHorizontalHalf"
+                        android:layout_marginStart="@dimen/marginHorizontalHalf"
                         android:clickable="true"
                         android:orientation="horizontal">
 
@@ -417,17 +507,6 @@
                             android:textAlignment="textEnd"
                             android:textSize="@dimen/input_text_size" />
                     </LinearLayout>
-
-                    <Switch
-                        android:id="@+id/organic"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="fill_horizontal"
-                        android:layout_marginStart="@dimen/switchMargin"
-                        android:layout_weight="1"
-                        android:checked="true"
-                        android:text="@string/organicSwitchName"
-                        android:textSize="@dimen/input_text_size" />
                 </LinearLayout>
 
             </LinearLayout>

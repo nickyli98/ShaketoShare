@@ -34,4 +34,7 @@
     <string name="organic">自然</string>
     <string name="inorganic">非自然</string>
     <string name="price">價格</string>
+    <string name="current_offer">目前報價:</string>
+    <string name="asking_price">詢問價格:</string>
+    <string name="contact_phone_number">致電</string>
 </resources>
