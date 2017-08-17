@@ -150,6 +150,7 @@ public class MapsActivity extends AppCompatActivity
         mapFragment.getMapAsync(this);
         Intent i = getIntent();
         phoneNumber = i.getStringExtra("phoneNumber");
+        System.out.println("HERE - " + phoneNumber);
         new createDBC().execute(phoneNumber);
 
         initializeAndroidUI();
@@ -843,7 +844,6 @@ public class MapsActivity extends AppCompatActivity
     private class createDBC extends AsyncTask<String, Void, DatabaseConnection>{
         @Override
         protected DatabaseConnection doInBackground(String... number) {
-            //TODO phone number
             return new DatabaseConnection(USER, PASSWORD, IP, DBNAME, number[0]);
         }
 
@@ -854,21 +854,18 @@ public class MapsActivity extends AppCompatActivity
         }
     }
 
-    private class getOrders extends AsyncTask<Void, Void, List<Transaction>[]>{
+    public static class getOrders extends AsyncTask<Void, Void, List<Transaction>[]>{
         @Override
         protected List<Transaction>[] doInBackground(Void... voids) {
-            System.out.println("BACKGROUND ORDER S");
             List<Transaction>[] transactions = new List[2];
             try {
                 transactions[0] = dbc.getOrders(false);
             } catch (SQLException e) {
-                System.out.println("Pending - TRANSACTION LIST SQL EXCEPTION");
                 e.printStackTrace();
             }
             try {
                 transactions[1] = dbc.getOrders(true);
             } catch (SQLException e) {
-                System.out.println("History - TRANSACTION LIST SQL EXCEPTION");
                 e.printStackTrace();
             }
             return transactions;

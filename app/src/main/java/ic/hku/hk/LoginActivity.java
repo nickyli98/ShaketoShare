@@ -96,7 +96,6 @@ public class LoginActivity extends Activity implements AsyncResponse {
     }
 
     private void attemptCreateAccount() {
-        //TODO validation
         Intent toRegister = new Intent(this, RegisterActivity.class);
         toRegister.putExtra("phoneNumber", phoneNumberEditText.getText().toString());
         startActivity(toRegister);

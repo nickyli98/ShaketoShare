@@ -82,7 +82,7 @@ public class DatabaseConnection {
 
     public boolean share(String address, double lat, double lon, int organic,
                       int isSupply, String dateFrom, String dateTo, double weight, double bid) throws SQLException {
-        PreparedStatement statement = con.prepareStatement(SHARE_QUERY);
+        PreparedStatement statement = con.prepareStatement(INSERT_SHARE);
         Date date = Calendar.getInstance().getTime();
         String dateS = sdf.format(date);
         statement.setDouble(1, weight);
@@ -202,12 +202,24 @@ public class DatabaseConnection {
     }
 
     public UserInfo getUserInfo(int transactionId) throws SQLException {
-        Statement statement = con.createStatement();
-        ResultSet r = statement.executeQuery("select phone_number from share_history where id=" + transactionId + ";");
+        PreparedStatement statement = con.prepareStatement(USER_INFO_QUERY);
+        statement.setInt(1, transactionId);
+        ResultSet r = statement.executeQuery();
         r.next();
         String number = r.getString("phone_number");
-        r = statement.executeQuery("select * from user_info where phone_number='" + number + "';");
+        statement = con.prepareStatement(USER_INFO_QUERY_TWO);
+        statement.setString(1, number);
+        r = statement.executeQuery();
         r.next();
-        return new UserInfo(r.getString("name"), r.getString("email"), number, r.getString("company"));
+        UserInfo u = new UserInfo(r.getString("name"), r.getString("email"), number, r.getString("company"));
+        statement.close();
+        return u;
+    }
+
+    public void deleteTask(Integer orderID) throws SQLException {
+        PreparedStatement statement = con.prepareStatement(DELETE_ORDER);
+        statement.setInt(1, orderID);
+        statement.executeUpdate();
+        statement.close();
     }
 }

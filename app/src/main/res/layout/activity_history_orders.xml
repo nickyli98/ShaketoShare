@@ -16,16 +16,19 @@
         android:textSize="16pt"
         android:layout_marginBottom="24dp"/>
 
-    <ScrollView
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipeUpContainerHistory"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <LinearLayout
-            android:orientation="vertical"
-            android:id="@+id/transactionHistoryScroll"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-        </LinearLayout>
-    </ScrollView>
-
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/transactionHistoryScroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>
