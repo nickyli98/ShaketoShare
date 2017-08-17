@@ -23,6 +23,7 @@ public class DatabaseConnection {
     private final String ip;
     private final String dbName;
     private String phoneNumber;
+    private final Thread autoUpdate;
 
     private Connection con;
 
@@ -31,6 +32,19 @@ public class DatabaseConnection {
         this.password = password;
         this.ip = ip;
         this.dbName = dbName;
+        autoUpdate = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(true){
+                    //TODO new match
+                    try{
+                        Thread.sleep(60000);
+                    } catch (InterruptedException e){
+                        break;
+                    }
+                }
+            }
+        });
         try {
             Class.forName(DRIVER_CLASS_LOCATION).newInstance();
             con = DriverManager.getConnection("jdbc:mysql://" + ip + "/" + dbName, user, password);
@@ -222,4 +236,6 @@ public class DatabaseConnection {
         statement.executeUpdate();
         statement.close();
     }
+
+
 }
