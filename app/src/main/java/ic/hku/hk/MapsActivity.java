@@ -211,11 +211,7 @@ public class MapsActivity extends AppCompatActivity
         backArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                radiusMenuBox.setVisibility(View.GONE);
-                backArrow.setVisibility(View.GONE);
-                mShakeDetector.setOnShakeListener(onShakeListener);
-                mMap.clear();
-                dragView.setVisibility(View.VISIBLE);
+                leaveRadiusUI();
             }
         });
 
@@ -225,11 +221,10 @@ public class MapsActivity extends AppCompatActivity
                 drawerLayout.closeDrawers();
                 radiusMenuBox.setVisibility(View.VISIBLE);
                 backArrow.setVisibility(View.VISIBLE);
-                dragView.setVisibility(View.GONE);
-                mShakeDetector.setOnShakeListener(null);
-                final double lat = mLastKnownLocation.getLatitude();
-                final double lng = mLastKnownLocation.getLongitude();
-                LatLng centre = new LatLng(lat, lng);
+                buttonBar.setVisibility(View.INVISIBLE);
+                layout.setEnabled(false);
+                disableShake();
+                LatLng centre = new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
                 final double radius = 500;
                 CircleOptions circleOptions = new CircleOptions();
                 circleOptions.center(centre).radius(radius).fillColor(getColor(R.color.colorAccentOpaque));
@@ -241,6 +236,7 @@ public class MapsActivity extends AppCompatActivity
                 radiusLengthText.setText("0.5km");
                 supplyOnRadius.setChecked(true);
                 new getRadiusItems().execute(centre);
+
                 mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
@@ -262,26 +258,21 @@ public class MapsActivity extends AppCompatActivity
                         return false;
                     }
                 });
+                mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                    @Override
+                    public void onMapClick(LatLng latLng) {
+                        mMap.setPadding(0, 0, 0, 0);
+                        markerInfo.setVisibility(View.GONE);
+                    }
+                });
                 seekBarRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                         //change UI here
                         radiusLengthText.setText(i/10.0 + "km");
                         radiusCircle.setRadius(i*100);
-                        LatLngBounds latLngBounds = radiusBounds(seekBar.getProgress()/10, lat, lng);
-                        for (Marker marker : markerList) {
-                            Transaction transaction = (Transaction) marker.getTag();
-                            if (latLngBounds.contains(marker.getPosition())) {
-                                if (transaction != null) {
-                                    if (supplyOnRadius.isChecked() && transaction.isSupply()
-                                        || demandOnRadius.isChecked() && !transaction.isSupply()) {
-                                        marker.setVisible(true);
-                                    }
-                                }
-                            } else {
-                                marker.setVisible(false);
-                            }
-                        }
+                        showMarkers(seekBar, mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
+                        mMap.animateCamera(CameraUpdateFactory.zoomTo((float)((-1/30.0 * i) + 15.0)));
                     }
 
                     @Override
@@ -292,6 +283,18 @@ public class MapsActivity extends AppCompatActivity
                     @Override
                     public void onStopTrackingTouch(SeekBar seekBar) {
 
+                    }
+                });
+                demandOnRadius.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showMarkers(seekBarRadius, mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
+                    }
+                });
+                supplyOnRadius.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showMarkers(seekBarRadius, mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
                     }
                 });
             }
@@ -391,9 +394,54 @@ public class MapsActivity extends AppCompatActivity
                 }
             }
         };
-        mShakeDetector.setOnShakeListener(onShakeListener);
+        enableShake();
 
         supplyOn.setChecked(true);
+    }
+
+    private void leaveRadiusUI() {
+        radiusMenuBox.setVisibility(View.GONE);
+        backArrow.setVisibility(View.GONE);
+        enableShake();
+        mMap.clear();
+        layout.setEnabled(true);
+        buttonBar.setVisibility(View.VISIBLE);
+        mMap.setPadding(0, 0, 0, 0);
+        markerInfo.setVisibility(View.GONE);
+    }
+
+    private void enableShake() {
+        mShakeDetector.setOnShakeListener(onShakeListener);
+    }
+
+    private void disableShake() {
+        mShakeDetector.setOnShakeListener(null);
+    }
+
+    private void showMarkers(SeekBar seekBar, double lat, double lng) {
+        LatLngBounds latLngBounds = radiusBounds(seekBar.getProgress()/10.0, lat, lng);
+        for (Marker marker : markerList) {
+            Transaction transaction = (Transaction) marker.getTag();
+            if (latLngBounds.contains(marker.getPosition())) {
+                if (transaction != null) {
+                    if (supplyOnRadius.isChecked()) {
+                        if (transaction.isSupply()) {
+                            marker.setVisible(true);
+                        } else {
+                            marker.setVisible(false);
+                        }
+                    } else if (demandOnRadius.isChecked()) {
+                        if (!transaction.isSupply()) {
+                            marker.setVisible(true);
+                        } else {
+                            marker.setVisible(false);
+                        }
+                    }
+                }
+            } else {
+                marker.setVisible(false);
+            }
+        }
     }
 
     public boolean showCurrentPlaceCheck() {
@@ -501,19 +549,18 @@ public class MapsActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        switch (layout.getPanelState()) {
-            case COLLAPSED:
-                //if in select from map case then reopen UI
-                if (centreMap.getVisibility() == View.VISIBLE) {
-                    openAddressDialog();
-                    returnToAddressDialogUI();
-                } else {
-                    finish();
-                }
-                break;
-            case EXPANDED:
-                layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-                break;
+        if (layout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED) {
+            //if in select from map case then reopen UI
+            if (centreMap.getVisibility() == View.VISIBLE) {
+                openAddressDialog();
+                returnToAddressDialogUI();
+            } else if (radiusMenuBox.getVisibility() == View.VISIBLE) {
+                leaveRadiusUI();
+            } else {
+                finish();
+            }
+        } else if (layout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
+            layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         }
     }
 
@@ -919,6 +966,7 @@ public class MapsActivity extends AppCompatActivity
                 marker.setTag(t);
                 markerList.add(marker);
             }
+            showMarkers(seekBarRadius, mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
         }
     }
 

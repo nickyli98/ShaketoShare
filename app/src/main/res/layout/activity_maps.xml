@@ -475,6 +475,7 @@
                         android:layout_weight="1"
                         android:checked="true"
                         android:text="@string/organicSwitchName"
+                        android:padding="@dimen/text_box_padding"
                         android:textSize="@dimen/input_text_size" />
 
                     <LinearLayout
