@@ -7,28 +7,44 @@ import android.widget.LinearLayout;
 
 import static ic.hku.hk.DatabaseVariables.*;
 import static ic.hku.hk.TransactionListUtil.listAdd;
+import static ic.hku.hk.MapsActivity.GetOrderTask;
 
-public class activity_pending_orders extends AppCompatActivity {
+public class activity_pending_orders extends AppCompatActivity implements AsyncResponse{
+
+    SwipeRefreshLayout refreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pending_orders);
         listAdd(this, pendingTransactions, R.id.transactionPendingScroll, false);
-        SwipeRefreshLayout refreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeUpContainer);
+        refreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeUpContainer);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new MapsActivity.getOrders().execute();
-                refresh();
+                setTask().execute();
             }
         });
     }
 
-    private void refresh() {
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        refreshLayout.setRefreshing(true);
+        setTask().execute();
+    }
+
+    private GetOrderTask setTask(){
+        GetOrderTask g = new GetOrderTask();
+        g.delegate = this;
+        return g;
+    }
+
+    @Override
+    public <T> void processFinish(T output) {
         LinearLayout layout = (LinearLayout) findViewById(R.id.transactionPendingScroll);
         layout.removeAllViews();
         listAdd(this, pendingTransactions, R.id.transactionPendingScroll, false);
+        refreshLayout.setRefreshing(false);
     }
-
 }

@@ -64,12 +64,12 @@ public class AddressDialog {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
                     String address = (String) adapter.getItem(pos).getFullText(null);
-                    pickUpAddress.setText(address);
                     try {
                         Address location = geocoder.getFromLocationName(address, 1).get(0);
                         shareLat.setText(String.valueOf(location.getLatitude()));
                         shareLon.setText(String.valueOf(location.getLongitude()));
-                    } catch (IOException e) {
+                        pickUpAddress.setText(address);
+                    } catch (Exception e) {
                         Toast.makeText(context, "Address not found", Toast.LENGTH_SHORT).show();
                     }
                     dialog.cancel();
