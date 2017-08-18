@@ -1,6 +1,8 @@
 package ic.hku.hk;
 
 import android.Manifest;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,6 +18,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -165,7 +169,11 @@ public class MapsActivity extends AppCompatActivity
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                share();
+                if (AndroidUtils.isConnected(MapsActivity.this)) {
+                    share();
+                } else {
+                    Toast.makeText(MapsActivity.this, R.string.check_internet_connection, Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -233,7 +241,12 @@ public class MapsActivity extends AppCompatActivity
                 seekBarRadius.setProgress(5);
                 radiusLengthText.setText("0.5km");
                 supplyOnRadius.setChecked(true);
-                new getRadiusItems().execute(centre);
+                if (AndroidUtils.isConnected(MapsActivity.this)) {
+                    new getRadiusItems().execute(centre);
+
+                } else {
+                    Toast.makeText(MapsActivity.this, R.string.check_internet_connection, Toast.LENGTH_SHORT).show();
+                }
 
                 mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                     @Override
@@ -266,6 +279,7 @@ public class MapsActivity extends AppCompatActivity
                     public void onMapClick(LatLng latLng) {
                         mMap.setPadding(0, 0, 0, 0);
                         markerInfo.setVisibility(View.GONE);
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(radiusCircle.getCenter(), getZoomLevel(radiusCircle)));
                     }
                 });
                 seekBarRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -292,12 +306,18 @@ public class MapsActivity extends AppCompatActivity
                     @Override
                     public void onClick(View view) {
                         showMarkers(seekBarRadius, mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
+                        mMap.setPadding(0, 0, 0, 0);
+                        markerInfo.setVisibility(View.GONE);
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(radiusCircle.getCenter(), getZoomLevel(radiusCircle)));
                     }
                 });
                 supplyOnRadius.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         showMarkers(seekBarRadius, mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
+                        mMap.setPadding(0, 0, 0, 0);
+                        markerInfo.setVisibility(View.GONE);
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(radiusCircle.getCenter(), getZoomLevel(radiusCircle)));
                     }
                 });
             }
@@ -439,26 +459,28 @@ public class MapsActivity extends AppCompatActivity
 
     private void showMarkers(SeekBar seekBar, double lat, double lng) {
         LatLng latLng = new LatLng(lat, lng);
-        for (Marker marker : markerList) {
-            Transaction transaction = (Transaction) marker.getTag();
-            if (SphericalUtil.computeDistanceBetween(latLng, marker.getPosition()) <= seekBar.getProgress() * 100) {
-                if (transaction != null) {
-                    if (supplyOnRadius.isChecked()) {
-                        if (transaction.isSupply()) {
-                            marker.setVisible(true);
-                        } else {
-                            marker.setVisible(false);
-                        }
-                    } else if (demandOnRadius.isChecked()) {
-                        if (!transaction.isSupply()) {
-                            marker.setVisible(true);
-                        } else {
-                            marker.setVisible(false);
+        if (markerList != null) {
+            for (Marker marker : markerList) {
+                Transaction transaction = (Transaction) marker.getTag();
+                if (SphericalUtil.computeDistanceBetween(latLng, marker.getPosition()) <= seekBar.getProgress() * 100) {
+                    if (transaction != null) {
+                        if (supplyOnRadius.isChecked()) {
+                            if (transaction.isSupply()) {
+                                marker.setVisible(true);
+                            } else {
+                                marker.setVisible(false);
+                            }
+                        } else if (demandOnRadius.isChecked()) {
+                            if (!transaction.isSupply()) {
+                                marker.setVisible(true);
+                            } else {
+                                marker.setVisible(false);
+                            }
                         }
                     }
+                } else {
+                    marker.setVisible(false);
                 }
-            } else {
-                marker.setVisible(false);
             }
         }
     }
@@ -581,6 +603,26 @@ public class MapsActivity extends AppCompatActivity
         } else if (layout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
             layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         }
+    }
+
+    private void sendNotification() {
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.recycle_logo)
+                .setContentTitle("Shake to Share")
+                .setContentText("You pressed back");
+        Intent resultIntent = new Intent(this, MapsActivity.class);
+        PendingIntent resultPendingIntent =
+                PendingIntent.getActivity(
+                        this,
+                        0,
+                        resultIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        mBuilder.setContentIntent(resultPendingIntent);
+        mBuilder.setVibrate(new long [] {0, 1000});
+        int mNotificationId = 001;
+        NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        mNotifyMgr.notify(mNotificationId, mBuilder.build());
     }
 
     private void returnToAddressDialogUI() {

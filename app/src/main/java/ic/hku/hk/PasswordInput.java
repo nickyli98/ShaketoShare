@@ -74,7 +74,7 @@ public class PasswordInput implements View.OnFocusChangeListener, View.OnKeyList
     @Override
     public void onFocusChange(View view, boolean hasFocus) {
         if (hasFocus) {
-            if (view == first || view == second || view == third) {
+            if (view == first || view == second || view == third || view == fourth) {
                 showSoftKeyboard(hiddenText);
             } else {
                 hideSoftKeyboard(hiddenText);

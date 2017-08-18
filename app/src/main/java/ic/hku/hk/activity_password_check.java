@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import static ic.hku.hk.Constants.*;
 
@@ -19,6 +20,7 @@ public class activity_password_check extends AppCompatActivity {
     private EditText secondPin;
     private EditText thirdPin;
     private EditText fourthPin;
+    private ProgressBar progressBarR;
     private String firstAttempt;
     private PasswordInput input;
     private EditText hiddenText;
@@ -45,9 +47,9 @@ public class activity_password_check extends AppCompatActivity {
                 name = getIntent().getStringExtra("NAME");
                 email = getIntent().getStringExtra("EMAIL");
                 company = getIntent().getStringExtra("COMPANY");
+                progressBarR.setVisibility(View.VISIBLE);
                 new createUserTask().execute(name, email, company, phoneNumber, PIN);
             }});
-        //run();
     }
 
     private void run() throws InterruptedException {
@@ -99,6 +101,7 @@ public class activity_password_check extends AppCompatActivity {
         fourthPin = (EditText) findViewById(R.id.fourth_pin_R);
         hiddenText = (EditText) findViewById(R.id.pin_hidden_edittext_R);
         passwordNext = (Button) findViewById(R.id.passwordNext);
+        progressBarR = (ProgressBar) findViewById(R.id.progressBarR);
     }
 
     private class createUserTask extends AsyncTask<String, Void, Boolean> {
