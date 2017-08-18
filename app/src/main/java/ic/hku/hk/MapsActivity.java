@@ -130,12 +130,12 @@ public class MapsActivity extends AppCompatActivity
     //Settings menu
     private ImageView drawerOpen;
     private DrawerLayout drawerLayout;
-    private TextView pendingOrders;
-    private TextView orderHistory;
-    private TextView radiusOfItems;
+    private LinearLayout pendingOrders;
+    private LinearLayout orderHistory;
+    private LinearLayout radiusOfItems;
+    private LinearLayout contactUs;
+    private LinearLayout logOut;
     private ImageView backArrow;
-    private TextView contactUs;
-    private TextView logOut;
 
     // The following are used for the shake detection
     private SensorManager mSensorManager;
@@ -538,11 +538,11 @@ public class MapsActivity extends AppCompatActivity
         //Settings elements
         drawerOpen = (ImageView) findViewById(R.id.drawer_open);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        pendingOrders = (TextView) findViewById(R.id.settings_pendingOrders);
-        orderHistory = (TextView) findViewById(R.id.settings_orderHistory);
-        radiusOfItems = (TextView) findViewById(R.id.settings_getRadiusOfItems);
-        contactUs = (TextView) findViewById(R.id.settings_contactUs);
-        logOut = (TextView) findViewById(R.id.settings_logOut);
+        pendingOrders = (LinearLayout) findViewById(R.id.settings_pendingOrderLayout);
+        orderHistory = (LinearLayout) findViewById(R.id.settings_orderHistoryLayout);
+        radiusOfItems = (LinearLayout) findViewById(R.id.settings_radiusLayout);
+        contactUs = (LinearLayout) findViewById(R.id.settings_contactLayout);
+        logOut = (LinearLayout) findViewById(R.id.settings_logoutLayout);
 
         //Sets date default to current date
         dateFromEditText.setText(sdf.format(Calendar.getInstance().getTime()));
