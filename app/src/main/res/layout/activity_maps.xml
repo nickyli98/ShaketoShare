@@ -256,12 +256,14 @@
                         android:text="@string/tonnes"
                         android:layout_weight="1"/>
                 </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/line_width"
                     android:background="@color/lineColour"
                     android:layout_marginStart="@dimen/lineMargin"
                     android:layout_marginEnd="@dimen/lineMargin"/>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -290,11 +292,15 @@
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/radiusContact"
+                    android:id="@+id/matchBidButton"
+                    android:background="@drawable/share_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/input_text_size"
-                    android:text="Contact 852-55555555" />
+                    android:padding="10dp"
+                    android:textSize="10pt"
+                    android:textColor="@color/inputText"
+                    android:text="@string/match" />
+
             </LinearLayout>
 
         </RelativeLayout>

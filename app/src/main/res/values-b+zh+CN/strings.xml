@@ -36,4 +36,6 @@
     <string name="current_offer">目前报价:</string>
     <string name="asking_price">询问价格:</string>
     <string name="contact_phone_number">致电</string>
+    <string name="match">匹配</string>
+    <string name="weightDetails">重量:</string>
 </resources>

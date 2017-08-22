@@ -124,8 +124,8 @@ public class MapsActivity extends AppCompatActivity
     private TextView radiusMarkerWeight;
     private TextView radiusMarkerPrice;
     private TextView radiusMarkerPriceVal;
-    private Button radiusContact;
-    private String radiusContactNumber;
+    private Button matchBidButton;
+    private EditText bidAmount;
 
     //Settings menu
     private ImageView drawerOpen;
@@ -227,7 +227,7 @@ public class MapsActivity extends AppCompatActivity
                 drawerLayout.closeDrawers();
                 radiusMenuBox.setVisibility(View.VISIBLE);
                 backArrow.setVisibility(View.VISIBLE);
-                buttonBar.setVisibility(View.INVISIBLE);
+                dragView.setVisibility(View.INVISIBLE);
                 layout.setEnabled(false);
                 disableShake();
                 LatLng centre = new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
@@ -251,7 +251,7 @@ public class MapsActivity extends AppCompatActivity
                 mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
-                        Transaction transaction = (Transaction) marker.getTag();
+                        final Transaction transaction = (Transaction) marker.getTag();
                         if (transaction != null) {
                             radiusMarkerAddress.setText(transaction.getAddress());
                             radiusMarkerDateFrom.setText(transaction.getDateFrom());
@@ -260,9 +260,25 @@ public class MapsActivity extends AppCompatActivity
                             radiusMarkerPrice.setText((transaction.isSupply()) ? getString(R.string.asking_price) : getString(R.string.current_offer));
                             radiusMarkerPriceVal.setText(transaction.getBid());
                             radiusMarkerWeight.setText(String.valueOf(transaction.getWeight()));
-                            radiusContactNumber = "tel:" + transaction.getPhone();
-                            String radiusContactText = getString(R.string.contact_phone_number) + " " + transaction.getPhone();
-                            radiusContact.setText(radiusContactText);
+                            matchBidButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    leaveRadiusUI();
+                                    if (supplyOnRadius.isChecked()) {
+                                        demandOn.setChecked(true);
+                                    } else {
+                                        supplyOn.setChecked(true);
+                                    }
+                                    if (transaction.getOrganic()) {
+                                        organicSwitch.setChecked(true);
+                                    } else {
+                                        organicSwitch.setChecked(false);
+                                    }
+                                    weightEditText.setText(String.valueOf(transaction.getWeight()));
+                                    layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                                    presetBid = transaction.getBid();
+                                }
+                            });
                             markerInfo.setVisibility(View.VISIBLE);
                             markerInfo.post(new Runnable() {
                                 @Override
@@ -277,9 +293,7 @@ public class MapsActivity extends AppCompatActivity
                 mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                     @Override
                     public void onMapClick(LatLng latLng) {
-                        mMap.setPadding(0, 0, 0, 0);
-                        markerInfo.setVisibility(View.GONE);
-                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(radiusCircle.getCenter(), getZoomLevel(radiusCircle)));
+                        hideMarkerInfo();
                     }
                 });
                 seekBarRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -306,36 +320,25 @@ public class MapsActivity extends AppCompatActivity
                     @Override
                     public void onClick(View view) {
                         showMarkers(seekBarRadius, mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
-                        mMap.setPadding(0, 0, 0, 0);
-                        markerInfo.setVisibility(View.GONE);
-                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(radiusCircle.getCenter(), getZoomLevel(radiusCircle)));
+                        hideMarkerInfo();
                     }
                 });
                 supplyOnRadius.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         showMarkers(seekBarRadius, mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
-                        mMap.setPadding(0, 0, 0, 0);
-                        markerInfo.setVisibility(View.GONE);
-                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(radiusCircle.getCenter(), getZoomLevel(radiusCircle)));
+                        hideMarkerInfo();
                     }
                 });
-            }
-        });
-
-        radiusContact.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse(radiusContactNumber));
-                startActivity(intent);
             }
         });
 
         contactUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:852-12345678"));
+                startActivity(intent);
             }
         });
 
@@ -424,6 +427,12 @@ public class MapsActivity extends AppCompatActivity
         supplyOn.setChecked(true);
     }
 
+    private void hideMarkerInfo() {
+        mMap.setPadding(0, 0, 0, 0);
+        markerInfo.setVisibility(View.GONE);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(radiusCircle.getCenter(), getZoomLevel(radiusCircle)));
+    }
+
     private float getZoomLevel(Circle radiusCircle) {
         float zoomLevel = 11.0f;
         if (radiusCircle != null) {
@@ -444,7 +453,7 @@ public class MapsActivity extends AppCompatActivity
         enableShake();
         mMap.clear();
         layout.setEnabled(true);
-        buttonBar.setVisibility(View.VISIBLE);
+        dragView.setVisibility(View.VISIBLE);
         mMap.setPadding(0, 0, 0, 0);
         markerInfo.setVisibility(View.GONE);
     }
@@ -533,7 +542,8 @@ public class MapsActivity extends AppCompatActivity
         radiusMarkerWeight = (TextView) findViewById(R.id.radius_marker_weight);
         radiusMarkerPrice = (TextView) findViewById(R.id.radius_marker_price);
         radiusMarkerPriceVal = (TextView) findViewById(R.id.radius_marker_priceVal);
-        radiusContact = (Button) findViewById(R.id.radiusContact);
+        matchBidButton = (Button) findViewById(R.id.matchBidButton);
+        bidAmount = (EditText) findViewById(R.id.bidAmount);
 
         //Settings elements
         drawerOpen = (ImageView) findViewById(R.id.drawer_open);
@@ -644,9 +654,12 @@ public class MapsActivity extends AppCompatActivity
 
     private void openBidDialog(String address, String lat, String lon,
                                String organic, String isSupply, String dateFrom,
-                               String dateTo, String weight, DatabaseConnection dbc) {
+                               String dateTo, String weight, DatabaseConnection dbc, String presetBid) {
         BidDialog bidDialog = new BidDialog(MapsActivity.this);
-        bidDialog.bidDialog(address, lat, lon, organic, isSupply, dateFrom, dateTo, weight, dbc);
+        bidDialog.bidDialog(address, lat, lon, organic, isSupply, dateFrom, dateTo, weight, dbc, presetBid);
+        //reset share menu
+        supplyOn.setChecked(true);
+        organicSwitch.setChecked(true);
     }
 
     private void shareRequest() {
@@ -660,7 +673,7 @@ public class MapsActivity extends AppCompatActivity
         String dateTo = dateToEditText.getText().toString();
         String weight = weightEditText.getText().toString();
         //with these fields
-        openBidDialog(address, lat, lon, organic, isSupply, dateFrom, dateTo, weight, dbc);
+        openBidDialog(address, lat, lon, organic, isSupply, dateFrom, dateTo, weight, dbc, presetBid);
         //resets the UI
         clearForm(insidePane);
         dateFromEditText.setText(sdf.format(Calendar.getInstance().getTime()));

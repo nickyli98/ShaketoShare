@@ -43,7 +43,7 @@ public class activity_history_orders extends AppCompatActivity implements AsyncR
     public <T> void processFinish(T output) {
         LinearLayout layout = (LinearLayout) findViewById(R.id.transactionHistoryScroll);
         layout.removeAllViews();
-        listAdd(this, pendingTransactions, R.id.transactionHistoryScroll, false);
+        listAdd(this, historyTransactions, R.id.transactionHistoryScroll, true);
         refreshLayout.setRefreshing(false);
     }
 }

@@ -8,6 +8,7 @@
     tools:context="ic.hku.hk.activity_transaction_detail"
     android:orientation="vertical"
     android:layout_margin="12dp">
+
     <LinearLayout
         android:id="@+id/completedDetails"
         android:layout_width="match_parent"
@@ -39,48 +40,98 @@
             android:background="@color/lineColour"
             android:layout_marginStart="@dimen/lineMargin"
             android:layout_marginEnd="@dimen/lineMargin"/>
-        <TextView
-            android:id="@+id/completedTransactionDetails_name"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/input_text_size"
-            android:padding="@dimen/selectionMarginHalf"/>
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/nameIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/name"
+                android:src="@drawable/name"/>
+
+            <TextView
+                android:id="@+id/completedTransactionDetails_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/input_text_size"
+                android:padding="@dimen/selectionMarginHalf"/>
+        </LinearLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_width"
             android:background="@color/lineColour"
             android:layout_marginStart="@dimen/lineMargin"
             android:layout_marginEnd="@dimen/lineMargin"/>
-        <TextView
-            android:id="@+id/completedTransactionDetails_phone"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/input_text_size"
-            android:padding="@dimen/selectionMarginHalf"/>
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/contact_us"
+                app:srcCompat="@drawable/contact_us"
+                android:layout_gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/completedTransactionDetails_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/input_text_size"
+                android:padding="@dimen/selectionMarginHalf"/>
+        </LinearLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_width"
             android:background="@color/lineColour"
             android:layout_marginStart="@dimen/lineMargin"
             android:layout_marginEnd="@dimen/lineMargin"/>
-        <TextView
-            android:id="@+id/completedTransactionDetails_email"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/input_text_size"
-            android:padding="@dimen/selectionMarginHalf"/>
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/email"
+                app:srcCompat="@drawable/email"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/completedTransactionDetails_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/input_text_size"
+                android:padding="@dimen/selectionMarginHalf"/>
+        </LinearLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_width"
             android:background="@color/lineColour"
             android:layout_marginStart="@dimen/lineMargin"
             android:layout_marginEnd="@dimen/lineMargin"/>
-        <TextView
-            android:id="@+id/completedTransactionDetails_company"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/input_text_size"
-            android:padding="@dimen/selectionMarginHalf"/>
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/company"
+                android:src="@drawable/company"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/completedTransactionDetails_company"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/input_text_size"
+                android:padding="@dimen/selectionMarginHalf"/>
+        </LinearLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_width"
@@ -88,12 +139,23 @@
             android:layout_marginStart="@dimen/lineMargin"
             android:layout_marginEnd="@dimen/lineMargin"/>
 
-        <TextView
-            android:id="@+id/completedTransactionDetails_location"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/selectionMarginHalf"
-            android:textSize="@dimen/input_text_size"/>
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/nearby_radius"
+                app:srcCompat="@drawable/nearby_radius"
+                android:layout_gravity="center"/>
+            <TextView
+                android:id="@+id/completedTransactionDetails_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/selectionMarginHalf"
+                android:textSize="@dimen/input_text_size"/>
+        </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -112,12 +174,22 @@
             android:background="@color/lineColour"
             android:layout_marginStart="@dimen/lineMargin"
             android:layout_marginEnd="@dimen/lineMargin"/>
-        <TextView
-            android:id="@+id/transactionDetails_address"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/input_text_size"
-            android:padding="@dimen/selectionMarginHalf"/>
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/nearby_radius"
+                app:srcCompat="@drawable/nearby_radius"
+                android:layout_gravity="center"/>
+            <TextView
+                android:id="@+id/transactionDetails_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/input_text_size"
+                android:padding="@dimen/selectionMarginHalf"/>
+        </LinearLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_width"
@@ -126,29 +198,40 @@
             android:layout_marginEnd="@dimen/lineMargin"/>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/selectionMarginHalf"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/transactionDetails_dateFrom"
-                android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/input_text_size"
-                android:layout_weight="2"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/dateConnector"
-                android:textAlignment="center"
-                android:textSize="@dimen/input_text_size" />
-            <TextView
-                android:id="@+id/transactionDetails_dateTo"
-                android:layout_width="0dp"
+                app:srcCompat="@drawable/calendar"
+                android:src="@drawable/calendar"
+                android:layout_gravity="center"/>
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="viewEnd"
-                android:textSize="@dimen/input_text_size"
-                android:layout_weight="2"/>
+                android:padding="@dimen/selectionMarginHalf"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/transactionDetails_dateFrom"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/input_text_size"
+                    android:layout_weight="2"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/dateConnector"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/input_text_size" />
+                <TextView
+                    android:id="@+id/transactionDetails_dateTo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewEnd"
+                    android:textSize="@dimen/input_text_size"
+                    android:layout_weight="2"/>
+            </LinearLayout>
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -159,28 +242,20 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/selectionMarginHalf"
             android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/waste"
+                android:src="@drawable/waste"
+                android:layout_gravity="center"/>
             <TextView
                 android:id="@+id/transactionDetails_organic"
                 android:layout_width="0dp"
                 android:textSize="@dimen/input_text_size"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/selectionMarginHalf"
                 android:layout_weight="2"/>
-            <TextView
-                android:id="@+id/transactionDetails_weight"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/input_text_size"
-                android:textAlignment="viewEnd"
-                android:layout_weight="2"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textAlignment="viewEnd"
-                android:textSize="@dimen/input_text_size"
-                android:text="@string/tonnes"
-                android:layout_weight="1"/>
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -190,29 +265,84 @@
             android:layout_marginEnd="@dimen/lineMargin"/>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/selectionMarginHalf"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/transactionDetails_price"
-                android:layout_width="0dp"
-                android:textSize="@dimen/input_text_size"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"/>
-            <TextView
-                android:id="@+id/transactionDetails_priceVal"
-                android:layout_width="0dp"
-                android:textSize="@dimen/input_text_size"
-                android:textAlignment="viewEnd"
+                app:srcCompat="@drawable/weight"
+                android:src="@drawable/weight"
+                android:layout_gravity="center"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"/>
-            <TextView
-                android:layout_width="0dp"
+                android:padding="@dimen/selectionMarginHalf"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/transactionDetails_weightLabel"
+                    android:layout_width="0dp"
+                    android:textSize="@dimen/input_text_size"
+                    android:layout_height="wrap_content"
+                    android:text="@string/weightDetails"
+                    android:layout_weight="3"/>
+                <TextView
+                    android:id="@+id/transactionDetails_weight"
+                    android:layout_width="0dp"
+                    android:textSize="@dimen/input_text_size"
+                    android:textAlignment="viewEnd"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewEnd"
+                    android:textSize="@dimen/input_text_size"
+                    android:text="@string/tonnes"
+                    android:layout_weight="2"/>
+            </LinearLayout>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_width"
+            android:background="@color/lineColour"
+            android:layout_marginStart="@dimen/lineMargin"
+            android:layout_marginEnd="@dimen/lineMargin"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAlignment="viewEnd"
-                android:textSize="@dimen/input_text_size"
-                android:text="HKD"
-                android:layout_weight="1"/>
+                app:srcCompat="@drawable/price"
+                android:src="@drawable/price"
+                android:layout_gravity="center"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/selectionMarginHalf"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/transactionDetails_price"
+                    android:layout_width="0dp"
+                    android:textSize="@dimen/input_text_size"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"/>
+                <TextView
+                    android:id="@+id/transactionDetails_priceVal"
+                    android:layout_width="0dp"
+                    android:textSize="@dimen/input_text_size"
+                    android:textAlignment="viewEnd"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewEnd"
+                    android:textSize="@dimen/input_text_size"
+                    android:text="HKD"
+                    android:layout_weight="2"/>
+            </LinearLayout>
         </LinearLayout>
         <View
             android:layout_width="match_parent"

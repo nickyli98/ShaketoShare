@@ -16,6 +16,7 @@ import android.widget.Toast;
 import java.sql.SQLException;
 
 import static ic.hku.hk.DatabaseVariables.dbc;
+import static ic.hku.hk.DatabaseVariables.presetBid;
 
 public class BidDialog<U extends AppCompatActivity> implements AsyncResponse {
 
@@ -27,7 +28,7 @@ public class BidDialog<U extends AppCompatActivity> implements AsyncResponse {
 
     void bidDialog(final String address, final String lat
             , final String lon, final String organic, final String isSupply, final String dateFrom
-            , final String dateTo, final String weight, DatabaseConnection dbc) {
+            , final String dateTo, final String weight, DatabaseConnection dbc, final String presetBid) {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(context);
         View mView = context.getLayoutInflater().inflate(R.layout.dialog_share_bid, null);
         mBuilder.setView(mView);
@@ -46,6 +47,10 @@ public class BidDialog<U extends AppCompatActivity> implements AsyncResponse {
                 bidPrompt.setText(context.getString(R.string.demand_bid_prompt));
             }
 
+            if (!presetBid.equals("0")) {
+                bidAmount.setText(presetBid);
+                bidAmount.setSelection(bidAmount.getText().length());
+            }
 
             bidConfirm.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -56,6 +61,7 @@ public class BidDialog<U extends AppCompatActivity> implements AsyncResponse {
                     shareRequest.execute(address, lat, lon, organic, isSupply, dateFrom, dateTo, weight, bid);
                     InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    resetPresetBid();
                     dialog.cancel();
                 }
             });
@@ -99,6 +105,11 @@ public class BidDialog<U extends AppCompatActivity> implements AsyncResponse {
                 return false;
             }
         }
+    }
+
+    private void resetPresetBid() {
+        presetBid = "0";
+
     }
 
 }
