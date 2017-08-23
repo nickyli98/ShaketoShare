@@ -24,4 +24,8 @@
         <item name="android:focusable">true</item>
         <item name="android:focusableInTouchMode">true</item>
     </style>
+    <style name="splashScreenTheme" parent="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+    </style>
+
 </resources>

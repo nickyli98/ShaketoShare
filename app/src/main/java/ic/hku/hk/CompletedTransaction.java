@@ -12,13 +12,14 @@ public class CompletedTransaction extends PendingTransaction implements AsyncRes
 
     private final int matched_id;
     private final int other_transaction_id;
+    private final String other_transaction_address;
     private final String dateMatched;
     private final double price;
     private UserInfo userInfo;
 
     public CompletedTransaction(int id, String phone, double weight, String address, double lat, double lng,
                                 boolean isSupply, String dateFrom, String dateTo, String dateSubmitted, boolean organic, double bid,
-                                int matched_id, String date_matched, int other_transaction_id, double price) {
+                                int matched_id, String date_matched, int other_transaction_id, double price, String otherAddress) {
         super(id, phone, weight, address, lat, lng, isSupply, dateFrom, dateTo, dateSubmitted, organic, bid);
         this.matched_id = matched_id;
         this.dateMatched = date_matched;
@@ -27,6 +28,7 @@ public class CompletedTransaction extends PendingTransaction implements AsyncRes
         getUserInfoTask task = new getUserInfoTask();
         task.delegate = this;
         task.execute(other_transaction_id);
+        this.other_transaction_address = otherAddress;
     }
 
     public int getMatched_id() {
@@ -45,6 +47,10 @@ public class CompletedTransaction extends PendingTransaction implements AsyncRes
         return other_transaction_id;
     }
 
+    public String getOther_transaction_address() {
+        return other_transaction_address;
+    }
+
     //PARCEL STUFF
     public CompletedTransaction(Parcel in){
         super(in);
@@ -54,6 +60,7 @@ public class CompletedTransaction extends PendingTransaction implements AsyncRes
         price = in.readDouble();
         userInfo = new UserInfo(in.readString(), in.readString()
                 , in.readString(), in.readString());
+        other_transaction_address = in.readString();
     }
     @Override
     public int describeContents() {
@@ -71,6 +78,7 @@ public class CompletedTransaction extends PendingTransaction implements AsyncRes
         parcel.writeString(userInfo.getEmail());
         parcel.writeString(userInfo.getPhone());
         parcel.writeString(userInfo.getCompany());
+        parcel.writeString(other_transaction_address);
     }
 
     public UserInfo getUserInfo() {
@@ -104,6 +112,7 @@ public class CompletedTransaction extends PendingTransaction implements AsyncRes
             }
         }
     }
+
 
     public static final Parcelable.Creator CREATOR = new Creator() {
         @Override

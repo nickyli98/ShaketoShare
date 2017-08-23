@@ -15,4 +15,5 @@ public final class SQLQuery {
     static final String USER_INFO_QUERY = "SELECT phone_number FROM share_history WHERE id = ?;";
     static final String USER_INFO_QUERY_TWO = "SELECT * FROM user_info WHERE phone_number = ?;";
     static final String DELETE_ORDER = "DELETE FROM share_history WHERE id = ?;";
+    static final String UPDATE_TOKEN = "UPDATE user SET token = ? WHERE phone_number = ?;";
 }

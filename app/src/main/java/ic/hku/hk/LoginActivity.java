@@ -106,7 +106,9 @@ public class LoginActivity extends Activity implements AsyncResponse {
     public <T> void processFinish(T output) {
         if((boolean) (Object) output){
             Intent toMap = new Intent(this, MapsActivity.class);
-            toMap.putExtra("phoneNumber", areaCodeSelectionText.getText().toString().substring(1) + "-" + phoneNumberEditText.getText().toString());
+            String phoneLogin = areaCodeSelectionText.getText().toString().substring(1) + "-" + phoneNumberEditText.getText().toString();
+            toMap.putExtra("phoneNumber", phoneLogin);
+            SaveSharedPreference.setUserName(this, phoneLogin);
             startActivity(toMap);
             this.finish();
         } else {

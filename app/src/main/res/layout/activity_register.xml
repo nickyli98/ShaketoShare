@@ -84,6 +84,9 @@
         android:id="@+id/next_button_R"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/share_button"
+        android:textSize="@dimen/input_text_size"
+        android:textColor="@color/inputText"
         android:layout_gravity="end"
         android:text="@string/next_button"/>
 </LinearLayout>

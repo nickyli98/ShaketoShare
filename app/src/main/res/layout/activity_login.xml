@@ -95,6 +95,9 @@
         android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/share_button"
+        android:textColor="@color/inputText"
+        android:textSize="@dimen/input_text_size"
         android:text="@string/login_button"/>
     <ProgressBar
         android:id="@+id/loginLoading"

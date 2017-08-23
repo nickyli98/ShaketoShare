@@ -1,10 +1,12 @@
 package ic.hku.hk;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.mysql.jdbc.*;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 
 import java.sql.*;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -177,9 +179,13 @@ public class DatabaseConnection {
             final int otherId = matched_Transaction.getInt(other);
             final String dateMatched = matched_Transaction.getString("date");
             final double price = matched_Transaction.getDouble("price");
+            matched_Transaction = statement.executeQuery("select address from share_history where id = " + otherId);
+            matched_Transaction.next();
+            final String otherAddress = matched_Transaction.getString("address");
+            System.out.println("database other address" + otherAddress);
             t = new CompletedTransaction(id, phone, weight, address, lat, lng,
                     isSupply, dateFrom, dateTo, dateSubmitted, organic, bid, matchedID,
-                    dateMatched, otherId, price);
+                    dateMatched, otherId, price, otherAddress);
         } else {
             t = new PendingTransaction(id, phone, weight,
                     address, lat, lng, isSupply, dateFrom, dateTo, dateSubmitted, organic, bid);
@@ -237,5 +243,20 @@ public class DatabaseConnection {
         statement.close();
     }
 
+    public void updateToken(String token) throws SQLException {
+        PreparedStatement statement = con.prepareStatement(UPDATE_TOKEN);
+        statement.setString(1, token);
+        statement.setString(2, phoneNumber);
+        statement.executeUpdate();
+        statement.close();
+    }
+
+    public void clearToken() throws SQLException {
+        PreparedStatement statement = con.prepareStatement(UPDATE_TOKEN);
+        statement.setString(1, null);
+        statement.setString(2, phoneNumber);
+        statement.executeUpdate();
+        statement.close();
+    }
 
 }

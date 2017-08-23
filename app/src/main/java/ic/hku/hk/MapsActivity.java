@@ -59,6 +59,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.maps.android.SphericalUtil;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -345,6 +346,8 @@ public class MapsActivity extends AppCompatActivity
         logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SaveSharedPreference.clearUserName(MapsActivity.this);
+                new LogoutTokenTask().execute();
                 Intent toLogout = new Intent(MapsActivity.this, LoginActivity.class);
                 startActivity(toLogout);
                 close();
@@ -985,6 +988,7 @@ public class MapsActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(DatabaseConnection databaseConnection) {
             dbc = databaseConnection;
+            MyFirebaseInstanceIDService.sendRegistrationToServer(FirebaseInstanceId.getInstance().getToken());
             new GetOrderTask().execute();
         }
     }
@@ -1047,6 +1051,18 @@ public class MapsActivity extends AppCompatActivity
                 markerList.add(marker);
             }
             showMarkers(seekBarRadius, mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
+        }
+    }
+
+    private class LogoutTokenTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                dbc.clearToken();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return null;
         }
     }
 

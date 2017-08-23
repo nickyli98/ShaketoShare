@@ -8,6 +8,6 @@ public class DatabaseVariables {
     static List<Transaction> historyTransactions;
     static List<Transaction> pendingTransactions;
     static List<Transaction> radiusItems;
-    static String presetBid;
+    static String presetBid = "0";
 
 }
