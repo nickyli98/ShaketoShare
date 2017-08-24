@@ -1,12 +1,19 @@
 package ic.hku.hk;
 
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import java.io.Serializable;
+import java.util.Map;
+
+import static ic.hku.hk.MatchedDialog.matchedDialog;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -14,13 +21,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        // TODO(developer): Handle FCM messages here.
-        //TODO: CUSTOM NOTIFS, INTENTS AND ALL
-        Log.d(TAG, "From: " + remoteMessage.getFrom());
 
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+            Map<String, String> data = remoteMessage.getData();
+            Intent resultIntent = new Intent(getApplicationContext(), MapsActivity.class);
+            resultIntent.putExtra("notification_data", (Serializable) data);
+            startActivity(resultIntent);
         }
 
         // Check if message contains a notification payload.

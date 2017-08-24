@@ -1,5 +1,7 @@
 package ic.hku.hk;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
@@ -53,8 +55,33 @@ public class activity_transaction_detail extends Activity {
         if(t != null){
             if(completed){
                 ((TextView) findViewById(R.id.completedTransactionDetails_name)).setText(matchedInfo.getName());
-                ((TextView) findViewById(R.id.completedTransactionDetails_phone)).setText(matchedInfo.getPhone());
-                ((TextView) findViewById(R.id.completedTransactionDetails_email)).setText(matchedInfo.getEmail());
+                final TextView phone = (TextView) findViewById(R.id.completedTransactionDetails_phone);
+                phone.setText(matchedInfo.getPhone());
+                phone.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String phoneNumToParse = "tel:" + phone.getText().toString();
+                        Intent phoneIntent = new Intent(Intent.ACTION_DIAL);
+                        phoneIntent.setData(Uri.parse(phoneNumToParse));
+                        startActivity(phoneIntent);
+                    }
+                });
+                final TextView email = (TextView) findViewById(R.id.completedTransactionDetails_email);
+                email.setText(matchedInfo.getEmail());
+                email.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String emailToParse = email.getText().toString();
+                        String[] addresses = new String[1];
+                        addresses[0] = emailToParse;
+                        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+                        emailIntent.setData(Uri.parse("mailto:")); // only email apps should handle this
+                        emailIntent.putExtra(Intent.EXTRA_EMAIL, addresses);
+                        if (emailIntent.resolveActivity(getPackageManager()) != null) {
+                            startActivity(emailIntent);
+                        }
+                    }
+                });
                 ((TextView) findViewById(R.id.completedTransactionDetails_company)).setText(matchedInfo.getCompany());
                 ((TextView) findViewById(R.id.completedTransactionDetails_location)).setText(otherAddress);
                 ((TextView) findViewById(R.id.completedTransactionDetails_date)).setText(((CompletedTransaction) t).getDateMatched());

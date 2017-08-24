@@ -109,6 +109,7 @@ public class activity_password_check extends AppCompatActivity {
         protected void onPostExecute(Boolean aBoolean) {
             if (aBoolean) {
                 Intent toMap = new Intent(activity_password_check.this, MapsActivity.class);
+                toMap.putExtra("phoneNumber", phoneNumber);
                 Toast.makeText(activity_password_check.this, getResources().getString(R.string.made_user_success), Toast.LENGTH_SHORT).show();
                 startActivity(toMap);
                 finish();

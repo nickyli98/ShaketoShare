@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
+
+    <TextView
+        android:id="@+id/matchedNotificationText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:background="@color/colorAccent"
+        android:textSize="@dimen/input_text_size"
+        android:padding="@dimen/selectionMarginFull"
+        android:textColor="@color/inputText" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/weight"
+                app:srcCompat="@drawable/weight" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/selectionMarginHalf">
+
+                <TextView
+                    android:id="@+id/matched_weightLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="@string/weightDetails"
+                    android:textSize="@dimen/input_text_size" />
+
+                <TextView
+                    android:id="@+id/matched_weight"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:textAlignment="viewEnd"
+                    android:textSize="@dimen/input_text_size" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/tonnes"
+                    android:textAlignment="viewEnd"
+                    android:textSize="@dimen/input_text_size" />
+            </LinearLayout>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_width"
+            android:background="@color/lineColour"
+            android:layout_marginStart="@dimen/lineMargin"
+            android:layout_marginEnd="@dimen/lineMargin"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/calendar"
+                android:src="@drawable/calendar"
+                android:layout_gravity="center"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/selectionMarginHalf"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/matched_dateExpireLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="@string/date_expire"
+                    android:textSize="@dimen/input_text_size" />
+                <TextView
+                    android:id="@+id/transactionDetails_dateFrom"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/input_text_size"
+                    android:layout_weight="5"/>
+
+            </LinearLayout>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_width"
+            android:background="@color/lineColour"
+            android:layout_marginStart="@dimen/lineMargin"
+            android:layout_marginEnd="@dimen/lineMargin"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/price"
+                android:src="@drawable/price"
+                android:layout_gravity="center"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/selectionMarginHalf"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/matched_price"
+                    android:layout_width="0dp"
+                    android:textSize="@dimen/input_text_size"
+                    android:text="@string/price"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"/>
+                <TextView
+                    android:id="@+id/matched_priceVal"
+                    android:layout_width="0dp"
+                    android:textSize="@dimen/input_text_size"
+                    android:textAlignment="viewEnd"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewEnd"
+                    android:textSize="@dimen/input_text_size"
+                    android:text="HKD"
+                    android:layout_weight="2"/>
+            </LinearLayout>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_width"
+            android:background="@color/lineColour"
+            android:layout_marginStart="@dimen/lineMargin"
+            android:layout_marginEnd="@dimen/lineMargin"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/nearby_radius"
+                app:srcCompat="@drawable/nearby_radius"
+                android:layout_gravity="center"/>
+            <TextView
+                android:id="@+id/matched_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/selectionMarginHalf"
+                android:textSize="@dimen/input_text_size"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_width"
+            android:background="@color/lineColour"
+            android:layout_marginStart="@dimen/lineMargin"
+            android:layout_marginEnd="@dimen/lineMargin"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/name"
+                app:srcCompat="@drawable/name" />
+
+            <TextView
+                android:id="@+id/matched_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/selectionMarginHalf"
+                android:textSize="@dimen/input_text_size" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_width"
+            android:background="@color/lineColour"
+            android:layout_marginStart="@dimen/lineMargin"
+            android:layout_marginEnd="@dimen/lineMargin"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/contact_us"
+                app:srcCompat="@drawable/contact_us" />
+
+            <TextView
+                android:id="@+id/matched_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/selectionMarginHalf"
+                android:textSize="@dimen/input_text_size" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/matched_full_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="See full details" />
+
+    </LinearLayout>
+
+</LinearLayout>

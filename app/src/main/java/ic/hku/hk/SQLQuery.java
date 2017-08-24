@@ -4,7 +4,7 @@ public final class SQLQuery {
 
     static final String DRIVER_CLASS_LOCATION = "com.mysql.jdbc.Driver";
     static final String CONFIRM_PASSWORD_QUERY = "SELECT * FROM user WHERE phone_number = ? AND password = ?;";
-    static final String USER_VALUES_INSERT = "insert into user VALUES(?, ?);";
+    static final String USER_VALUES_INSERT = "insert into user (phone_number, password, sign_up_date) VALUES(?, ?, ?);";
     static final String USER_INFO_VALUES_INSERT = "insert into user_info VALUES(?, ?, ?, ?);";
     static final String INSERT_SHARE = "insert into share_history (weight, organic, address, " +
             "latitude, longitude, supply, phone_number, dateFrom, dateTo, dateSubmitted, bid) " +
@@ -16,4 +16,5 @@ public final class SQLQuery {
     static final String USER_INFO_QUERY_TWO = "SELECT * FROM user_info WHERE phone_number = ?;";
     static final String DELETE_ORDER = "DELETE FROM share_history WHERE id = ?;";
     static final String UPDATE_TOKEN = "UPDATE user SET token = ? WHERE phone_number = ?;";
+    static final String GET_NAME_OF_USER = "SELECT name FROM user_info WHERE phone_number = ?";
 }

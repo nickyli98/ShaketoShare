@@ -63,6 +63,8 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.maps.android.SphericalUtil;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import org.w3c.dom.Text;
+
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -70,11 +72,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import static ic.hku.hk.AndroidUtils.*;
 import static ic.hku.hk.Constants.*;
 import static ic.hku.hk.AddressDialog.pickUpAddressDialog;
 import static ic.hku.hk.DatabaseVariables.*;
+import static ic.hku.hk.MatchedDialog.matchedDialog;
 
 public class MapsActivity extends AppCompatActivity
         implements OnMapReadyCallback,
@@ -147,6 +151,7 @@ public class MapsActivity extends AppCompatActivity
 
     //Current user
     private String phoneNumber;
+    private String nameOfUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,6 +165,19 @@ public class MapsActivity extends AppCompatActivity
         phoneNumber = i.getStringExtra("phoneNumber");
         System.out.println("HERE - " + phoneNumber);
         new createDBC().execute(phoneNumber);
+
+        if (getIntent().getSerializableExtra("notification_data") != null) {
+            Map<String,String> data
+                    = (Map<String, String>) getIntent().getSerializableExtra("notification_data");
+
+            final boolean isSup = data.get("isSup").equals("1");
+            final String price = data.get("price");
+            final String weight = data.get("weight");
+            final String pairDeadline = data.get("pairDeadline");
+            final String pairName = data.get("pairName");
+            final String pairNumber = data.get("pairNumber");
+            matchedDialog(MapsActivity.this, isSup, price, weight, pairDeadline, pairName, pairNumber);
+        }
 
         initializeAndroidUI();
 
@@ -989,6 +1007,7 @@ public class MapsActivity extends AppCompatActivity
         protected void onPostExecute(DatabaseConnection databaseConnection) {
             dbc = databaseConnection;
             MyFirebaseInstanceIDService.sendRegistrationToServer(FirebaseInstanceId.getInstance().getToken());
+            new GetNameOfUserTask().execute();
             new GetOrderTask().execute();
         }
     }
@@ -1064,6 +1083,31 @@ public class MapsActivity extends AppCompatActivity
             }
             return null;
         }
+    }
+
+    private class GetNameOfUserTask extends AsyncTask<Void, Void, String> {
+        @Override
+        protected String doInBackground(Void ... voids) {
+            try {
+                return dbc.getNameOfUser(phoneNumber);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String name) {
+            nameOfUser = name;
+            updateName(nameOfUser);
+        }
+    }
+
+    private void updateName(String nameOfUser) {
+        TextView name = (TextView) findViewById(R.id.settings_name);
+        String space = " ";
+        String nameDisplay = space + nameOfUser;
+        name.setText(nameDisplay);
     }
 
 }

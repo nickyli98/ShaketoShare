@@ -79,6 +79,7 @@ public class DatabaseConnection {
         PreparedStatement statement = con.prepareStatement(USER_VALUES_INSERT);
         statement.setString(1, phone);
         statement.setString(2, password);
+        statement.setString(3, sdf.format(Calendar.getInstance().getTime()));
         try {
             statement.executeUpdate();
             statement = con.prepareStatement(USER_INFO_VALUES_INSERT);
@@ -257,6 +258,16 @@ public class DatabaseConnection {
         statement.setString(2, phoneNumber);
         statement.executeUpdate();
         statement.close();
+    }
+
+    public String getNameOfUser(String phoneNumber) throws SQLException {
+        PreparedStatement statement = con.prepareStatement(GET_NAME_OF_USER);
+        statement.setString(1, phoneNumber);
+        ResultSet r = statement.executeQuery();
+        r.next();
+        String name = r.getString("name");
+        statement.close();
+        return name;
     }
 
 }
