@@ -33,8 +33,8 @@ public class activity_history_orders extends AppCompatActivity implements AsyncR
         setTask().execute();
     }
 
-    private MapsActivity.GetOrderTask setTask(){
-        MapsActivity.GetOrderTask g = new MapsActivity.GetOrderTask();
+    private MapsActivity.StaticGetOrderTask setTask(){
+        MapsActivity.StaticGetOrderTask g = new MapsActivity.StaticGetOrderTask();
         g.delegate = this;
         return g;
     }

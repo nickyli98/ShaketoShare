@@ -7,7 +7,7 @@ import android.widget.LinearLayout;
 
 import static ic.hku.hk.DatabaseVariables.*;
 import static ic.hku.hk.TransactionListUtil.listAdd;
-import static ic.hku.hk.MapsActivity.GetOrderTask;
+import static ic.hku.hk.MapsActivity.StaticGetOrderTask;
 
 public class activity_pending_orders extends AppCompatActivity implements AsyncResponse{
 
@@ -34,8 +34,8 @@ public class activity_pending_orders extends AppCompatActivity implements AsyncR
         setTask().execute();
     }
 
-    private GetOrderTask setTask(){
-        GetOrderTask g = new GetOrderTask();
+    private StaticGetOrderTask setTask(){
+        StaticGetOrderTask g = new StaticGetOrderTask();
         g.delegate = this;
         return g;
     }

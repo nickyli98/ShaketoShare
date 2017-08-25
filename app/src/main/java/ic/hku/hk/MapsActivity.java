@@ -78,7 +78,6 @@ import static ic.hku.hk.AndroidUtils.*;
 import static ic.hku.hk.Constants.*;
 import static ic.hku.hk.AddressDialog.pickUpAddressDialog;
 import static ic.hku.hk.DatabaseVariables.*;
-import static ic.hku.hk.MatchedDialog.matchedDialog;
 
 public class MapsActivity extends AppCompatActivity
         implements OnMapReadyCallback,
@@ -166,21 +165,7 @@ public class MapsActivity extends AppCompatActivity
         System.out.println("HERE - " + phoneNumber);
         new createDBC().execute(phoneNumber);
 
-        if (getIntent().getSerializableExtra("notification_data") != null) {
-            Map<String,String> data
-                    = (Map<String, String>) getIntent().getSerializableExtra("notification_data");
-
-            final boolean isSup = data.get("isSup").equals("1");
-            final String price = data.get("price");
-            final String weight = data.get("weight");
-            final String pairDeadline = data.get("pairDeadline");
-            final String pairName = data.get("pairName");
-            final String pairNumber = data.get("pairNumber");
-            matchedDialog(MapsActivity.this, isSup, price, weight, pairDeadline, pairName, pairNumber);
-        }
-
         initializeAndroidUI();
-
 
 
         layout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
@@ -446,6 +431,27 @@ public class MapsActivity extends AppCompatActivity
         enableShake();
 
         supplyOn.setChecked(true);
+    }
+
+    private void notificationDialog() {
+        final boolean isSup = getIntent().getExtras().getBoolean("isSup");
+        final String price = getIntent().getExtras().getString("price");
+        final String weight = getIntent().getExtras().getString("weight");
+        final String pairDeadline = getIntent().getExtras().getString("pairDeadline");
+        final String pairName = getIntent().getExtras().getString("pairName");
+        final String pairAddress = getIntent().getExtras().getString("pairAddress");
+        final String pairNumber = getIntent().getExtras().getString("pairNumber");
+        final String transactionID = getIntent().getExtras().getString("transactionID");
+        Intent toDialog = new Intent(this, MatchedDialog.class);
+        toDialog.putExtra("isSup", isSup);
+        toDialog.putExtra("price", price);
+        toDialog.putExtra("weight", weight);
+        toDialog.putExtra("pairDeadline", pairDeadline);
+        toDialog.putExtra("pairName", pairName);
+        toDialog.putExtra("pairAddress", pairAddress);
+        toDialog.putExtra("pairNumber", pairNumber);
+        toDialog.putExtra("transactionID", transactionID);
+        startActivity(toDialog);
     }
 
     private void hideMarkerInfo() {
@@ -1012,7 +1018,7 @@ public class MapsActivity extends AppCompatActivity
         }
     }
 
-    public static class GetOrderTask extends AsyncTask<Void, Void, List<Transaction>[]>{
+    public static class StaticGetOrderTask extends AsyncTask<Void, Void, List<Transaction>[]>{
 
         AsyncResponse delegate = null;
 
@@ -1036,6 +1042,39 @@ public class MapsActivity extends AppCompatActivity
         protected void onPostExecute(List<Transaction>[] transactions) {
             pendingTransactions = transactions[0];
             historyTransactions = transactions[1];
+            if(delegate != null){
+                delegate.processFinish(true);
+            }
+        }
+    }
+
+    public class GetOrderTask extends AsyncTask<Void, Void, List<Transaction>[]>{
+
+        AsyncResponse delegate = null;
+
+        @Override
+        protected List<Transaction>[] doInBackground(Void... voids) {
+            List<Transaction>[] transactions = new List[2];
+            try {
+                transactions[0] = dbc.getOrders(false);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                transactions[1] = dbc.getOrders(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return transactions;
+        }
+
+        @Override
+        protected void onPostExecute(List<Transaction>[] transactions) {
+            pendingTransactions = transactions[0];
+            historyTransactions = transactions[1];
+            if (getIntent().getExtras().getString("transactionID") != null) {
+                notificationDialog();
+            }
             if(delegate != null){
                 delegate.processFinish(true);
             }

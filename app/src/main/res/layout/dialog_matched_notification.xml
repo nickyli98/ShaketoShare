@@ -19,7 +19,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/marginVerticalFull"
+        android:layout_marginEnd="@dimen/marginVerticalFull"
+        android:layout_marginBottom="0dp"
         android:orientation="vertical">
 
 
@@ -46,7 +49,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:text="@string/weightDetails"
-                    android:textSize="@dimen/input_text_size" />
+                    android:textSize="@dimen/input_text_size"
+                    android:textColor="@color/textView"/>
 
                 <TextView
                     android:id="@+id/matched_weight"
@@ -54,7 +58,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:textAlignment="viewEnd"
-                    android:textSize="@dimen/input_text_size" />
+                    android:textSize="@dimen/input_text_size"
+                    android:textColor="@color/textView"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -62,7 +67,8 @@
                     android:layout_weight="2"
                     android:text="@string/tonnes"
                     android:textAlignment="viewEnd"
-                    android:textSize="@dimen/input_text_size" />
+                    android:textSize="@dimen/input_text_size"
+                    android:textColor="@color/textView"/>
             </LinearLayout>
         </LinearLayout>
         <View
@@ -87,19 +93,20 @@
                 android:padding="@dimen/selectionMarginHalf"
                 android:orientation="horizontal">
                 <TextView
-                    android:id="@+id/matched_dateExpireLabel"
+                    android:id="@+id/matched_date"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:text="@string/date_expire"
-                    android:textSize="@dimen/input_text_size" />
-                <TextView
-                    android:id="@+id/transactionDetails_dateFrom"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:textSize="@dimen/input_text_size"
-                    android:layout_weight="5"/>
-
+                    android:text="@string/date_expire"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/textView"/>
+                <TextView
+                    android:id="@+id/matched_dateExpire"
+                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/input_text_size"
+                    android:textAlignment="viewEnd"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textView"/>
             </LinearLayout>
         </LinearLayout>
         <View
@@ -127,23 +134,26 @@
                     android:id="@+id/matched_price"
                     android:layout_width="0dp"
                     android:textSize="@dimen/input_text_size"
-                    android:text="@string/price"
+                    android:text="@string/priceDetails"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"/>
+                    android:layout_weight="3"
+                    android:textColor="@color/textView"/>
                 <TextView
                     android:id="@+id/matched_priceVal"
                     android:layout_width="0dp"
                     android:textSize="@dimen/input_text_size"
                     android:textAlignment="viewEnd"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"/>
+                    android:layout_weight="3"
+                    android:textColor="@color/textView"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textAlignment="viewEnd"
                     android:textSize="@dimen/input_text_size"
                     android:text="HKD"
-                    android:layout_weight="2"/>
+                    android:layout_weight="2"
+                    android:textColor="@color/textView"/>
             </LinearLayout>
         </LinearLayout>
         <View
@@ -161,13 +171,15 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/nearby_radius"
                 app:srcCompat="@drawable/nearby_radius"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:textColor="@color/textView"/>
             <TextView
-                android:id="@+id/matched_location"
+                android:id="@+id/matched_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/selectionMarginHalf"
-                android:textSize="@dimen/input_text_size"/>
+                android:textSize="@dimen/input_text_size"
+                android:textColor="@color/textView"/>
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -192,7 +204,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/selectionMarginHalf"
-                android:textSize="@dimen/input_text_size" />
+                android:textSize="@dimen/input_text_size"
+                android:textColor="@color/textView"/>
         </LinearLayout>
 
         <View
@@ -211,22 +224,28 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:src="@drawable/contact_us"
-                app:srcCompat="@drawable/contact_us" />
+                app:srcCompat="@drawable/contact_us"
+                android:textColor="@color/textView"/>
 
             <TextView
-                android:id="@+id/matched_phone"
+                android:id="@+id/matched_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/selectionMarginHalf"
-                android:textSize="@dimen/input_text_size" />
+                android:textSize="@dimen/input_text_size"
+                android:textColor="@color/textView"/>
         </LinearLayout>
 
-        <Button
-            android:id="@+id/matched_full_details"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="See full details" />
-
     </LinearLayout>
+
+    <Button
+        android:layout_gravity="bottom"
+        android:id="@+id/matched_full_details"
+        android:layout_marginStart="@dimen/marginVerticalFull"
+        android:layout_marginEnd="@dimen/marginVerticalFull"
+        android:layout_marginBottom="@dimen/marginVerticalFull"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="See full details" />
 
 </LinearLayout>

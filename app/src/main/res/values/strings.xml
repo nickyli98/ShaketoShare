@@ -86,6 +86,7 @@
     <string name="contact_phone_number">Contact</string>
     <string name="match">Match</string>
     <string name="weightDetails">Weight:</string>
+    <string name="priceDetails">Price:</string>
     <string name="next">Next</string>
     <string name="settings_name_greeting">Hello</string>
     <string name="date_expire">Available until:</string>

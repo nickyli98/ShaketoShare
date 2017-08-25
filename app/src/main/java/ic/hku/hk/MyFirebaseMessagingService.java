@@ -13,8 +13,6 @@ import com.google.firebase.messaging.RemoteMessage;
 import java.io.Serializable;
 import java.util.Map;
 
-import static ic.hku.hk.MatchedDialog.matchedDialog;
-
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
@@ -26,9 +24,26 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
             Map<String, String> data = remoteMessage.getData();
-            Intent resultIntent = new Intent(getApplicationContext(), MapsActivity.class);
-            resultIntent.putExtra("notification_data", (Serializable) data);
-            startActivity(resultIntent);
+
+            final boolean isSup = data.get("isSup").equals("1");
+            final String price = data.get("price");
+            final String weight = data.get("weight");
+            final String pairDeadline = data.get("pairDeadline");
+            final String pairName = data.get("pairName");
+            final String pairAddress = data.get("pairAddress");
+            final String pairNumber = data.get("pairNumber");
+            final String transactionID = data.get("transactionID");
+            System.out.println("pairName" + pairName);
+            Intent toDialog = new Intent(this, MatchedDialog.class);
+            toDialog.putExtra("isSup", isSup);
+            toDialog.putExtra("price", price);
+            toDialog.putExtra("weight", weight);
+            toDialog.putExtra("pairDeadline", pairDeadline);
+            toDialog.putExtra("pairName", pairName);
+            toDialog.putExtra("pairAddress", pairAddress);
+            toDialog.putExtra("pairNumber", pairNumber);
+            toDialog.putExtra("transactionID", transactionID);
+            startActivity(toDialog);
         }
 
         // Check if message contains a notification payload.

@@ -79,7 +79,6 @@ public class DatabaseConnection {
         PreparedStatement statement = con.prepareStatement(USER_VALUES_INSERT);
         statement.setString(1, phone);
         statement.setString(2, password);
-        statement.setString(3, sdf.format(Calendar.getInstance().getTime()));
         try {
             statement.executeUpdate();
             statement = con.prepareStatement(USER_INFO_VALUES_INSERT);
@@ -87,6 +86,7 @@ public class DatabaseConnection {
             statement.setString(2, company);
             statement.setString(3, email);
             statement.setString(4, phone);
+            statement.setString(5, sdf.format(Calendar.getInstance().getTime()));
             statement.executeUpdate();
             statement.close();
             return true;
