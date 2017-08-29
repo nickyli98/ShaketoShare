@@ -434,23 +434,9 @@ public class MapsActivity extends AppCompatActivity
     }
 
     private void notificationDialog() {
-        final boolean isSup = getIntent().getExtras().getBoolean("isSup");
-        final String price = getIntent().getExtras().getString("price");
-        final String weight = getIntent().getExtras().getString("weight");
-        final String pairDeadline = getIntent().getExtras().getString("pairDeadline");
-        final String pairName = getIntent().getExtras().getString("pairName");
-        final String pairAddress = getIntent().getExtras().getString("pairAddress");
-        final String pairNumber = getIntent().getExtras().getString("pairNumber");
-        final String transactionID = getIntent().getExtras().getString("transactionID");
+        Bundle bundle = getIntent().getExtras();
         Intent toDialog = new Intent(this, MatchedDialog.class);
-        toDialog.putExtra("isSup", isSup);
-        toDialog.putExtra("price", price);
-        toDialog.putExtra("weight", weight);
-        toDialog.putExtra("pairDeadline", pairDeadline);
-        toDialog.putExtra("pairName", pairName);
-        toDialog.putExtra("pairAddress", pairAddress);
-        toDialog.putExtra("pairNumber", pairNumber);
-        toDialog.putExtra("transactionID", transactionID);
+        toDialog.putExtras(bundle);
         startActivity(toDialog);
     }
 
@@ -627,6 +613,7 @@ public class MapsActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+        //TODO NOTIFICATIONS PRESS BACK
         if (layout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED) {
             //if in select from map case then reopen UI
             if (centreMap.getVisibility() == View.VISIBLE) {

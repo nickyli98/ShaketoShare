@@ -93,20 +93,28 @@
                 android:padding="@dimen/selectionMarginHalf"
                 android:orientation="horizontal">
                 <TextView
-                    android:id="@+id/matched_date"
+                    android:id="@+id/matched_dateFrom"
                     android:layout_width="0dp"
-                    android:textSize="@dimen/input_text_size"
-                    android:text="@string/date_expire"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@color/textView"/>
+                    android:textSize="@dimen/input_text_size"
+                    android:textColor="@color/textView"
+                    android:layout_weight="2"/>
                 <TextView
-                    android:id="@+id/matched_dateExpire"
-                    android:layout_width="wrap_content"
-                    android:textSize="@dimen/input_text_size"
-                    android:textAlignment="viewEnd"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textColor="@color/textView"
+                    android:text="@string/dateConnector"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/input_text_size" />
+                <TextView
+                    android:id="@+id/matched_dateTo"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textView"/>
+                    android:textAlignment="viewEnd"
+                    android:textColor="@color/textView"
+                    android:textSize="@dimen/input_text_size"
+                    android:layout_weight="2"/>
             </LinearLayout>
         </LinearLayout>
         <View
@@ -235,6 +243,12 @@
                 android:textSize="@dimen/input_text_size"
                 android:textColor="@color/textView"/>
         </LinearLayout>
+
+        <Button
+            android:id="@+id/matched_listRemainderButton"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
