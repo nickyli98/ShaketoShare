@@ -183,7 +183,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/inputText"
                 android:layout_alignParentBottom="true"
-                android:visibility="gone"
+                android:visibility="invisible"
                 android:orientation="vertical">
 
                 <TextView

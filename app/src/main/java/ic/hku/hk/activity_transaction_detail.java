@@ -83,7 +83,18 @@ public class activity_transaction_detail extends Activity {
                     }
                 });
                 ((TextView) findViewById(R.id.completedTransactionDetails_company)).setText(matchedInfo.getCompany());
-                ((TextView) findViewById(R.id.completedTransactionDetails_location)).setText(otherAddress);
+                final TextView location = (TextView) findViewById(R.id.completedTransactionDetails_location);
+                location.setText(otherAddress);
+                location.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        double lat = t.getLat();
+                        double lng = t.getLng();
+                        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                                Uri.parse("https://www.google.com/maps/search/?api=1&query="+lat+","+lng));
+                        startActivity(intent);
+                    }
+                });
                 ((TextView) findViewById(R.id.completedTransactionDetails_date)).setText(((CompletedTransaction) t).getDateMatched());
                 ((TextView) findViewById(R.id.transactionDetails_priceVal)).setText(((CompletedTransaction) t).getPrice());
                 ((TextView) findViewById(R.id.transactionDetails_price)).setText("Agreed price: ");
@@ -94,7 +105,18 @@ public class activity_transaction_detail extends Activity {
                 ((TextView) findViewById(R.id.transactionDetails_price)).setText("Your bid: ");
             }
             ((TextView) findViewById(R.id.transactionDetails_dateSubmitted)).setText(t.getDateSubmitted());
-            ((TextView) findViewById(R.id.transactionDetails_address)).setText(t.getAddress());
+            final TextView address = (TextView) findViewById(R.id.transactionDetails_address);
+            address.setText(t.getAddress());
+            address.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    double lat = t.getLat();
+                    double lng = t.getLng();
+                    Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                            Uri.parse("https://www.google.com/maps/search/?api=1&query="+lat+","+lng));
+                    startActivity(intent);
+                }
+            });
             ((TextView) findViewById(R.id.transactionDetails_dateFrom)).setText(t.getDateFrom());
             ((TextView) findViewById(R.id.transactionDetails_dateTo)).setText(t.getDateTo());
             ((TextView) findViewById(R.id.transactionDetails_weight)).setText(t.getWeight() + "");

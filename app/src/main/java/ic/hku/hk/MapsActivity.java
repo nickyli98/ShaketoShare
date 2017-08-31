@@ -231,6 +231,7 @@ public class MapsActivity extends AppCompatActivity
                 drawerLayout.closeDrawers();
                 radiusMenuBox.setVisibility(View.VISIBLE);
                 backArrow.setVisibility(View.VISIBLE);
+                dragView.setVisibility(View.INVISIBLE);
                 insidePane.setVisibility(View.INVISIBLE);
                 buttonBar.setVisibility(View.INVISIBLE);
                 layout.setEnabled(false);
@@ -466,6 +467,7 @@ public class MapsActivity extends AppCompatActivity
         enableShake();
         mMap.clear();
         layout.setEnabled(true);
+        dragView.setVisibility(View.VISIBLE);
         insidePane.setVisibility(View.VISIBLE);
         buttonBar.setVisibility(View.VISIBLE);
         mMap.setPadding(0, 0, 0, 0);
