@@ -46,7 +46,7 @@ public class activity_transaction_detail extends Activity {
     }
 
     private void close(){
-        Toast.makeText(this, "Order deleted", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.order_deleted, Toast.LENGTH_SHORT).show();
         this.finish();
     }
 
@@ -96,12 +96,12 @@ public class activity_transaction_detail extends Activity {
                 });
                 ((TextView) findViewById(R.id.completedTransactionDetails_date)).setText(((CompletedTransaction) t).getDateMatched());
                 ((TextView) findViewById(R.id.transactionDetails_priceVal)).setText(((CompletedTransaction) t).getPrice());
-                ((TextView) findViewById(R.id.transactionDetails_price)).setText("Agreed price: ");
+                ((TextView) findViewById(R.id.transactionDetails_price)).setText(R.string.agreed_price);
             } else {
                 findViewById(R.id.completedDetails).setVisibility(View.GONE);
                 ((TextView) findViewById(R.id.transactionDetails_priceVal)).setText(t.getAddress());
                 ((TextView) findViewById(R.id.transactionDetails_priceVal)).setText(t.getBid());
-                ((TextView) findViewById(R.id.transactionDetails_price)).setText("Your bid: ");
+                ((TextView) findViewById(R.id.transactionDetails_price)).setText(R.string.your_bid);
             }
             ((TextView) findViewById(R.id.transactionDetails_dateSubmitted)).setText(t.getDateSubmitted());
             final TextView address = (TextView) findViewById(R.id.transactionDetails_address);
@@ -124,7 +124,7 @@ public class activity_transaction_detail extends Activity {
             ((TextView) findViewById(R.id.transactionDetailsSupply)).setText
                     (t.isSupply() ? getString(R.string.supplyDetails) : getString(R.string.demandReqString));
         } else {
-            Toast.makeText(this, "Failed to retrieve transaction history", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.failed_to_retrieve_transaction_history, Toast.LENGTH_SHORT).show();
             finish();
         }
     }

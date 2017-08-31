@@ -70,7 +70,7 @@ public class AddressDialog {
                         shareLon.setText(String.valueOf(location.getLongitude()));
                         pickUpAddress.setText(address);
                     } catch (Exception e) {
-                        Toast.makeText(context, "Address not found", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, R.string.address_not_found, Toast.LENGTH_SHORT).show();
                     }
                     dialog.cancel();
                 }
@@ -87,9 +87,9 @@ public class AddressDialog {
                             shareLon.setText(String.valueOf(location.getLongitude()));
                             dialog.cancel();
                         } catch (IOException e) {
-                            Toast.makeText(context, "Error in parsing your address", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, R.string.error_parsing_address, Toast.LENGTH_SHORT).show();
                         } catch (IndexOutOfBoundsException e) {
-                            Toast.makeText(context, "Address not found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, R.string.address_not_found, Toast.LENGTH_SHORT).show();
                         }
                     }
                     return true;

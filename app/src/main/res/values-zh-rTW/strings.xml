@@ -11,10 +11,10 @@
     <string name="contactUs">聯絡我們</string>
     <string name="name_register">名字</string>
     <string name="next_button">確定</string>
-    <string name="order_history">交易歷史</string>
+    <string name="order_history">訂單歷史</string>
     <string name="log_out">登出</string>
     <string name="language_cn" translatable="false"></string>
-    <string name="hk_area_code" translatable="false"></string>
+    <string name="hk_area_code" translatable="false">+852</string>
     <string name="language">語言</string>
     <string name="password">密碼</string>
     <string name="pending_orders">有待確定的交易</string>
@@ -26,4 +26,20 @@
     <string name="no_company">請輸入公司名字</string>
     <string name="no_name">請輸入姓名</string>
     <string name="failedToMakeUser">用戶已存在</string>
+    <string name="demandReqString">你的需求</string>
+    <string name="inorganicWord">非自然</string>
+    <string name="order_completed_on">訂單完成：</string>
+    <string name="organicWord">自然</string>
+    <string name="supplyDetails">你的供應</string>
+    <string name="your_order_details">訂單詳情</string>
+    <string name="cancel">取消</string>
+    <string name="pending_transactions">有待確定的交易</string>
+    <string name="see_full_details">查看詳情</string>
+    <string name="transaction_history">交易歷史</string>
+    <string name="error_parsing_address">解析您的地址時出錯</string>
+    <string name="delete">刪除</string>
+    <string name="china_area_code" translatable="false">+86</string>
+    <string name="macau_area_code">+853</string>
+    <string name="failed_to_retrieve_transaction_history">無法檢索交易記錄</string>
+    <string name="order_deleted">訂單取消</string>
 </resources>

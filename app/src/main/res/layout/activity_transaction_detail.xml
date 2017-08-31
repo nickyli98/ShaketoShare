@@ -356,7 +356,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:textSize="@dimen/input_text_size"
-                android:text="Order submitted on: "
+                android:text="@string/order_submitted_on"
                 android:layout_height="wrap_content"/>
             <TextView
                 android:id="@+id/transactionDetails_dateSubmitted"
@@ -369,7 +369,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/share_button"
-            android:text="Delete"
+            android:text="@string/delete"
             android:textColor="@color/inputText"
             android:textSize="@dimen/input_text_size"
             android:layout_gravity="end|bottom"/>

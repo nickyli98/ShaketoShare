@@ -260,6 +260,6 @@
         android:layout_marginBottom="@dimen/marginVerticalFull"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="See full details" />
+        android:text="@string/see_full_details" />
 
 </LinearLayout>

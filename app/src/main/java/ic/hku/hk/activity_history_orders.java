@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 
 import static ic.hku.hk.DatabaseVariables.*;
 import static ic.hku.hk.TransactionListUtil.*;
+import static ic.hku.hk.MapsActivity.StaticGetOrderTask;
 
 public class activity_history_orders extends AppCompatActivity implements AsyncResponse{
 
@@ -33,8 +34,8 @@ public class activity_history_orders extends AppCompatActivity implements AsyncR
         setTask().execute();
     }
 
-    private MapsActivity.StaticGetOrderTask setTask(){
-        MapsActivity.StaticGetOrderTask g = new MapsActivity.StaticGetOrderTask();
+    private StaticGetOrderTask setTask(){
+        StaticGetOrderTask g = new StaticGetOrderTask();
         g.delegate = this;
         return g;
     }

@@ -43,4 +43,8 @@
     <string name="next">下一步</string>
     <string name="settings_name_greeting">你好</string>
     <string name="date_expire">直至:</string>
+    <string name="order_submitted_on">訂單提交：</string>
+    <string name="address_not_found">找不到地址</string>
+    <string name="agreed_price">約定價格：</string>
+    <string name="your_bid">你的出價：</string>
 </resources>

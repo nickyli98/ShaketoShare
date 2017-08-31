@@ -29,8 +29,8 @@
     <!-- Strings related to login -->
     <string name="phone_number_hint">Phone Number</string>
     <string name="hk_area_code">+852</string>
-    <string name="macau_area_code" translatable="false">+853</string>
-    <string name="china_area_code" translatable="false">+86</string>
+    <string name="macau_area_code">+853</string>
+    <string name="china_area_code">+86</string>
     <string name="login_button">Login</string>
     <string name="marks_centre_of_map" translatable="false">Marks centre of map</string>
     <string name="share">Share</string>
@@ -64,7 +64,7 @@
     <string name="phone_number_short">Invalid phone number</string>
     <string name="made_user_success">Successfully created!</string>
     <string name="failedToMakeUser">A user already exists for this number</string>
-    <string name="title_activity_transaction_detail">activity_transaction_detail</string>
+    <string name="title_activity_transaction_detail" translatable="false">activity_transaction_detail</string>
     <string name="order_completed_on">Order completed on:</string>
     <string name="your_order_details">Your order details</string>
     <string name="cancel">Cancel</string>
@@ -90,4 +90,15 @@
     <string name="next">Next</string>
     <string name="settings_name_greeting">Hello</string>
     <string name="date_expire">Available until:</string>
+    <string name="order_submitted_on">Order submitted on:</string>
+    <string name="delete">Delete</string>
+    <string name="transaction_history">Transaction history</string>
+    <string name="pending_transactions">Pending transactions</string>
+    <string name="see_full_details">See full details</string>
+    <string name="address_not_found">Address not found</string>
+    <string name="error_parsing_address">Error in parsing your address</string>
+    <string name="agreed_price">Agreed price:</string>
+    <string name="your_bid">Your bid:</string>
+    <string name="order_deleted">Order deleted</string>
+    <string name="failed_to_retrieve_transaction_history">Failed to retrieve transaction history</string>
 </resources>
