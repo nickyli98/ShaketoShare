@@ -290,7 +290,6 @@ public class AddressDialog {
         try {
             List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
             String address = addresses.get(0).getAddressLine(0);
-            System.out.println("NEW ADDRESS: " + address);
             return address;
         } catch (IOException e) {
             e.printStackTrace();

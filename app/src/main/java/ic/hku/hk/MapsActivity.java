@@ -162,7 +162,6 @@ public class MapsActivity extends AppCompatActivity
         mapFragment.getMapAsync(this);
         Intent i = getIntent();
         phoneNumber = i.getStringExtra("phoneNumber");
-        System.out.println("HERE - " + phoneNumber);
         new createDBC().execute(phoneNumber);
 
         initializeAndroidUI();

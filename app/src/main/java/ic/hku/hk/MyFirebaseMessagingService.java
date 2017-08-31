@@ -42,7 +42,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             final String pairAddress = data.get("pairAddress");
             final String pairNumber = data.get("pairNumber");
             final String transactionID = data.get("transactionID");
-            System.out.println("pairName" + pairName);
             Intent toDialog = new Intent(this, MatchedDialog.class);
             toDialog.putExtra("isSup", isSup);
             toDialog.putExtra("isOrganic", isOrganic);

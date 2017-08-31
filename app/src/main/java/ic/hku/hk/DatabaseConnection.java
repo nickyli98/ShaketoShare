@@ -119,8 +119,6 @@ public class DatabaseConnection {
             return true;
         } catch (MySQLIntegrityConstraintViolationException e) {
             statement.close();
-            System.out.println(e);
-            System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
             e.printStackTrace();
             return false;
         }

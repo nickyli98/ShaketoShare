@@ -22,7 +22,6 @@ public class TransactionListUtil {
         boolean first = true;
         if(transactionList != null){
             for(final Transaction t : transactionList){
-                System.out.println("here 1 ");
                 if(first){
                     first = false;
                 } else {

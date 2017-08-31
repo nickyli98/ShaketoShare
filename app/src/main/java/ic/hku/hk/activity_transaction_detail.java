@@ -32,7 +32,6 @@ public class activity_transaction_detail extends Activity {
         if(completed){
             matchedInfo = ((CompletedTransaction) t).getUserInfo();
             otherAddress = ((CompletedTransaction) t).getOther_transaction_address();
-            System.out.println("OTHER ADDRESS IS:" + otherAddress);
             delete.setVisibility(View.GONE);
         } else {
             delete.setOnClickListener(new View.OnClickListener() {
