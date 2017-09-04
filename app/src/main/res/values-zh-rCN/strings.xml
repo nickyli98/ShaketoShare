@@ -7,7 +7,7 @@
     <string name="login_button">登入</string>
     <string name="phone_number_hint">电话</string>
     <string name="company">公司</string>
-    <string name="china_area_code" translatable="false">+86</string>
+    <string name="china_area_code">+86</string>
     <string name="confirm_password">确定密码</string>
     <string name="contactUs">联络我们</string>
     <string name="language">语言</string>
@@ -19,7 +19,6 @@
     <string name="pending_orders">有待确定的交易</string>
     <string name="please_enter_a_password">请输入密码</string>
     <string name="submitRegister">确定</string>
-    <string name="language_cn" translatable="false"></string>
     <string name="email">电邮</string>
     <string name="no_phone_number">请输入电话号码</string>
     <string name="no_email">请输入电邮地址</string>

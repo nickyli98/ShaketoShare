@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "619021528383",
+    "firebase_url": "https://shaketoshare.firebaseio.com",
+    "project_id": "shaketoshare",
+    "storage_bucket": "shaketoshare.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619021528383:android:1f1ff79e0f4a7bcd",
+        "android_client_info": {
+          "package_name": "ic.hku.hk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "619021528383-iai1gi86qtabepcue1lv5117hjqqh1v1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ic.hku.hk",
+            "certificate_hash": "bfb929b353863e99b16d5f19870e218acb618f36"
+          }
+        },
+        {
+          "client_id": "619021528383-euunpvna9nk43jjsmq1dpjs4polbnfbl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4D6_hUfib33fcvaSkBvwlvCBNMObB-gk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "619021528383-euunpvna9nk43jjsmq1dpjs4polbnfbl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
